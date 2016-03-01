@@ -1,35 +1,46 @@
 import array
-import sys
-import datetime
-from random import randint
+import time
 from ola.ClientWrapper import ClientWrapper
 
-TICK_INTERVAL = 100  # in ms
+wrapper = None
+loop_count = 0
+TICK_INTERVAL = 40  # in ms
 
-class Controller:
-	def __init__(self):
-		self.current_frame = [0] * 512
-		self.wrapper = ClientWrapper()
+global_count = 1
 
-	def DmxSent(state):
-	  	if not state.Succeeded():
-	  		self.wrapper.Stop()
+def DmxSent(state):
+  if not state.Succeeded():
+    wrapper.Stop()
 
-	""" start dmx transmission """
-	def SendDmxFrame(self):
-		self.current_frame[0] = 225
-		self.current_frame[1] = 17
-		self.current_frame[2] = 0
-		self.current_frame[3] = 207 
-		self.current_frame[4] = 100
-		self.current_frame[5] = 0
-		self.current_frame = array.array('B', self.current_frame)
+def SendDMXFrame():
+  # schdule a function call in 100ms
+  # we do this first in case the frame computation takes a long time.
+  wrapper.AddEvent(TICK_INTERVAL, SendDMXFrame)
+  
+  controlMode    = 211
+  pattern        = 35
+  strobe         = 0
+  dotDisplay     = 100
+  horizontalMove = 0
+  verticalMove   = 225
+  zoom           = 0
+  # compute frame here
+  global loop_count
+  global global_count
+  # if loop_count%255 < 128 : 
+  verticalMove = global_count%160
+  horizontalMove = global_count%160
+  global_count = global_count + 4
+  time.sleep(0.5)
+ 
+  loop_count += 1
 
-		self.wrapper.AddEvent(TICK_INTERVAL, self.SendDmxFrame)
-		self.wrapper.Run()
-		print "Sending DMX signal"
-		wrapper.Client().SendDmx(1, self.current_frame, DmxSent)
-
-# start app
-controller = Controller()
-controller.SendDmxFrame()
+  # send
+  data = array.array('B', [controlMode, pattern, strobe, dotDisplay, horizontalMove, verticalMove, zoom])
+  print "data ", data
+  wrapper.Client().SendDmx(1, data, DmxSent)
+wrapper = ClientWrapper()                                                                                                       
+while(1):
+   SendDMXFrame()
+# wrapper.AddEvent(TICK_INTERVAL, SendDMXFrame)
+# wrapper.Run()
