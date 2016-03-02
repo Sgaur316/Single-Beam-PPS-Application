@@ -1,0 +1,15 @@
+%% 
+Pattern : 0 data : array('B', [216, 0, 180, 70, 0, 0, 40, 0, 0, 0])
+
+%% Oscillating pattern 
+Pattern : 0 data : array('B', [216, 0, 180, 70, 0, 0, 80, 0, 0, 0])
+
+
+%% Flower shaped thing, zoom works
+Pattern : 0 data : array('B', [218, 0, 210, 70, 0, 0, 40, 0, 0, 0])
+
+
+%% Another useful pattern
+Pattern : 0 data : array('B', [218, 0, 120, 70, 0, 0, 40, 0, 0, 0])
+
+
