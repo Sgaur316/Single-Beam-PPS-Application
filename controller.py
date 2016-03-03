@@ -18,7 +18,7 @@ def SendDMXFrame():
   wrapper.AddEvent(TICK_INTERVAL, SendDMXFrame)
   global pattern
 
-  controlMode    = 211
+  controlMode    = 0
   pattern        = 0
   strobe         = 0
   dotDisplay     = 0
@@ -34,7 +34,7 @@ def SendDMXFrame():
   # verticalMove = global_count%161 # 0-160
   # if global_count % 161 == 0:
   #  pattern += 1
-  verticalMove = global_count # 0-160
+  verticalMove = global_count%161 # 0-160
   # horizontalMove = global_count%161 # 0-160
 
   global_count += 10
