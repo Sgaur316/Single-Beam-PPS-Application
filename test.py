@@ -13,6 +13,7 @@ def DmxSent(state):
 
 def beep():
   os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (0.2, 440))
+  pass
 
 controlMode    = 218
 pattern        = 0
@@ -48,22 +49,23 @@ def test_corners():
         print "Edge"
       time.sleep(5)
 
-def test_vh():
-  for zoom in xrange(0, 80, 10):
-    for horizontalMove in xrange(0, 80, 10):
+def test_vh(hMax, vMax, step, delay=0.2):
+  # Horizontal & Vertical both seem to start with 1 
+  for horizontalMove in xrange(1, hMax, step): 
+    for zoom in xrange(1, vMax, step):
       data = array.array('B', 
-            [controlMode, pattern, strobe, dotDisplay, horizontalMove, verticalMove, zoom, color, reset, color_1]
-          )
+        [controlMode, pattern, strobe, dotDisplay, horizontalMove, verticalMove, zoom, color, reset, color_1]
+      )
       print "Pattern :", pattern, "data :", data
-      beep()
+      # beep()
       wrapper.Client().SendDmx(1, data, DmxSent)
-      time.sleep(1)
+      time.sleep(delay)
 
 def channel_test():
   while True:
     for controlMode in range(218, 256):
       for strobe in xrange(0, 256, 30):
-        for zoom in xrange(0,92, 40):
+        for zoom in xrange(0, 92, 40):
           data = array.array('B', 
             [controlMode, pattern, strobe, dotDisplay, horizontalMove, verticalMove, zoom, color, reset, color_1]
           )
@@ -85,6 +87,22 @@ def find_vertical_channel():
     raw_data[i] = saved_value
 
 """" Main starts here """
+while True:
+  for horizontalMove, zoom in [
+        # (1,1),
+        (1, 1), 
+        (1, 160),
+        (160, 160),
+        (160, 1)
+        ]:
+      raw_data = [controlMode, pattern, strobe, dotDisplay, horizontalMove, verticalMove, zoom, color, reset, color_1]
+      send_dmx_internal(raw_data)
+      time.sleep(3)
+  # test_vh(80, 160, 1, 5)
+  
 
-test_vh()
-find_vertical_channel()
+for pattern in range(17, 34):
+  beep()
+  test_vh(80, 160, 10)
+  
+# find_vertical_channel()

@@ -22,9 +22,9 @@ def SendDMXFrame():
   pattern        = 0
   strobe         = 0
   dotDisplay     = 0
-  horizontalMove = 0
+  horizontalMove = 1
   verticalMove   = 0
-  zoom           = 0
+  zoom           = 1
   color          = 0
   reset          = 0
   color_1        = 0
