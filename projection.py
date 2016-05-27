@@ -2,13 +2,13 @@ import config # Config file
 import time
 #serial is PySerial, the serial port software for Python
 import serial
-import time
-
+import math
 
 # Define DMX Channels - specific to "InnoPocket Scan" projector
 THETA_CHANNEL   = 1
 PHI_CHANNEL     = 2
 STROBE_CHANNEL  = 3
+PATTERN_CHANNEL = 4
 DIMMER_CHANNEL  = 5
 
 #setup the dmx
@@ -49,7 +49,7 @@ dmxdata = [chr(0)]*513
 #senddmx writes to the serial port then returns the modified 513 byte array
 
 def send_dmx_data(data):
-    print "[DMX] Writing data : ", data[1:6]
+    print "[DMX] Writing data :", data[1:6]
     for i in range(0, len(data)):
         data[i] = chr(data[i])
     sdata=''.join(data)
@@ -62,14 +62,12 @@ def senddmx(data, chan, intensity):
     # join turns the array data into a string we can send down the DMX
     sdata=''.join(data)
     # write the data to the serial port, this sends the data to your fixture
-    print "[DMX] Writing data : ", data[1:6]
     ser.write(DMXOPEN+DMXINTENSITY+sdata+DMXCLOSE)
     # return the data with the new value in place
     return(data)
 
-def setDmxToLight(X, Y):
+def setDmxToLight(Theta, Phi):
     dmxdata = [0]*513
-    Theta, Phi = X, Y
     # Set strobe mode - 255 means still light
     dmxdata[STROBE_CHANNEL] = 255
     # Set dimmer value - channel 5 - min 0, max 255
@@ -78,26 +76,36 @@ def setDmxToLight(X, Y):
     dmxdata[THETA_CHANNEL] = Theta
     # Set Phi
     dmxdata[PHI_CHANNEL] = Phi
+    # Set pattern
+    dmxdata[PATTERN_CHANNEL] = 0 
     send_dmx_data(dmxdata)
 
 def turnOffLight():
     dmxdata=[0]*513
     send_dmx_data(dmxdata)
 
-def coordinateToDMX(X, Y):
+def coordinateToDmxSimple(X, Y):
     Theta = config.MinTheta + (X - config.MinX) / (config.MaxX - config.MinX) * (config.MaxTheta-config.MinTheta)
     Phi   = config.MinPhi + (X - config.MinX) / (config.MaxX - config.MinX) * (config.MaxPhi-config.MinPhi)
     return (Theta, Phi)
 
+
+def coordinateToDmx(X, Y):
+    print "[Debug] Converting (%s, %s)" % (X,Y)
+    TanTheta  = (config.RACK_ORIGIN - float(X)) / (config.P_HORIZONTAL) 
+    TanPhi    = (config.P_HORIZONTAL) / (config.P_VERTICAL - float(Y))
+    print "[Debug] TanTheta = %s TanPhi = %s" % (TanTheta, TanPhi)
+    Theta     = math.degrees(math.atan(TanTheta)) 
+    Phi       = math.degrees(math.atan(TanPhi))
+    print "[Debug] Theta = %s Phi = %s" % (Theta, Phi)
+    DMX_Theta = int ( (90 - Theta) / 180 * 255 )
+    DMX_Phi   = int ( (Phi % 180) / 180 * 255 )
+    return (DMX_Theta, DMX_Phi)
+
+def setCoordinateToLight(X, Y):
+    Theta, Phi = coordinateToDmx(X, Y)
+    setDmxToLight(Theta, Phi)
+
 ####################### Test ####################### 
 
-setDmxToLight(0, 0)
-time.sleep(2)
-
-setDmxToLight(128, 180)
-time.sleep(2)
-
-setDmxToLight(255, 180)
-time.sleep(2)
-
-turnOffLight()
+    

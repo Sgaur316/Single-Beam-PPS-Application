@@ -15,7 +15,13 @@ MaxY     = 156
 MinPhi   = 100
 MaxPhi   = 150
 
+# Distances (all in cm)
+
+P_HORIZONTAL = 150
+P_VERTICAL   = 75
+RACK_ORIGIN  = 48 
 
 
-
- 
+# Calibration
+DMX_THETA_OFFSET = 0
+DMX_PHI_OFFSET   =  0
