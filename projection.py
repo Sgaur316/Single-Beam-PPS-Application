@@ -3,6 +3,7 @@ import time
 #serial is PySerial, the serial port software for Python
 import serial
 import math
+import numpy
 
 # Define DMX Channels - specific to "InnoPocket Scan" projector
 THETA_CHANNEL   = 1
@@ -50,6 +51,7 @@ dmxdata = [chr(0)]*513
 
 def send_dmx_data(data):
     print "[DMX] Writing data :", data[1:6]
+    print ""
     for i in range(0, len(data)):
         data[i] = chr(data[i])
     sdata=''.join(data)
@@ -89,17 +91,16 @@ def coordinateToDmxSimple(X, Y):
     Phi   = config.MinPhi + (X - config.MinX) / (config.MaxX - config.MinX) * (config.MaxPhi-config.MinPhi)
     return (Theta, Phi)
 
-
 def coordinateToDmx(X, Y):
-    print "[Debug] Converting (%s, %s)" % (X,Y)
-    TanTheta  = (config.RACK_ORIGIN - float(X)) / (config.P_HORIZONTAL) 
-    TanPhi    = (config.P_HORIZONTAL) / (config.P_VERTICAL - float(Y))
-    print "[Debug] TanTheta = %s TanPhi = %s" % (TanTheta, TanPhi)
-    Theta     = math.degrees(math.atan(TanTheta)) 
-    Phi       = math.degrees(math.atan(TanPhi))
+    print "[Debug] Converting (%s, %s)" % (X, Y)
+    Theta  = math.degrees( math.atan2(config.RACK_ORIGIN - float(X), config.P_HORIZONTAL) )
+    Phi    = math.degrees( math.atan2(config.P_HORIZONTAL, config.P_VERTICAL - float(Y)) )
+    # print "[Debug] TanTheta = %s TanPhi = %s" % (TanTheta, TanPhi)
+    # Theta     = math.degrees(math.atan(TanTheta)) 
+    # Phi       = math.degrees(math.atan(TanPhi))
     print "[Debug] Theta = %s Phi = %s" % (Theta, Phi)
-    DMX_Theta = int ( (90 - Theta) / 180 * 255 )
-    DMX_Phi   = int ( (Phi % 180) / 180 * 255 )
+    DMX_Theta = int ( numpy.interp(90 - Theta, [0, 180], [0, 255]) + config.THETA_OFFSET)
+    DMX_Phi   = int ( numpy.interp(Phi, [30, 120], [0, 255]) + config.PHI_OFFSET)
     return (DMX_Theta, DMX_Phi)
 
 def setCoordinateToLight(X, Y):
@@ -107,5 +108,3 @@ def setCoordinateToLight(X, Y):
     setDmxToLight(Theta, Phi)
 
 ####################### Test ####################### 
-
-    
