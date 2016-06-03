@@ -1,16 +1,10 @@
 import config # Config file
+from config import *
 import time
 #serial is PySerial, the serial port software for Python
 import serial
 import math
 import numpy
-
-# Define DMX Channels - specific to "InnoPocket Scan" projector
-THETA_CHANNEL   = 1
-PHI_CHANNEL     = 2
-STROBE_CHANNEL  = 3
-PATTERN_CHANNEL = 4
-DIMMER_CHANNEL  = 5
 
 #setup the dmx
 #char 126 is 7E in hex. It's used to start all DMX512 commands
@@ -92,16 +86,19 @@ def coordinateToDmxSimple(X, Y):
     return (Theta, Phi)
 
 def coordinateToDmx(X, Y):
+    X = float(X)
+    Y = float(Y)
     print "[Debug] Converting (%s, %s)" % (X, Y)
-    Theta  = math.degrees( math.atan2(config.RACK_ORIGIN - float(X), config.P_HORIZONTAL) )
-    Phi    = math.degrees( math.atan2(config.P_HORIZONTAL, config.P_VERTICAL - float(Y)) )
-    # print "[Debug] TanTheta = %s TanPhi = %s" % (TanTheta, TanPhi)
-    # Theta     = math.degrees(math.atan(TanTheta)) 
-    # Phi       = math.degrees(math.atan(TanPhi))
-    print "[Debug] Theta = %s Phi = %s" % (Theta, Phi)
-    DMX_Theta = int ( numpy.interp(90 - Theta, [0, 180], [0, 255]) + config.THETA_OFFSET)
-    DMX_Phi   = int ( numpy.interp(Phi, [30, 120], [0, 255]) + config.PHI_OFFSET)
-    return (DMX_Theta, DMX_Phi)
+    E_Theta = divide(A_THETA, RACK_HEIGHT - Y, D_THETA, Y)
+    E_Phi   = divide(A_PHI, RACK_HEIGHT - Y, D_PHI, Y)
+    F_Theta = divide(B_THETA, RACK_HEIGHT - Y, B_THETA, Y)
+    F_Phi   = divide(B_THETA, RACK_HEIGHT - Y, B_THETA, Y)
+    X_Theta = divide(F_Theta, X, E_Theta, RACK_WIDTH - X)
+    X_Phi   = divide(F_Phi, X, E_Phi, RACK_WIDTH - X)
+    return (X_Theta, X_Phi)
+
+def divide(a1, w1, a2, w2):
+    return (a1*w1 + a2*w2) / (w1+w2)
 
 def setCoordinateToLight(X, Y):
     Theta, Phi = coordinateToDmx(X, Y)
