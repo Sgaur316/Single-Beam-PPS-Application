@@ -91,17 +91,23 @@ def coordinateToDmx(X, Y):
     print "[Debug] Converting (%s, %s)" % (X, Y)
     E_Theta = divide(A_THETA, RACK_HEIGHT - Y, D_THETA, Y)
     E_Phi   = divide(A_PHI, RACK_HEIGHT - Y, D_PHI, Y)
-    F_Theta = divide(B_THETA, RACK_HEIGHT - Y, B_THETA, Y)
-    F_Phi   = divide(B_THETA, RACK_HEIGHT - Y, B_THETA, Y)
+    print "[Debug] E : (%s, %s) " % (E_Theta, E_Phi)
+    F_Theta = divide(B_THETA, RACK_HEIGHT - Y, C_THETA, Y)
+    F_Phi   = divide(B_PHI, RACK_HEIGHT - Y, C_PHI, Y)
+    print "[Debug] F : (%s, %s) " % (F_Theta, F_Phi)
     X_Theta = divide(F_Theta, X, E_Theta, RACK_WIDTH - X)
-    X_Phi   = divide(F_Phi, X, E_Phi, RACK_WIDTH - X)
-    return (X_Theta, X_Phi)
+    X_Phi   = divide(F_Phi, Y, E_Phi, RACK_HEIGHT - Y)
+    return (int(X_Theta), int(X_Phi))
 
 def divide(a1, w1, a2, w2):
     return (a1*w1 + a2*w2) / (w1+w2)
 
+def dmxToThetaDegrees(DmxValue):
+    return (DmxValue * 180 / 255)
+
 def setCoordinateToLight(X, Y):
     Theta, Phi = coordinateToDmx(X, Y)
+    print "[Debug] Final DMX values (%s, %s)" % (X, Y)
     setDmxToLight(Theta, Phi)
 
 ####################### Test ####################### 
