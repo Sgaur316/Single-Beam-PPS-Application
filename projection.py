@@ -103,11 +103,21 @@ def divide(a1, w1, a2, w2):
     return (a1*w1 + a2*w2) / (w1+w2)
 
 def dmxToThetaDegrees(DmxValue):
-    return (DmxValue * 180 / 255)
+    return numpy.interp(Dmxvalue, [0, 255], [THETA_MIN_DEG, THETA_MAX_DEG])
+
+def dmxToPhiDegrees(Dmxvalue):
+    return numpy.interp(Dmxvalue, [0, 255], [PHI_MIN_DEG, PHI_MAX_DEG])
+
+def phiToDmx(Phi):
+    return int( numpy.interp(Phi, [PHI_MIN_DEG, PHI_MAX_DEG], [0, 255]) )
+
+def thetaToDmx(Theta):
+    return int( numpy.interp(Phi, [THETA_MIN_DEG, THETA_MAX_DEG], [0, 255]) )
 
 def setCoordinateToLight(X, Y):
-    Theta, Phi = coordinateToDmx(X, Y)
-    print "[Debug] Final DMX values (%s, %s)" % (X, Y)
-    setDmxToLight(Theta, Phi)
+    DmxPan, DmxTilt = coordinateToDmx(X, Y)
+    print "[Debug] Final DMX values (%s, %s)" % (DmxPan, DmxTilt)
+    print "[Debug] Final Theta: %s, Phi: %s" % (dmxToThetaDegrees(DmxPan), dmxToPhiDegrees(DmxTilt))
+    setDmxToLight(DmxPan, DmxTilt)
 
 ####################### Test ####################### 
