@@ -62,18 +62,22 @@ def senddmx(data, chan, intensity):
     # return the data with the new value in place
     return(data)
 
-def setDmxToLight(Theta, Phi):
+def setDmxToLight(DmxPan, DmxTilt, DmxPanFine=0, DmxTiltFine=0):
     dmxdata = [0]*513
     # Set strobe mode - 255 means still light
     dmxdata[STROBE_CHANNEL] = 255
     # Set dimmer value - channel 5 - min 0, max 255
     dmxdata[DIMMER_CHANNEL] = 255
     # Set Theta
-    dmxdata[THETA_CHANNEL] = Theta
+    dmxdata[PAN_CHANNEL] = DmxPan
     # Set Phi
-    dmxdata[PHI_CHANNEL] = Phi
+    dmxdata[TILT_CHANNEL] = DmxTilt
+    # Set Theta - Fine
+    dmxdata[PAN_FINE_CHANNEL] = DmxPanFine
+    # Set Phi - Fine
+    dmxdata[PHI_CHANNEL] = DmxTiltFine
     # Set pattern
-    dmxdata[PATTERN_CHANNEL] = 0 
+    dmxdata[PATTERN_CHANNEL] = 0
     send_dmx_data(dmxdata)
 
 def turnOffLight():
@@ -97,7 +101,9 @@ def coordinateToDmx(X, Y):
     print "[Debug] F : (%s, %s) " % (F_Theta, F_Phi)
     X_Theta = divide(F_Theta, X, E_Theta, RACK_WIDTH - X)
     X_Phi   = divide(F_Phi, Y, E_Phi, RACK_HEIGHT - Y)
-    return (int(X_Theta), int(X_Phi))
+    X_Theta_Fine = (X_Theta - int(X_Theta)) * 255
+    X_Phi_Fine   = (X_Phi - int(X_Phi)) * 255
+    return (int(X_Theta), int(X_Phi), int(X_Theta_Fine), int(X_Theta_Fine))
 
 def divide(a1, w1, a2, w2):
     return (a1*w1 + a2*w2) / (w1+w2)
@@ -115,9 +121,9 @@ def thetaToDmx(Theta):
     return int( numpy.interp(Phi, [THETA_MIN_DEG, THETA_MAX_DEG], [0, 255]) )
 
 def setCoordinateToLight(X, Y):
-    DmxPan, DmxTilt = coordinateToDmx(X, Y)
+    DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx(X, Y)
     print "[Debug] Final DMX values (%s, %s)" % (DmxPan, DmxTilt)
     print "[Debug] Final Theta: %s, Phi: %s" % (dmxToThetaDegrees(DmxPan), dmxToPhiDegrees(DmxTilt))
-    setDmxToLight(DmxPan, DmxTilt)
+    setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine)
 
 ####################### Test ####################### 
