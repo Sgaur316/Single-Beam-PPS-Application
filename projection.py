@@ -1,4 +1,3 @@
-import config # Config file
 from config import *
 import time
 #serial is PySerial, the serial port software for Python
@@ -75,7 +74,7 @@ def setDmxToLight(DmxPan, DmxTilt, DmxPanFine=0, DmxTiltFine=0):
     # Set Theta - Fine
     dmxdata[PAN_FINE_CHANNEL] = DmxPanFine
     # Set Phi - Fine
-    dmxdata[PHI_CHANNEL] = DmxTiltFine
+    dmxdata[TILT_FINE_CHANNEL] = DmxTiltFine
     # Set pattern
     dmxdata[PATTERN_CHANNEL] = 0
     send_dmx_data(dmxdata)
@@ -83,11 +82,6 @@ def setDmxToLight(DmxPan, DmxTilt, DmxPanFine=0, DmxTiltFine=0):
 def turnOffLight():
     dmxdata=[0]*513
     send_dmx_data(dmxdata)
-
-def coordinateToDmxSimple(X, Y):
-    Theta = config.MinTheta + (X - config.MinX) / (config.MaxX - config.MinX) * (config.MaxTheta-config.MinTheta)
-    Phi   = config.MinPhi + (X - config.MinX) / (config.MaxX - config.MinX) * (config.MaxPhi-config.MinPhi)
-    return (Theta, Phi)
 
 def coordinateToDmx(X, Y):
     X = float(X)
@@ -109,10 +103,10 @@ def divide(a1, w1, a2, w2):
     return (a1*w1 + a2*w2) / (w1+w2)
 
 def dmxToThetaDegrees(DmxValue):
-    return numpy.interp(Dmxvalue, [0, 255], [THETA_MIN_DEG, THETA_MAX_DEG])
+    return numpy.interp(DmxValue, [0, 255], [THETA_MIN_DEG, THETA_MAX_DEG])
 
-def dmxToPhiDegrees(Dmxvalue):
-    return numpy.interp(Dmxvalue, [0, 255], [PHI_MIN_DEG, PHI_MAX_DEG])
+def dmxToPhiDegrees(DmxValue):
+    return numpy.interp(DmxValue, [0, 255], [PHI_MIN_DEG, PHI_MAX_DEG])
 
 def phiToDmx(Phi):
     return int( numpy.interp(Phi, [PHI_MIN_DEG, PHI_MAX_DEG], [0, 255]) )

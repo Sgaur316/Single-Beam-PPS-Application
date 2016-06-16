@@ -5,22 +5,22 @@ SERVER_PORT = 9000
 
 # DMX values for the 
 
-A_THETA = 106 + ( 120 /255.0 )
-A_PHI   = 81 + ( /255.0 )
+A_THETA = 91 + (0 / 255.0)
+A_PHI   = 8 + (151 / 255.0)
 
-B_THETA = 151
-B_PHI   = 81
+B_THETA = 76
+B_PHI   = 8 + (151 / 255.0)
 
-C_THETA = 151
-C_PHI   = 254
+C_THETA = 76 + 0
+C_PHI   = 51 + (151 / 255.0)
 
-D_THETA = 101
-D_PHI   = 255
+D_THETA = 90 + (131 / 255.0)
+D_PHI   = 51 + (151 / 255.0)
 
 # Rack width and height
 
 RACK_WIDTH   = 93
-RACK_HEIGHT  = 193
+RACK_HEIGHT  = 117
 
 # Define DMX Channels - specific to the projector
 PAN_CHANNEL        = 1
