@@ -5,6 +5,8 @@ import serial
 import math
 import numpy
 
+PHI_OFFSET_DEGREES = 10 
+
 #setup the dmx
 #char 126 is 7E in hex. It's used to start all DMX512 commands
 DMXOPEN=chr(126)
@@ -43,7 +45,7 @@ dmxdata = [chr(0)]*513
 #senddmx writes to the serial port then returns the modified 513 byte array
 
 def send_dmx_data(data):
-    print "[DMX] Writing data :", data[1:6]
+    print "[DMX] Writing data :", data[1:11]
     print ""
     for i in range(0, len(data)):
         data[i] = chr(data[i])
@@ -61,7 +63,7 @@ def senddmx(data, chan, intensity):
     # return the data with the new value in place
     return(data)
 
-def setDmxToLight(DmxPan, DmxTilt, DmxPanFine=0, DmxTiltFine=0):
+def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine):
     dmxdata = [0]*513
     # Set strobe mode - 255 means still light
     dmxdata[STROBE_CHANNEL] = 255
@@ -89,15 +91,28 @@ def coordinateToDmx(X, Y):
     print "[Debug] Converting (%s, %s)" % (X, Y)
     E_Theta = divide(A_THETA, RACK_HEIGHT - Y, D_THETA, Y)
     E_Phi   = divide(A_PHI, RACK_HEIGHT - Y, D_PHI, Y)
-    print "[Debug] E : (%s, %s) " % (E_Theta, E_Phi)
+    # print "[Debug] E : (%s, %s) " % (E_Theta, E_Phi)
     F_Theta = divide(B_THETA, RACK_HEIGHT - Y, C_THETA, Y)
     F_Phi   = divide(B_PHI, RACK_HEIGHT - Y, C_PHI, Y)
-    print "[Debug] F : (%s, %s) " % (F_Theta, F_Phi)
+    # print "[Debug] F : (%s, %s) " % (F_Theta, F_Phi)
     X_Theta = divide(F_Theta, X, E_Theta, RACK_WIDTH - X)
     X_Phi   = divide(F_Phi, Y, E_Phi, RACK_HEIGHT - Y)
+    print "Final DMX in floating point : (%s, %s)" % (X_Theta, X_Phi)
     X_Theta_Fine = (X_Theta - int(X_Theta)) * 255
     X_Phi_Fine   = (X_Phi - int(X_Phi)) * 255
-    return (int(X_Theta), int(X_Phi), int(X_Theta_Fine), int(X_Theta_Fine))
+    return (int(X_Theta), int(X_Phi), int(X_Theta_Fine), int(X_Phi_Fine))
+
+def coordinateToDmxGeometry(X, Y):
+    X = float(X)
+    Y = float(Y)
+    TanPhiA  = math.tan(math.radians(dmxToPhiDegrees(A_PHI)))
+    TanPhiD  = math.tan(math.radians(dmxToPhiDegrees(D_PHI)))
+    TanPhiX  = (-TanPhiA / (TanPhiA - TanPhiD)) + (Y / RACK_HEIGHT)
+    PhiX  = math.degrees(math.atan(TanPhiX)) + PHI_OFFSET_DEGREES
+    print "[Debug] TanPhiA =", TanPhiA, " TanPhiD =", TanPhiD, "PhiX =", PhiX
+    X_Phi, X_Phi_Fine = phiToDmx(PhiX)
+    X_Theta, _, X_Theta_Fine, _ = coordinateToDmx(X, Y)
+    return (X_Theta, X_Phi, X_Theta_Fine, X_Phi_Fine)
 
 def divide(a1, w1, a2, w2):
     return (a1*w1 + a2*w2) / (w1+w2)
@@ -109,15 +124,20 @@ def dmxToPhiDegrees(DmxValue):
     return numpy.interp(DmxValue, [0, 255], [PHI_MIN_DEG, PHI_MAX_DEG])
 
 def phiToDmx(Phi):
-    return int( numpy.interp(Phi, [PHI_MIN_DEG, PHI_MAX_DEG], [0, 255]) )
+    DmxValue = numpy.interp(Phi, [PHI_MIN_DEG, PHI_MAX_DEG], [0, 255])
+    return ( int(DmxValue), int((DmxValue % 1) * 255) ) # Two channel values : Coarse & fine
 
 def thetaToDmx(Theta):
-    return int( numpy.interp(Phi, [THETA_MIN_DEG, THETA_MAX_DEG], [0, 255]) )
+    DmxValue = numpy.interp(Phi, [THETA_MIN_DEG, THETA_MAX_DEG], [0, 255])
+    return ( int(DmxValue), int((DmxValue % 1) * 255) ) # Two channel values : Coarse & fine
 
 def setCoordinateToLight(X, Y):
-    DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx(X, Y)
-    print "[Debug] Final DMX values (%s, %s)" % (DmxPan, DmxTilt)
-    print "[Debug] Final Theta: %s, Phi: %s" % (dmxToThetaDegrees(DmxPan), dmxToPhiDegrees(DmxTilt))
+    DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmxGeometry(X, Y)
+    print "[Debug] Final DMX values Pan: (%s, %s), Tilt: (%s, %s)" % (DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
     setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine)
+
+def setPhiOffset(NewPhiOffset):
+    global PHI_OFFSET_DEGREES
+    PHI_OFFSET_DEGREES = NewPhiOffset    
 
 ####################### Test ####################### 
