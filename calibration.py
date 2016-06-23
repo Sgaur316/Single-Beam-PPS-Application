@@ -1,4 +1,6 @@
 import curses
+import configparser
+import projection
 from time import sleep
 
 def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine):
@@ -20,6 +22,13 @@ DmxTiltFine  = 0
 
 key = ''
 fineMode = False
+pointsList = ['a', 'b', 'c', 'd']
+currentPoint = 'a'
+
+# Read from the config file
+config = configparser.ConfigParser()
+
+
 
 def redrawCustomScreen():
     # Repaints the enire screen : a work around for the problems
@@ -32,9 +41,10 @@ def redrawCustomScreen():
     stdscr.addstr(2, 0, "Currently setting for point A")
     stdscr.addstr(3, 0, "Last Key pressed : " + str(key))
     stdscr.addstr(4, 0, "Fine channels mode : " + str(fineMode))
+    stdscr.addstr(5, 0, "Fine channels mode : " + str(fineMode))
     stdscr.refresh()
 
-while True:
+while pointsList != []:
     key = stdscr.getch()
     stdscr.refresh()
 
@@ -72,6 +82,7 @@ while True:
 
     elif key == ord('w') or key == ord('W'):
         # write config to file
+
         break
 
     elif key == ord('q'):
@@ -88,7 +99,7 @@ while True:
             DmxTiltFine  = 0
             break
 
-    setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine)
+    projection.setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine)
     redrawCustomScreen()
 
 curses.endwin()
