@@ -27,8 +27,7 @@ currentPoint = 'a'
 
 # Read from the config file
 config = configparser.ConfigParser()
-
-
+config.read('corner_points.cfg')
 
 def redrawCustomScreen():
     # Repaints the enire screen : a work around for the problems
@@ -38,10 +37,9 @@ def redrawCustomScreen():
     stdscr.addstr(0, 0, "Calibrating the projector : Hit 'q' to quit")
     stdscr.addstr(1, 0, "Current DMX Values are %s, %s, %s, %s" % (
         DmxPan, DmxTilt, DmxPanFine, DmxTiltFine))
-    stdscr.addstr(2, 0, "Currently setting for point A")
+    stdscr.addstr(2, 0, "Currently setting for point : " + currentPoint)
     stdscr.addstr(3, 0, "Last Key pressed : " + str(key))
     stdscr.addstr(4, 0, "Fine channels mode : " + str(fineMode))
-    stdscr.addstr(5, 0, "Fine channels mode : " + str(fineMode))
     stdscr.refresh()
 
 while pointsList != []:
@@ -82,7 +80,13 @@ while pointsList != []:
 
     elif key == ord('w') or key == ord('W'):
         # write config to file
-
+        config['DEFAULT'][currentPoint + 'pan']       = DmxPan
+        config['DEFAULT'][currentPoint + 'pan_fine']  = DmxPanFine
+        config['DEFAULT'][currentPoint + 'tilt']      = DmxTilt
+        config['DEFAULT'][currentPoint + 'tilt_fine'] = DmxTilt
+        pointsList.remove(currentPoint)
+        with open('corner_points.cfg') as configfile:
+            config.write(configfile)
         break
 
     elif key == ord('q'):

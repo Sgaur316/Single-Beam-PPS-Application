@@ -1,11 +1,12 @@
 from config import *
-import time
+from time import sleep
 #serial is PySerial, the serial port software for Python
 import serial
 import math
 import numpy
+import threading
 
-PHI_OFFSET_DEGREES = 10 
+PHI_OFFSET_DEGREES = 4.5
 
 #setup the dmx
 #char 126 is 7E in hex. It's used to start all DMX512 commands
@@ -45,13 +46,13 @@ dmxdata = [chr(0)]*513
 #senddmx writes to the serial port then returns the modified 513 byte array
 
 def send_dmx_data(data):
-    print "[DMX] Writing data :", data[1:11]
-    print ""
+    # print "[DMX] Writing data :", data[1:11]
+    # print ""
     for i in range(0, len(data)):
         data[i] = chr(data[i])
     sdata=''.join(data)
     ser.write(DMXOPEN+DMXINTENSITY+sdata+DMXCLOSE)
- 
+
 def senddmx(data, chan, intensity):
     # because the spacer bit is [0], the channel number is the array item number
     # set the channel number to the proper value
@@ -88,7 +89,7 @@ def turnOffLight():
 def coordinateToDmx(X, Y):
     X = float(X)
     Y = float(Y)
-    print "[Debug] Converting (%s, %s)" % (X, Y)
+    # print "[Debug] Converting (%s, %s)" % (X, Y)
     E_Theta = divide(A_THETA, RACK_HEIGHT - Y, D_THETA, Y)
     E_Phi   = divide(A_PHI, RACK_HEIGHT - Y, D_PHI, Y)
     # print "[Debug] E : (%s, %s) " % (E_Theta, E_Phi)
@@ -97,7 +98,7 @@ def coordinateToDmx(X, Y):
     # print "[Debug] F : (%s, %s) " % (F_Theta, F_Phi)
     X_Theta = divide(F_Theta, X, E_Theta, RACK_WIDTH - X)
     X_Phi   = divide(F_Phi, Y, E_Phi, RACK_HEIGHT - Y)
-    print "Final DMX in floating point : (%s, %s)" % (X_Theta, X_Phi)
+    # print "Final DMX in floating point : (%s, %s)" % (X_Theta, X_Phi)
     X_Theta_Fine = (X_Theta - int(X_Theta)) * 255
     X_Phi_Fine   = (X_Phi - int(X_Phi)) * 255
     return (int(X_Theta), int(X_Phi), int(X_Theta_Fine), int(X_Phi_Fine))
@@ -109,7 +110,7 @@ def coordinateToDmxGeometry(X, Y):
     TanPhiD  = math.tan(math.radians(dmxToPhiDegrees(D_PHI)))
     TanPhiX  = (-TanPhiA / (TanPhiA - TanPhiD)) + (Y / RACK_HEIGHT)
     PhiX  = math.degrees(math.atan(TanPhiX)) + PHI_OFFSET_DEGREES
-    print "[Debug] TanPhiA =", TanPhiA, " TanPhiD =", TanPhiD, "PhiX =", PhiX
+    # print "[Debug] TanPhiA =", TanPhiA, " TanPhiD =", TanPhiD, "PhiX =", PhiX
     X_Phi, X_Phi_Fine = phiToDmx(PhiX)
     X_Theta, _, X_Theta_Fine, _ = coordinateToDmx(X, Y)
     return (X_Theta, X_Phi, X_Theta_Fine, X_Phi_Fine)
@@ -133,11 +134,54 @@ def thetaToDmx(Theta):
 
 def setCoordinateToLight(X, Y):
     DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmxGeometry(X, Y)
-    print "[Debug] Final DMX values Pan: (%s, %s), Tilt: (%s, %s)" % (DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
+    # print "[Debug] Final DMX values Pan: (%s, %s), Tilt: (%s, %s)" % (DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
     setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine)
 
 def setPhiOffset(NewPhiOffset):
     global PHI_OFFSET_DEGREES
-    PHI_OFFSET_DEGREES = NewPhiOffset    
+    PHI_OFFSET_DEGREES = NewPhiOffset
 
-####################### Test ####################### 
+class Display(object):
+    """docstring for ClassName"""
+    def __init__(self):
+        self.stop_flag = True
+        self.t = threading.Thread()
+
+    def stop(self):
+        self.stop_flag = True
+
+    def pointAndOscillate(self, X, Y):
+        self.stop_flag = False
+        if self.t.isAlive():
+            return "Cannot start thread, another thread started"
+        else:
+            self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(X, Y))
+            self.t.start()
+            return "Point & Oscillate thread started successfully"
+
+    def pointAndOscillateInternal(self, X, Y):
+        while(self.stop_flag == False):
+            setCoordinateToLight(X, Y + OSCILLATION_AMP)
+            sleep(0.1)
+            setCoordinateToLight(X, Y - OSCILLATION_AMP)
+            sleep(0.1)
+        if self.stop_flag:
+            turnOffLight()
+
+display = Display()
+
+# display.pointAndOscillate(0, 0)
+# print "Oscillation thread started"
+# sleep(100)
+# print "stopping pointing"
+# display.stop()
+# sleep(1)
+# print "Started another thread"
+# display.pointAndOscillate(25, 90)
+# sleep(2)
+# print "stopping the 2nd thread"
+# display.stop()
+
+
+
+####################### Test #######################
