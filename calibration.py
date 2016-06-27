@@ -1,6 +1,6 @@
 import curses
 import configparser
-import projection
+# import projection
 from time import sleep
 
 def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine):
@@ -29,6 +29,23 @@ currentPoint = 'a'
 config = configparser.ConfigParser()
 config.read('corner_points.cfg')
 
+def isValidDmx(value):
+    return value >= 0 and value <= 255
+
+def increaseByOne(dmxValue):
+    incremented = dmxValue + 1
+    if isValidDmx(incremented):
+        return incremented
+    else:
+        return dmxValue # Return unchanged value
+    
+def decreaseByOne(dmxValue):
+    decremented = dmxValue - 1
+    if isValidDmx(decremented):
+        return decremented
+    else:
+        return dmxValue # Return unchanged value
+
 def redrawCustomScreen():
     # Repaints the enire screen : a work around for the problems
     # caused by print statements in other modules
@@ -42,6 +59,10 @@ def redrawCustomScreen():
     stdscr.addstr(4, 0, "Fine channels mode : " + str(fineMode))
     stdscr.refresh()
 
+def showEndScreen():
+    redrawCustomScreen()
+    stdscr.addstr(5, 0, "Written to config file, press any key to exit!!!")
+
 while pointsList != []:
     key = stdscr.getch()
     stdscr.refresh()
@@ -49,30 +70,30 @@ while pointsList != []:
     if key == curses.KEY_UP:
         # stdscr.addstr(2, 0, "Last Key pressed : Up")
         if fineMode:
-            DmxTiltFine += 1
+            DmxTiltFine = increaseByOne(DmxTiltFine)
         else:
-            DmxTilt += 1
+            DmxTilt = increaseByOne(DmxTilt)
 
     elif key == curses.KEY_DOWN:
         # stdscr.addstr(2, 0, "Last Key pressed : Down\n")
         if fineMode:
-            DmxTiltFine -= 1
+            DmxTiltFine = decreaseByOne(DmxTiltFine)
         else:
-            DmxTilt -= 1
+            DmxTilt = decreaseByOne(DmxTilt) 
 
     elif key == curses.KEY_LEFT:
         # stdscr.addstr(2, 0, "Last Key pressed : Left\n")
         if fineMode:
-            DmxPanFine -= 1
+            DmxPanFine = decreaseByOne(DmxPanFine)
         else:
-            DmxPan -= 1
+            DmxPan = decreaseByOne(DmxPan)
 
     elif key == curses.KEY_RIGHT:
         # stdscr.addstr(2, 0, "Last Key pressed : Down\n")
         if fineMode:
-            DmxPanFine += 1
+            DmxPanFine = increaseByOne(DmxPanFine)
         else:
-            DmxPan += 1
+            DmxPan = increaseByOne(DmxPan)
 
     elif key == ord('f') or key == ord('F'):
         # Flip the fine mode
@@ -80,14 +101,19 @@ while pointsList != []:
 
     elif key == ord('w') or key == ord('W'):
         # write config to file
-        config['DEFAULT'][currentPoint + 'pan']       = DmxPan
-        config['DEFAULT'][currentPoint + 'pan_fine']  = DmxPanFine
-        config['DEFAULT'][currentPoint + 'tilt']      = DmxTilt
-        config['DEFAULT'][currentPoint + 'tilt_fine'] = DmxTilt
+        config['DEFAULT'][currentPoint + '_pan']       = str(DmxPan)
+        config['DEFAULT'][currentPoint + '_pan_fine']  = str(DmxPanFine)
+        config['DEFAULT'][currentPoint + '_tilt']      = str(DmxTilt)
+        config['DEFAULT'][currentPoint + '_tilt_fine'] = str(DmxTiltFine)
         pointsList.remove(currentPoint)
-        with open('corner_points.cfg') as configfile:
-            config.write(configfile)
-        break
+        if pointsList == []:
+            with open('corner_points.cfg', 'w') as configfile:
+                config.write(configfile)
+            showEndScreen()
+            stdscr.getch()
+            break
+        else:
+            currentPoint = pointsList[0]
 
     elif key == ord('q'):
         break
@@ -103,7 +129,7 @@ while pointsList != []:
             DmxTiltFine  = 0
             break
 
-    projection.setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine)
+    setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine)
     redrawCustomScreen()
 
 curses.endwin()
