@@ -6,8 +6,6 @@ import math
 import numpy
 import threading
 
-PHI_OFFSET_DEGREES = 4.5
-
 #setup the dmx
 #char 126 is 7E in hex. It's used to start all DMX512 commands
 DMXOPEN=chr(126)
@@ -111,9 +109,9 @@ def coordinateToDmxGeometry(X, Y):
     TanPhiX  = (-TanPhiA / (TanPhiA - TanPhiD)) + (Y / RACK_HEIGHT)
     PhiX  = math.degrees(math.atan(TanPhiX)) + PHI_OFFSET_DEGREES
     # print "[Debug] TanPhiA =", TanPhiA, " TanPhiD =", TanPhiD, "PhiX =", PhiX
-    X_Phi, X_Phi_Fine = phiToDmx(PhiX)
-    X_Theta, _, X_Theta_Fine, _ = coordinateToDmx(X, Y)
-    return (X_Theta, X_Phi, X_Theta_Fine, X_Phi_Fine)
+    P_Tilt, P_Tilt_Fine = phiToDmx(PhiX)
+    P_Pan, _, P_Pan_Fine, _ = coordinateToDmx(X, Y)
+    return (P_Pan, P_Tilt, P_Pan_Fine, P_Tilt_Fine)
 
 def divide(a1, w1, a2, w2):
     return (a1*w1 + a2*w2) / (w1+w2)
@@ -133,7 +131,7 @@ def thetaToDmx(Theta):
     return ( int(DmxValue), int((DmxValue % 1) * 255) ) # Two channel values : Coarse & fine
 
 def setCoordinateToLight(X, Y):
-    DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmxGeometry(X, Y)
+    DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx(X, Y)
     # print "[Debug] Final DMX values Pan: (%s, %s), Tilt: (%s, %s)" % (DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
     setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine)
 
@@ -162,12 +160,26 @@ class Display(object):
     def pointAndOscillateInternal(self, X, Y):
         while(self.stop_flag == False):
             setCoordinateToLight(X, Y + OSCILLATION_AMP)
-            sleep(0.1)
+            sleep(OSCILLATION_TIME_PERIOD)
             setCoordinateToLight(X, Y - OSCILLATION_AMP)
-            sleep(0.1)
+            sleep(OSCILLATION_TIME_PERIOD)
         if self.stop_flag:
             turnOffLight()
 
+def loadCalibrationData(filename):
+    global A_THETA
+    global A_PHI
+
+    global B_THETA
+    global B_PHI
+
+    global C_THETA
+    global C_PHI
+
+    global D_THETA
+    global D_PHI
+
+loadCalibrationData('corner_points.cfg')
 display = Display()
 
 # display.pointAndOscillate(0, 0)
