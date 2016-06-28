@@ -5,6 +5,7 @@ import serial
 import math
 import numpy
 import threading
+import configparser
 
 #setup the dmx
 #char 126 is 7E in hex. It's used to start all DMX512 commands
@@ -62,12 +63,12 @@ def senddmx(data, chan, intensity):
     # return the data with the new value in place
     return(data)
 
-def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine):
+def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness):
     dmxdata = [0]*513
     # Set strobe mode - 255 means still light
     dmxdata[STROBE_CHANNEL] = 255
     # Set dimmer value - channel 5 - min 0, max 255
-    dmxdata[DIMMER_CHANNEL] = 255
+    dmxdata[DIMMER_CHANNEL] = Brightness
     # Set Theta
     dmxdata[PAN_CHANNEL] = DmxPan
     # Set Phi
@@ -88,11 +89,11 @@ def coordinateToDmx(X, Y):
     X = float(X)
     Y = float(Y)
     # print "[Debug] Converting (%s, %s)" % (X, Y)
-    E_Theta = divide(A_THETA, RACK_HEIGHT - Y, D_THETA, Y)
-    E_Phi   = divide(A_PHI, RACK_HEIGHT - Y, D_PHI, Y)
+    E_Theta = divide(A_PAN, RACK_HEIGHT - Y, D_PAN, Y)
+    E_Phi   = divide(A_TILT, RACK_HEIGHT - Y, D_TILT, Y)
     # print "[Debug] E : (%s, %s) " % (E_Theta, E_Phi)
-    F_Theta = divide(B_THETA, RACK_HEIGHT - Y, C_THETA, Y)
-    F_Phi   = divide(B_PHI, RACK_HEIGHT - Y, C_PHI, Y)
+    F_Theta = divide(B_PAN, RACK_HEIGHT - Y, C_PAN, Y)
+    F_Phi   = divide(B_TILT, RACK_HEIGHT - Y, C_TILT, Y)
     # print "[Debug] F : (%s, %s) " % (F_Theta, F_Phi)
     X_Theta = divide(F_Theta, X, E_Theta, RACK_WIDTH - X)
     X_Phi   = divide(F_Phi, Y, E_Phi, RACK_HEIGHT - Y)
@@ -104,8 +105,8 @@ def coordinateToDmx(X, Y):
 def coordinateToDmxGeometry(X, Y):
     X = float(X)
     Y = float(Y)
-    TanPhiA  = math.tan(math.radians(dmxToPhiDegrees(A_PHI)))
-    TanPhiD  = math.tan(math.radians(dmxToPhiDegrees(D_PHI)))
+    TanPhiA  = math.tan(math.radians(dmxToPhiDegrees(A_TILT)))
+    TanPhiD  = math.tan(math.radians(dmxToPhiDegrees(D_TILT)))
     TanPhiX  = (-TanPhiA / (TanPhiA - TanPhiD)) + (Y / RACK_HEIGHT)
     PhiX  = math.degrees(math.atan(TanPhiX)) + PHI_OFFSET_DEGREES
     # print "[Debug] TanPhiA =", TanPhiA, " TanPhiD =", TanPhiD, "PhiX =", PhiX
@@ -130,10 +131,10 @@ def thetaToDmx(Theta):
     DmxValue = numpy.interp(Phi, [THETA_MIN_DEG, THETA_MAX_DEG], [0, 255])
     return ( int(DmxValue), int((DmxValue % 1) * 255) ) # Two channel values : Coarse & fine
 
-def setCoordinateToLight(X, Y):
+def setCoordinateToLight(X, Y, Brightness=255):
     DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx(X, Y)
     # print "[Debug] Final DMX values Pan: (%s, %s), Tilt: (%s, %s)" % (DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
-    setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine)
+    setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness)
 
 def setPhiOffset(NewPhiOffset):
     global PHI_OFFSET_DEGREES
@@ -149,10 +150,12 @@ class Display(object):
         self.stop_flag = True
 
     def pointAndOscillate(self, X, Y):
-        self.stop_flag = False
         if self.t.isAlive():
             return "Cannot start thread, another thread started"
         else:
+            self.stop_flag = False
+            setCoordinateToLight(X, Y, 0)
+            sleep(0.5)
             self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(X, Y))
             self.t.start()
             return "Point & Oscillate thread started successfully"
@@ -167,17 +170,23 @@ class Display(object):
             turnOffLight()
 
 def loadCalibrationData(filename):
-    global A_THETA
-    global A_PHI
+    config = configparser.ConfigParser()
+    config.read('corner_points.cfg')
 
-    global B_THETA
-    global B_PHI
+    global A_PAN, A_TILT, B_PAN, B_TILT, C_PAN, C_TILT, D_PAN, D_TILT
 
-    global C_THETA
-    global C_PHI
+    A_PAN = float(config['DEFAULT']['a_pan']) + float(config['DEFAULT']['a_pan_fine']) / 255 
+    A_TILT   = float(config['DEFAULT']['a_tilt']) + float(config['DEFAULT']['a_tilt_fine']) / 255
 
-    global D_THETA
-    global D_PHI
+    B_PAN = float(config['DEFAULT']['b_pan']) + float(config['DEFAULT']['b_pan_fine']) / 255 
+    B_TILT   = float(config['DEFAULT']['b_tilt']) + float(config['DEFAULT']['b_tilt_fine']) / 255
+
+    C_PAN = float(config['DEFAULT']['c_pan']) + float(config['DEFAULT']['c_pan_fine']) / 255 
+    C_TILT   = float(config['DEFAULT']['c_tilt']) + float(config['DEFAULT']['c_tilt_fine']) / 255
+
+    D_PAN = float(config['DEFAULT']['d_pan']) + float(config['DEFAULT']['d_pan_fine']) / 255 
+    D_TILT   = float(config['DEFAULT']['d_tilt']) + float(config['DEFAULT']['d_tilt_fine']) / 255
+
 
 loadCalibrationData('corner_points.cfg')
 display = Display()

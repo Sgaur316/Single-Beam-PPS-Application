@@ -1,6 +1,6 @@
 import curses
 import configparser
-# import projection
+import projection
 from time import sleep
 
 def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine):
@@ -129,7 +129,7 @@ while pointsList != []:
             DmxTiltFine  = 0
             break
 
-    setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine)
+    projection.setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, 255)
     redrawCustomScreen()
 
 curses.endwin()

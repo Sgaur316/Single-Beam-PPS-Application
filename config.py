@@ -5,17 +5,17 @@ SERVER_PORT = 9000
 
 # DMX values for the corner points
 
-A_THETA = 89 + (97 / 255.0)
-A_PHI   = 9  + (2 / 255.0)
+A_PAN    = 89 + (97 / 255.0)
+A_TILT   = 9  + (2 / 255.0)
 
-B_THETA = 74 + (255 / 255.0)
-B_PHI   = 9  + (58 / 255.0)
+B_PAN    = 74 + (255 / 255.0)
+B_TILT   = 9  + (58 / 255.0)
 
-C_THETA = 74 + (0 / 255.0)
-C_PHI   = 68 + (152 / 255.0)
+C_PAN    = 74 + (0 / 255.0)
+C_TILT   = 68 + (152 / 255.0)
 
-D_THETA = 88 + (109 / 255.0)
-D_PHI   = 71 + (101 / 255.0)
+D_PAN    = 88 + (109 / 255.0)
+D_TILT   = 71 + (101 / 255.0)
 
 # Rack width and height in cms
 
@@ -45,5 +45,5 @@ THETA_MAX_DEG = 540
 # Oscillation amplitude on y axis, in cm
 # Oscillation time period, in seconds
 OSCILLATION_AMP         = 2
-OSCILLATION_TIME_PERIOD = 0.5
+OSCILLATION_TIME_PERIOD = 0.1
 
