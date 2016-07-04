@@ -89,14 +89,14 @@ def coordinateToDmx(X, Y):
     X = float(X)
     Y = float(Y)
     # print "[Debug] Converting (%s, %s)" % (X, Y)
-    E_Pan    = divide(A_PAN, RACK_HEIGHT - Y, D_PAN, Y)
-    E_Tilt   = divide(A_TILT, RACK_HEIGHT - Y, D_TILT, Y)
+    E_Pan    = weighted_average(A_PAN, RACK_HEIGHT - Y, D_PAN, Y)
+    E_Tilt   = weighted_average(A_TILT, RACK_HEIGHT - Y, D_TILT, Y)
     # print "[Debug] E : (%s, %s) " % (E_Theta, E_Phi)
-    F_Pan    = divide(B_PAN, RACK_HEIGHT - Y, C_PAN, Y)
-    F_Tilt   = divide(B_TILT, RACK_HEIGHT - Y, C_TILT, Y)
+    F_Pan    = weighted_average(B_PAN, RACK_HEIGHT - Y, C_PAN, Y)
+    F_Tilt   = weighted_average(B_TILT, RACK_HEIGHT - Y, C_TILT, Y)
     # print "[Debug] F : (%s, %s) " % (F_Theta, F_Phi)
-    P_Pan    = divide(F_Pan, X, E_Pan, RACK_WIDTH - X)
-    P_Tilt   = divide(F_Tilt, X, E_Tilt, RACK_WIDTH - X)
+    P_Pan    = weighted_average(F_Pan, X, E_Pan, RACK_WIDTH - X)
+    P_Tilt   = weighted_average(F_Tilt, X, E_Tilt, RACK_WIDTH - X)
     # print "Final DMX in floating point : (%s, %s)" % (X_Theta, X_Phi)
     P_Pan_Fine    = (P_Pan - int(P_Pan)) * 255
     P_Tilt_Fine   = (P_Tilt - int(P_Tilt)) * 255
@@ -114,7 +114,7 @@ def coordinateToDmxGeometry(X, Y):
     P_Pan, _, P_Pan_Fine, _ = coordinateToDmx(X, Y)
     return (P_Pan, P_Tilt, P_Pan_Fine, P_Tilt_Fine)
 
-def divide(a1, w1, a2, w2):
+def weighted_average(a1, w1, a2, w2):
     return (a1*w1 + a2*w2) / (w1+w2)
 
 def dmxToThetaDegrees(DmxValue):
@@ -141,7 +141,7 @@ def distanceFromNearestInt(x):
 def setCoordinateToLight(X, Y, Brightness=255):
     X = float(X)
     Y = float(Y)
-    offset = Y * SCALE_OFFSET * distanceFromNearestInt(1 - Y / RACK_HEIGHT)
+    offset = Y * SCALE_OFFSET * distanceFromNearestInt(1.0 - Y / RACK_HEIGHT)
     print "Applying offset of :", offset
     Y = Y + offset
     DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx(X, Y)
