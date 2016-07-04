@@ -3,19 +3,10 @@ PPS_ID 		= 10
 SERVER_IP   = '127.0.0.1'
 SERVER_PORT = 9000
 
-# DMX values for the corner points
+# 
 
-A_PAN    = 89 + (97 / 255.0)
-A_TILT   = 9  + (2 / 255.0)
+SCALE_OFFSET = -0.2
 
-B_PAN    = 74 + (255 / 255.0)
-B_TILT   = 9  + (58 / 255.0)
-
-C_PAN    = 74 + (0 / 255.0)
-C_TILT   = 68 + (152 / 255.0)
-
-D_PAN    = 88 + (109 / 255.0)
-D_TILT   = 71 + (101 / 255.0)
 
 # Rack width and height in cms
 

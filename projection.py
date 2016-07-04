@@ -89,18 +89,18 @@ def coordinateToDmx(X, Y):
     X = float(X)
     Y = float(Y)
     # print "[Debug] Converting (%s, %s)" % (X, Y)
-    E_Theta = divide(A_PAN, RACK_HEIGHT - Y, D_PAN, Y)
-    E_Phi   = divide(A_TILT, RACK_HEIGHT - Y, D_TILT, Y)
+    E_Pan    = divide(A_PAN, RACK_HEIGHT - Y, D_PAN, Y)
+    E_Tilt   = divide(A_TILT, RACK_HEIGHT - Y, D_TILT, Y)
     # print "[Debug] E : (%s, %s) " % (E_Theta, E_Phi)
-    F_Theta = divide(B_PAN, RACK_HEIGHT - Y, C_PAN, Y)
-    F_Phi   = divide(B_TILT, RACK_HEIGHT - Y, C_TILT, Y)
+    F_Pan    = divide(B_PAN, RACK_HEIGHT - Y, C_PAN, Y)
+    F_Tilt   = divide(B_TILT, RACK_HEIGHT - Y, C_TILT, Y)
     # print "[Debug] F : (%s, %s) " % (F_Theta, F_Phi)
-    X_Theta = divide(F_Theta, X, E_Theta, RACK_WIDTH - X)
-    X_Phi   = divide(F_Phi, Y, E_Phi, RACK_HEIGHT - Y)
+    P_Pan    = divide(F_Pan, X, E_Pan, RACK_WIDTH - X)
+    P_Tilt   = divide(F_Tilt, X, E_Tilt, RACK_WIDTH - X)
     # print "Final DMX in floating point : (%s, %s)" % (X_Theta, X_Phi)
-    X_Theta_Fine = (X_Theta - int(X_Theta)) * 255
-    X_Phi_Fine   = (X_Phi - int(X_Phi)) * 255
-    return (int(X_Theta), int(X_Phi), int(X_Theta_Fine), int(X_Phi_Fine))
+    P_Pan_Fine    = (P_Pan - int(P_Pan)) * 255
+    P_Tilt_Fine   = (P_Tilt - int(P_Tilt)) * 255
+    return (int(P_Pan), int(P_Tilt), int(P_Pan_Fine), int(P_Tilt_Fine))
 
 def coordinateToDmxGeometry(X, Y):
     X = float(X)
@@ -131,7 +131,19 @@ def thetaToDmx(Theta):
     DmxValue = numpy.interp(Phi, [THETA_MIN_DEG, THETA_MAX_DEG], [0, 255])
     return ( int(DmxValue), int((DmxValue % 1) * 255) ) # Two channel values : Coarse & fine
 
+def distanceFromNearestInt(x):
+    delta = x - int(x)
+    if delta > 0.5:
+        return 1 - delta
+    else: 
+        return delta 
+
 def setCoordinateToLight(X, Y, Brightness=255):
+    X = float(X)
+    Y = float(Y)
+    offset = Y * SCALE_OFFSET * distanceFromNearestInt(1 - Y / RACK_HEIGHT)
+    print "Applying offset of :", offset
+    Y = Y + offset
     DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx(X, Y)
     # print "[Debug] Final DMX values Pan: (%s, %s), Tilt: (%s, %s)" % (DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
     setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness)
@@ -171,22 +183,22 @@ class Display(object):
 
 def loadCalibrationData(filename):
     config = configparser.ConfigParser()
-    config.read('corner_points.cfg')
+    config.read(filename)
 
     global A_PAN, A_TILT, B_PAN, B_TILT, C_PAN, C_TILT, D_PAN, D_TILT
 
-    A_PAN = float(config['DEFAULT']['a_pan']) + float(config['DEFAULT']['a_pan_fine']) / 255 
+    A_PAN    = float(config['DEFAULT']['a_pan']) + float(config['DEFAULT']['a_pan_fine']) / 255 
     A_TILT   = float(config['DEFAULT']['a_tilt']) + float(config['DEFAULT']['a_tilt_fine']) / 255
 
-    B_PAN = float(config['DEFAULT']['b_pan']) + float(config['DEFAULT']['b_pan_fine']) / 255 
+    B_PAN    = float(config['DEFAULT']['b_pan']) + float(config['DEFAULT']['b_pan_fine']) / 255 
     B_TILT   = float(config['DEFAULT']['b_tilt']) + float(config['DEFAULT']['b_tilt_fine']) / 255
 
-    C_PAN = float(config['DEFAULT']['c_pan']) + float(config['DEFAULT']['c_pan_fine']) / 255 
+    C_PAN    = float(config['DEFAULT']['c_pan']) + float(config['DEFAULT']['c_pan_fine']) / 255 
     C_TILT   = float(config['DEFAULT']['c_tilt']) + float(config['DEFAULT']['c_tilt_fine']) / 255
 
-    D_PAN = float(config['DEFAULT']['d_pan']) + float(config['DEFAULT']['d_pan_fine']) / 255 
+    D_PAN    = float(config['DEFAULT']['d_pan']) + float(config['DEFAULT']['d_pan_fine']) / 255 
     D_TILT   = float(config['DEFAULT']['d_tilt']) + float(config['DEFAULT']['d_tilt_fine']) / 255
-
+    print "Loaded calibration data from :", str(filename)
 
 loadCalibrationData('corner_points.cfg')
 display = Display()
