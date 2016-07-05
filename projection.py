@@ -102,6 +102,22 @@ def coordinateToDmx(X, Y):
     P_Tilt_Fine   = (P_Tilt - int(P_Tilt)) * 255
     return (int(P_Pan), int(P_Tilt), int(P_Pan_Fine), int(P_Tilt_Fine))
 
+def coordinateToDmx1(X, Y):
+    X = float(X)
+    Y = float(Y)
+    # print "[Debug] Converting (%s, %s)" % (X, Y)
+    E_Pan    = weighted_average(A_PAN, RACK_HEIGHT - Y, D_PAN, Y)
+    E_Tilt   = weighted_average(A_TILT, RACK_HEIGHT - Y, D_TILT, Y)
+    # print "[Debug] E : (%s, %s) " % (E_Theta, E_Phi)
+    F_Pan    = weighted_average(B_PAN, RACK_HEIGHT - Y, C_PAN, Y)
+    F_Tilt   = weighted_average(B_TILT, RACK_HEIGHT - Y, C_TILT, Y)
+    # print "[Debug] F : (%s, %s) " % (F_Theta, F_Phi)
+    P_Pan    = weighted_average(F_Pan, X, E_Pan, RACK_WIDTH - X)
+    P_Tilt   = weighted_average(F_Tilt, X, E_Tilt, RACK_WIDTH - X)
+    # print "Final DMX in floating point : (%s, %s)" % (X_Theta, X_Phi)
+    P_Pan_Fine    = (P_Pan - int(P_Pan)) * 255
+    return (int(P_Pan), int((A_TILT - D_TILT)*Y/RACK_HEIGHT + D_TILT), int(P_Pan_Fine), int(P_Tilt_Fine))
+
 def coordinateToDmxGeometry(X, Y):
     X = float(X)
     Y = float(Y)
@@ -111,7 +127,7 @@ def coordinateToDmxGeometry(X, Y):
     PhiX  = math.degrees(math.atan(TanPhiX)) + PHI_OFFSET_DEGREES
     # print "[Debug] TanPhiA =", TanPhiA, " TanPhiD =", TanPhiD, "PhiX =", PhiX
     P_Tilt, P_Tilt_Fine = phiToDmx(PhiX)
-    P_Pan, _, P_Pan_Fine, _ = coordinateToDmx(X, Y)
+    P_Pan, _, P_Pan_Fine, _ = coordinateToDmx1(X, Y)
     return (P_Pan, P_Tilt, P_Pan_Fine, P_Tilt_Fine)
 
 def weighted_average(a1, w1, a2, w2):
@@ -144,7 +160,7 @@ def setCoordinateToLight(X, Y, Brightness=255):
     offset = Y * SCALE_OFFSET * distanceFromNearestInt(1.0 - Y / RACK_HEIGHT)
     print "Applying offset of :", offset
     Y = Y + offset
-    DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx(X, Y)
+    DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx1(X, Y)
     # print "[Debug] Final DMX values Pan: (%s, %s), Tilt: (%s, %s)" % (DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
     setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness)
 
