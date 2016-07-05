@@ -116,7 +116,12 @@ def coordinateToDmx1(X, Y):
     P_Tilt   = weighted_average(F_Tilt, X, E_Tilt, RACK_WIDTH - X)
     # print "Final DMX in floating point : (%s, %s)" % (X_Theta, X_Phi)
     P_Pan_Fine    = (P_Pan - int(P_Pan)) * 255
-    return (int(P_Pan), int((A_TILT - D_TILT)*Y/RACK_HEIGHT + D_TILT), int(P_Pan_Fine), int(P_Tilt_Fine))
+    P_Tilt_Fine = (P_Tilt - int(P_Tilt)) * 255
+    Theta = math.degrees(math.atan((PROJ_HEIGHT - Y)/RACK_PROJ_DISTANCE))
+    D_THETA = math.degrees(math.atan((PROJ_HEIGHT - RACK_HEIGHT)/RACK_PROJ_DISTANCE))
+    A_THETA = math.degrees(math.atan(PROJ_HEIGHT/RACK_PROJ_DISTANCE))
+    Y = ((A_TILT - D_TILT) * (Theta - D_THETA))/(A_THETA - D_THETA) + D_TILT
+    return (int(P_Pan), int(Y), int(P_Pan_Fine), int(P_Tilt_Fine))
 
 def coordinateToDmxGeometry(X, Y):
     X = float(X)
@@ -157,9 +162,15 @@ def distanceFromNearestInt(x):
 def setCoordinateToLight(X, Y, Brightness=255):
     X = float(X)
     Y = float(Y)
+<<<<<<< Updated upstream
     offset = Y * SCALE_OFFSET * distanceFromNearestInt(1.0 - Y / RACK_HEIGHT)
     print "Applying offset of :", offset
     Y = Y + offset
+=======
+    # offset = Y * SCALE_OFFSET * distanceFromNearestInt(1.0 - Y / RACK_HEIGHT)
+    # print "Applying offset of :", offset
+    # Y = Y + offset
+>>>>>>> Stashed changes
     DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx1(X, Y)
     # print "[Debug] Final DMX values Pan: (%s, %s), Tilt: (%s, %s)" % (DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
     setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness)

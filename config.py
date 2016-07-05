@@ -6,12 +6,13 @@ SERVER_PORT = 9000
 # 
 
 SCALE_OFFSET = -0.2
-
+PROJ_HEIGHT = 240.0
+RACK_PROJ_DISTANCE = 193.0
 
 # Rack width and height in cms
 
-RACK_WIDTH   = 90
-RACK_HEIGHT  = 180
+RACK_WIDTH   = 90.0
+RACK_HEIGHT  = 180.0
 
 # Offset on the calculated tilt angle, in degrees
 PHI_OFFSET_DEGREES = 0
