@@ -162,15 +162,9 @@ def distanceFromNearestInt(x):
 def setCoordinateToLight(X, Y, Brightness=255):
     X = float(X)
     Y = float(Y)
-<<<<<<< Updated upstream
-    offset = Y * SCALE_OFFSET * distanceFromNearestInt(1.0 - Y / RACK_HEIGHT)
-    print "Applying offset of :", offset
-    Y = Y + offset
-=======
     # offset = Y * SCALE_OFFSET * distanceFromNearestInt(1.0 - Y / RACK_HEIGHT)
     # print "Applying offset of :", offset
     # Y = Y + offset
->>>>>>> Stashed changes
     DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx1(X, Y)
     # print "[Debug] Final DMX values Pan: (%s, %s), Tilt: (%s, %s)" % (DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
     setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness)
