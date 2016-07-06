@@ -158,8 +158,8 @@ def distanceFromNearestInt(x):
     delta = x - int(x)
     if delta > 0.5:
         return 1 - delta
-    else: 
-        return delta 
+    else:
+        return delta
 
 def setCoordinateToLight(X, Y, Brightness=255):
     X = float(X)
@@ -210,22 +210,22 @@ def loadCalibrationData(filename):
 
     global A_PAN, A_TILT, B_PAN, B_TILT, C_PAN, C_TILT, D_PAN, D_TILT
 
-    A_PAN    = float(config['DEFAULT']['a_pan']) + float(config['DEFAULT']['a_pan_fine']) / 255 
+    A_PAN    = float(config['DEFAULT']['a_pan']) + float(config['DEFAULT']['a_pan_fine']) / 255
     A_TILT   = float(config['DEFAULT']['a_tilt']) + float(config['DEFAULT']['a_tilt_fine']) / 255
 
-    B_PAN    = float(config['DEFAULT']['b_pan']) + float(config['DEFAULT']['b_pan_fine']) / 255 
+    B_PAN    = float(config['DEFAULT']['b_pan']) + float(config['DEFAULT']['b_pan_fine']) / 255
     B_TILT   = float(config['DEFAULT']['b_tilt']) + float(config['DEFAULT']['b_tilt_fine']) / 255
 
-    C_PAN    = float(config['DEFAULT']['c_pan']) + float(config['DEFAULT']['c_pan_fine']) / 255 
+    C_PAN    = float(config['DEFAULT']['c_pan']) + float(config['DEFAULT']['c_pan_fine']) / 255
     C_TILT   = float(config['DEFAULT']['c_tilt']) + float(config['DEFAULT']['c_tilt_fine']) / 255
 
-    D_PAN    = float(config['DEFAULT']['d_pan']) + float(config['DEFAULT']['d_pan_fine']) / 255 
+    D_PAN    = float(config['DEFAULT']['d_pan']) + float(config['DEFAULT']['d_pan_fine']) / 255
     D_TILT   = float(config['DEFAULT']['d_tilt']) + float(config['DEFAULT']['d_tilt_fine']) / 255
     print "Loaded calibration data from :", str(filename)
 
 '''
 This function is for testing the projector,
-points to locations marked on the chart paper  
+points to locations marked on the chart paper
 '''
 def testLoop():
     for x in range(0, RACK_WIDTH + 1, 15):
