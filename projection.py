@@ -120,7 +120,9 @@ def coordinateToDmx1(X, Y):
     Theta = math.degrees(math.atan((PROJ_HEIGHT - Y)/RACK_PROJ_DISTANCE))
     D_THETA = math.degrees(math.atan((PROJ_HEIGHT - RACK_HEIGHT)/RACK_PROJ_DISTANCE))
     A_THETA = math.degrees(math.atan(PROJ_HEIGHT/RACK_PROJ_DISTANCE))
-    Y = ((A_TILT - D_TILT) * (Theta - D_THETA))/(A_THETA - D_THETA) + D_TILT
+    G_Tilt = weighted_average(A_TILT, RACK_WIDTH - X, B_TILT, X)
+    H_Tilt = weighted_average(D_TILT, RACK_WIDTH - X, C_TILT, X)
+    Y = ((G_Tilt - H_Tilt) * (Theta - D_THETA))/(A_THETA - D_THETA) + H_Tilt
     return (int(P_Pan), int(Y), int(P_Pan_Fine), int(P_Tilt_Fine))
 
 def coordinateToDmxGeometry(X, Y):
@@ -166,7 +168,7 @@ def setCoordinateToLight(X, Y, Brightness=255):
     # print "Applying offset of :", offset
     # Y = Y + offset
     DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx1(X, Y)
-    # print "[Debug] Final DMX values Pan: (%s, %s), Tilt: (%s, %s)" % (DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
+    print "[Debug] Final DMX values for (%s, %s) Pan: (%s, %s), Tilt: (%s, %s)" % (X, Y, DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
     setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness)
 
 def setPhiOffset(NewPhiOffset):
@@ -220,6 +222,16 @@ def loadCalibrationData(filename):
     D_PAN    = float(config['DEFAULT']['d_pan']) + float(config['DEFAULT']['d_pan_fine']) / 255 
     D_TILT   = float(config['DEFAULT']['d_tilt']) + float(config['DEFAULT']['d_tilt_fine']) / 255
     print "Loaded calibration data from :", str(filename)
+
+'''
+This function is for testing the projector,
+points to locations marked on the chart paper  
+'''
+def testLoop():
+    for x in range(0, RACK_WIDTH + 1, 15):
+        for y in range(0, RACK_HEIGHT + 1, 30):
+            setCoordinateToLight(x, y)
+            sleep(1.5)
 
 loadCalibrationData('corner_points.cfg')
 display = Display()
