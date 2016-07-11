@@ -117,13 +117,17 @@ def coordinateToDmx1(X, Y):
     # print "Final DMX in floating point : (%s, %s)" % (X_Theta, X_Phi)
     P_Pan_Fine    = (P_Pan - int(P_Pan)) * 255
     P_Tilt_Fine = (P_Tilt - int(P_Tilt)) * 255
-    Theta = math.degrees(math.atan((PROJ_HEIGHT - Y)/RACK_PROJ_DISTANCE))
-    D_THETA = math.degrees(math.atan((PROJ_HEIGHT - RACK_HEIGHT)/RACK_PROJ_DISTANCE))
-    A_THETA = math.degrees(math.atan(PROJ_HEIGHT/RACK_PROJ_DISTANCE))
+    
+    RackProjDistanceCorrected = math.sqrt( RACK_PROJ_DISTANCE ** 2 + (RACK_ORIGIN_DISTANCE - X) ** 2 )
+    print "Correction is:", (RackProjDistanceCorrected - RACK_PROJ_DISTANCE)
+    Theta = math.degrees(math.atan((PROJ_HEIGHT - Y)/RackProjDistanceCorrected))
+    D_THETA = math.degrees(math.atan((PROJ_HEIGHT - RACK_HEIGHT)/RackProjDistanceCorrected))
+    A_THETA = math.degrees(math.atan(PROJ_HEIGHT/RackProjDistanceCorrected))
     G_Tilt = weighted_average(A_TILT, RACK_WIDTH - X, B_TILT, X)
     H_Tilt = weighted_average(D_TILT, RACK_WIDTH - X, C_TILT, X)
-    Y = ((G_Tilt - H_Tilt) * (Theta - D_THETA))/(A_THETA - D_THETA) + H_Tilt
-    return (int(P_Pan), int(Y), int(P_Pan_Fine), int(P_Tilt_Fine))
+    P_Tilt      = ((G_Tilt - H_Tilt) * (Theta - D_THETA))/(A_THETA - D_THETA) + H_Tilt
+    P_Tilt_Fine = (P_Tilt - int(P_Tilt)) * 255
+    return (int(P_Pan), int(P_Tilt), int(P_Pan_Fine), int(P_Tilt_Fine))
 
 def coordinateToDmxGeometry(X, Y):
     X = float(X)
@@ -228,8 +232,8 @@ This function is for testing the projector,
 points to locations marked on the chart paper
 '''
 def testLoop():
-    for x in range(0, RACK_WIDTH + 1, 15):
-        for y in range(0, RACK_HEIGHT + 1, 30):
+    for x in range(0, int(RACK_WIDTH) + 1, 15):
+        for y in range(0, int(RACK_HEIGHT) + 1, 40):
             setCoordinateToLight(x, y)
             sleep(1.5)
 
