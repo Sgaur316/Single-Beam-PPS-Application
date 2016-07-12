@@ -6,6 +6,7 @@ import math
 import numpy
 import threading
 import configparser
+import pyudev
 
 #setup the dmx
 #char 126 is 7E in hex. It's used to start all DMX512 commands
@@ -30,7 +31,22 @@ DMXINIT2= chr(10)+chr(02)+chr(0)+chr(0)+chr(0)
 #open serial port 4. This is where the USB virtual port hangs on my machine. You
 #might need to change this number. Find out what com port your DMX controller is on
 #and subtract 1, the ports are numbered 0-3 instead of 1-4
-ser=serial.Serial("/dev/ttyUSB0")
+print "Shorlisting USB devices"
+context = pyudev.Context()
+usb_devices = []
+for device in context.list_devices(subsystem="usb"):
+    for c in device.children:
+        if (c.subsystem == "usb-serial"):
+            print c.sys_name
+            usb_devices.append(c.sys_name)
+# Make the list unique
+# Duplicates occur due to different USB versions supported(USB 1.0, 2.0 & 3.0)
+usb_devices = list(set(usb_devices))
+if len(usb_devices) == 1:
+    print "Successful : Single unambiguious device found" 
+    ser=serial.Serial("/dev/" + str(usb_devices[0]))
+else:
+    print "Error : more than one or no USB-DMX found"
 
 #this writes the initialization codes to the DMX
 ser.write( DMXOPEN+DMXINIT1+DMXCLOSE)
