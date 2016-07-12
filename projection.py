@@ -105,27 +105,29 @@ def coordinateToDmx(X, Y):
 def coordinateToDmx1(X, Y):
     X = float(X)
     Y = float(Y)
-    # print "[Debug] Converting (%s, %s)" % (X, Y)
+    print "[Debug] Converting (%s, %s)" % (X, Y)
     E_Pan    = weighted_average(A_PAN, RACK_HEIGHT - Y, D_PAN, Y)
     E_Tilt   = weighted_average(A_TILT, RACK_HEIGHT - Y, D_TILT, Y)
-    # print "[Debug] E : (%s, %s) " % (E_Theta, E_Phi)
+    print "[Debug] E : (%s, %s) " % (E_Pan, E_Tilt)
     F_Pan    = weighted_average(B_PAN, RACK_HEIGHT - Y, C_PAN, Y)
     F_Tilt   = weighted_average(B_TILT, RACK_HEIGHT - Y, C_TILT, Y)
-    # print "[Debug] F : (%s, %s) " % (F_Theta, F_Phi)
-    P_Pan    = weighted_average(F_Pan, X, E_Pan, RACK_WIDTH - X)
-    P_Tilt   = weighted_average(F_Tilt, X, E_Tilt, RACK_WIDTH - X)
-    # print "Final DMX in floating point : (%s, %s)" % (X_Theta, X_Phi)
-    P_Pan_Fine    = (P_Pan - int(P_Pan)) * 255
-    P_Tilt_Fine = (P_Tilt - int(P_Tilt)) * 255
-    
+
+    AD_Theta   = math.degrees(math.atan2(RACK_ORIGIN_DISTANCE, RACK_PROJ_DISTANCE))
+    BC_Theta   = math.degrees(math.atan2(RACK_ORIGIN_DISTANCE - RACK_WIDTH, RACK_PROJ_DISTANCE))
+    P_Theta    = math.degrees(math.atan2(RACK_ORIGIN_DISTANCE - X, RACK_PROJ_DISTANCE))
+    print "AD_Theta = %s, BC_Theta = %s, P_Theta = %s" % (AD_Theta, BC_Theta, P_Theta)
+    P_Pan      = E_Pan + (F_Pan - E_Pan) * (P_Theta - AD_Theta) / (BC_Theta - AD_Theta)
+    P_Pan_Fine = (P_Pan - int(P_Pan)) * 255
+
     RackProjDistanceCorrected = math.sqrt( RACK_PROJ_DISTANCE ** 2 + (RACK_ORIGIN_DISTANCE - X) ** 2 )
     print "Correction is:", (RackProjDistanceCorrected - RACK_PROJ_DISTANCE)
-    Theta = math.degrees(math.atan((PROJ_HEIGHT - Y)/RackProjDistanceCorrected))
-    D_THETA = math.degrees(math.atan((PROJ_HEIGHT - RACK_HEIGHT)/RackProjDistanceCorrected))
-    A_THETA = math.degrees(math.atan(PROJ_HEIGHT/RackProjDistanceCorrected))
+    Phi    = math.degrees(math.atan((PROJ_HEIGHT - Y)/RackProjDistanceCorrected))
+    D_Phi  = math.degrees(math.atan((PROJ_HEIGHT - RACK_HEIGHT)/RackProjDistanceCorrected))
+    A_Phi  = math.degrees(math.atan(PROJ_HEIGHT/RackProjDistanceCorrected))
     G_Tilt = weighted_average(A_TILT, RACK_WIDTH - X, B_TILT, X)
     H_Tilt = weighted_average(D_TILT, RACK_WIDTH - X, C_TILT, X)
-    P_Tilt      = ((G_Tilt - H_Tilt) * (Theta - D_THETA))/(A_THETA - D_THETA) + H_Tilt
+    
+    P_Tilt      = ((G_Tilt - H_Tilt) * (Phi - D_Phi))/(A_Phi - D_Phi) + H_Tilt
     P_Tilt_Fine = (P_Tilt - int(P_Tilt)) * 255
     return (int(P_Pan), int(P_Tilt), int(P_Pan_Fine), int(P_Tilt_Fine))
 
