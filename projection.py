@@ -5,7 +5,7 @@ import serial
 import math
 import numpy
 import threading
-import configparser
+import ConfigParser as configparser
 import pyudev
 
 # setup the dmx
@@ -225,15 +225,14 @@ class Display(object):
         self.stop_flag = True
 
     def pointAndOscillate(self, X, Y):
-        if self.t.isAlive():
-            return "Cannot start thread, another thread started"
-        else:
-            self.stop_flag = False
-            setCoordinateToLight(X, Y, 0)
-            sleep(0.5)
-            self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(X, Y))
-            self.t.start()
-            return "Point & Oscillate thread started successfully"
+        while(self.t.isAlive()):
+            sleep(0.1)
+        self.stop_flag = False
+        setCoordinateToLight(X, Y, 0)
+        sleep(0.2)
+        self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(X, Y))
+        self.t.start()
+        return "Point & Oscillate thread started successfully"
 
     def pointAndOscillateInternal(self, X, Y):
         while(self.stop_flag is False):
