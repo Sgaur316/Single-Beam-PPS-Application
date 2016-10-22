@@ -60,7 +60,6 @@ dmxdata = [chr(0)] * 513
 #  the channel number and the value for that channel
 # senddmx writes to the serial port then returns the modified 513 byte array
 
-
 def send_dmx_data(data):
     #  print "[DMX] Writing data :", data[1:11]
     #  print ""
@@ -68,7 +67,6 @@ def send_dmx_data(data):
         data[i] = chr(data[i])
     sdata = ''.join(data)
     ser.write(DMXOPEN + DMXINTENSITY + sdata + DMXCLOSE)
-
 
 def senddmx(data, chan, intensity):
     #  because the spacer bit is [0], the channel number is the array item number
@@ -80,7 +78,6 @@ def senddmx(data, chan, intensity):
     ser.write(DMXOPEN + DMXINTENSITY + sdata + DMXCLOSE)
     #  return the data with the new value in place
     return(data)
-
 
 def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness):
     dmxdata = [0] * 513
@@ -100,11 +97,9 @@ def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness):
     dmxdata[PATTERN_CHANNEL] = 0
     send_dmx_data(dmxdata)
 
-
 def turnOffLight():
     dmxdata = [0] * 513
     send_dmx_data(dmxdata)
-
 
 def coordinateToDmx(X, Y):
     X = float(X)
@@ -123,11 +118,10 @@ def coordinateToDmx(X, Y):
     P_Tilt_Fine = (P_Tilt - int(P_Tilt)) * 255
     return (int(P_Pan), int(P_Tilt), int(P_Pan_Fine), int(P_Tilt_Fine))
 
-
 def coordinateToDmx1(X, Y):
     X = float(X)
     Y = float(Y)
-    print "[Debug] Converting (%s, %s)" % (X, Y)
+    #print "[Debug] Converting (%s, %s)" % (X, Y)
     E_Pan = weighted_average(A_PAN, RACK_HEIGHT - Y, D_PAN, Y)
     # E_Tilt = weighted_average(A_TILT, RACK_HEIGHT - Y, D_TILT, Y)
     # print "[Debug] E : (%s, %s) " % (E_Pan, E_Tilt)
@@ -137,12 +131,12 @@ def coordinateToDmx1(X, Y):
     AD_Theta = math.degrees(math.atan2(RACK_ORIGIN_DISTANCE, RACK_PROJ_DISTANCE))
     BC_Theta = math.degrees(math.atan2(RACK_ORIGIN_DISTANCE - RACK_WIDTH, RACK_PROJ_DISTANCE))
     P_Theta = math.degrees(math.atan2(RACK_ORIGIN_DISTANCE - X, RACK_PROJ_DISTANCE))
-    print "AD_Theta = %s, BC_Theta = %s, P_Theta = %s" % (AD_Theta, BC_Theta, P_Theta)
+    #print "AD_Theta = %s, BC_Theta = %s, P_Theta = %s" % (AD_Theta, BC_Theta, P_Theta)
     P_Pan = E_Pan + (F_Pan - E_Pan) * (P_Theta - AD_Theta) / (BC_Theta - AD_Theta)
     P_Pan_Fine = (P_Pan - int(P_Pan)) * 255
 
     RackProjDistanceCorrected = math.sqrt(RACK_PROJ_DISTANCE ** 2 + (RACK_ORIGIN_DISTANCE - X) ** 2)
-    print "Correction is:", (RackProjDistanceCorrected - RACK_PROJ_DISTANCE)
+    #print "Correction is:", (RackProjDistanceCorrected - RACK_PROJ_DISTANCE)
     Phi = math.degrees(math.atan((PROJ_HEIGHT - Y) / RackProjDistanceCorrected))
     D_Phi = math.degrees(math.atan((PROJ_HEIGHT - RACK_HEIGHT) / RackProjDistanceCorrected))
     A_Phi = math.degrees(math.atan(PROJ_HEIGHT / RackProjDistanceCorrected))
@@ -152,7 +146,6 @@ def coordinateToDmx1(X, Y):
     P_Tilt = ((G_Tilt - H_Tilt) * (Phi - D_Phi)) / (A_Phi - D_Phi) + H_Tilt
     P_Tilt_Fine = (P_Tilt - int(P_Tilt)) * 255
     return (int(P_Pan), int(P_Tilt), int(P_Pan_Fine), int(P_Tilt_Fine))
-
 
 def coordinateToDmxGeometry(X, Y):
     X = float(X)
@@ -166,28 +159,22 @@ def coordinateToDmxGeometry(X, Y):
     P_Pan, _, P_Pan_Fine, _ = coordinateToDmx1(X, Y)
     return (P_Pan, P_Tilt, P_Pan_Fine, P_Tilt_Fine)
 
-
 def weighted_average(a1, w1, a2, w2):
     return (a1 * w1 + a2 * w2) / (w1 + w2)
-
 
 def dmxToThetaDegrees(DmxValue):
     return numpy.interp(DmxValue, [0, 255], [THETA_MIN_DEG, THETA_MAX_DEG])
 
-
 def dmxToPhiDegrees(DmxValue):
     return numpy.interp(DmxValue, [0, 255], [PHI_MIN_DEG, PHI_MAX_DEG])
-
 
 def phiToDmx(Phi):
     DmxValue = numpy.interp(Phi, [PHI_MIN_DEG, PHI_MAX_DEG], [0, 255])
     return (int(DmxValue), int((DmxValue % 1) * 255))  # Two channel values : Coarse & fine
 
-
 def thetaToDmx(Theta):
     DmxValue = numpy.interp(Phi, [THETA_MIN_DEG, THETA_MAX_DEG], [0, 255])
     return (int(DmxValue), int((DmxValue % 1) * 255))  # Two channel values : Coarse & fine
-
 
 def distanceFromNearestInt(x):
     delta = x - int(x)
@@ -196,7 +183,6 @@ def distanceFromNearestInt(x):
     else:
         return delta
 
-
 def setCoordinateToLight(X, Y, Brightness=255):
     X = float(X)
     Y = float(Y)
@@ -204,14 +190,12 @@ def setCoordinateToLight(X, Y, Brightness=255):
     #  print "Applying offset of :", offset
     #  Y = Y + offset
     DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx1(X, Y)
-    print "[Debug] Final DMX values for (%s, %s) Pan: (%s, %s), Tilt: (%s, %s)" % (X, Y, DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
+    #print "[Debug] Final DMX values for (%s, %s) Pan: (%s, %s), Tilt: (%s, %s)" % (X, Y, DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
     setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness)
-
 
 def setPhiOffset(NewPhiOffset):
     global PHI_OFFSET_DEGREES
     PHI_OFFSET_DEGREES = NewPhiOffset
-
 
 class Display(object):
 
@@ -243,7 +227,6 @@ class Display(object):
         if self.stop_flag:
             turnOffLight()
 
-
 def loadCalibrationData(filename):
     config = configparser.ConfigParser()
     config.read(filename)
@@ -261,13 +244,12 @@ def loadCalibrationData(filename):
 
     D_PAN = float(config['DEFAULT']['d_pan']) + float(config['DEFAULT']['d_pan_fine']) / 255
     D_TILT = float(config['DEFAULT']['d_tilt']) + float(config['DEFAULT']['d_tilt_fine']) / 255
-    print "Loaded calibration data from :", str(filename)
+    #print "Loaded calibration data from :", str(filename)
 
 '''
 This function is for testing the projector,
 points to locations marked on the chart paper
 '''
-
 
 def testLoop():
     for x in range(0, int(RACK_WIDTH) + 1, 15):
@@ -277,7 +259,6 @@ def testLoop():
 
 loadCalibrationData('corner_points.cfg')
 display = Display()
-
 #  display.pointAndOscillate(0, 0)
 #  print "Oscillation thread started"
 #  sleep(100)
