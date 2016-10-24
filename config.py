@@ -1,18 +1,19 @@
 # Connection paramaters
-PPS_ID 		= 10
-SERVER_IP   = '127.0.0.1'
+PPS_ID 		= 2
+SERVER_IP   = '172.30.12.1' ##'192.168.8.128'
 SERVER_PORT = 9000
 
 # 
 
 SCALE_OFFSET = -0.2
-PROJ_HEIGHT = 240.0
-RACK_PROJ_DISTANCE = 223.0
-RACK_ORIGIN_DISTANCE = 100.0
+PROJ_HEIGHT = 238.0
+RACK_PROJ_DISTANCE = 124.0
+RACK_ORIGIN_DISTANCE = -142.0
+
 # Rack width and height in cms
 
-RACK_WIDTH   = 90.0
-RACK_HEIGHT  = 180.0
+RACK_WIDTH   = 97.0
+RACK_HEIGHT  = 182.0
 
 # Offset on the calculated tilt angle, in degrees
 PHI_OFFSET_DEGREES = 0
@@ -36,6 +37,6 @@ THETA_MAX_DEG = 540
 
 # Oscillation amplitude on y axis, in cm
 # Oscillation time period, in seconds
-OSCILLATION_AMP         = 2
-OSCILLATION_TIME_PERIOD = 0.1
+OSCILLATION_AMP         = 1
+OSCILLATION_TIME_PERIOD = 0.3
 
