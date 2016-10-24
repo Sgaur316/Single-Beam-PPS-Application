@@ -1,0 +1,8 @@
+import Queue
+actQueue = Queue.Queue()
+def get():
+	return actQueue.get()
+def put(msg):
+	actQueue.put(msg)
+def isEmpty():
+	return actQueue.empty()
