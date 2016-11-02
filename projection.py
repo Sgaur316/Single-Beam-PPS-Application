@@ -77,21 +77,21 @@ def start():
         if(actionQueue.isEmpty() is False) :
             msg = actionQueue.get()
             if msg == 'stop':
-		if(lastAction != 'stop'):
-		    logHandle.info("Projection: Stopping the projector")
-	            display.stop()
-		    lastAction = 'stop'
-		else :
-		    logHandle.info("Projection: Skipping Stop Action, continuous 2 Stop command received")
+                if(lastAction != 'stop'):
+                    logHandle.info("Projection: Stopping the projector")
+                    display.stop()
+                    lastAction = 'stop'
+                else :
+                    logHandle.info("Projection: Skipping Stop Action, continuous 2 Stop command received")
             elif len(msg) >= 5 and msg[:5] == 'point':
-		if(lastAction != 'point'):
+                if(lastAction != 'point'):
                     [X, Y, _D1, _D2, _D3, _BotDir] = [float(s) for s in msg.split(",") if isFloat(s)]
                     display.pointAndOscillate(X, Y)
-		    lastAction = 'point'
-		else :
-		    logHandle.info("Projection: Skipping Point Action, continuous 2 point command received")
-	    else:
-		logHandle.info("Projection: No Action, Unrecognized message from server")
+                    lastAction = 'point'
+                else :
+                    logHandle.info("Projection: Skipping Point Action, continuous 2 point command received")
+            else:
+                logHandle.info("Projection: No Action, Unrecognized message from server")
 
 def send_dmx_data(data):
     # print "[DMX] Writing data :", data[1:11]
@@ -237,14 +237,14 @@ class Display(object):
         self.t = threading.Thread()
 
     def stop(self):
-	self.stop_flag = True
+        self.stop_flag = True
 
     def pointAndOscillate(self, X, Y):
         while(self.t.isAlive()):
-	    sleep(0.1)
+            sleep(0.1)
         self.stop_flag = False
         setCoordinateToLight(X, Y, 0)
-	logHandle.info("Projection: Projector pointing to {%s,%s}"% (X,Y))
+        logHandle.info("Projection: Projector pointing to {%s,%s}"% (X,Y))
         sleep(0.2)
         self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(X, Y))
         self.t.start()
