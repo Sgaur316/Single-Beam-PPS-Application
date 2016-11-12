@@ -8,9 +8,12 @@ import threading
 import configparser
 import pyudev
 import actionQueue
-from logger import gorLogger
-gorLogger.loggerInit('Projection','projector.log','./log')
-logHandle = gorLogger.getInstance()
+import usb_detector
+import logger
+
+
+logHandle = logger.logHandle
+logHandle.info('\n<<<<<<<<<< Projector Started >>>>>>>>>>\n')
 
 #setup the dmx
 #char 126 is 7E in hex. It's used to start all DMX512 commands
@@ -35,26 +38,14 @@ DMXINIT2= chr(10)+chr(02)+chr(0)+chr(0)+chr(0)
 #open serial port 4. This is where the USB virtual port hangs on my machine. You
 #might need to change this number. Find out what com port your DMX controller is on
 #and subtract 1, the ports are numbered 0-3 instead of 1-4
-print "Shorlisting USB devices"
-context = pyudev.Context()
-usb_devices = []
-for device in context.list_devices(subsystem="usb"):
-    for c in device.children:
-        if (c.subsystem == "usb-serial"):
-            print c.sys_name
-            usb_devices.append(c.sys_name)
-# Make the list unique
-# Duplicates occur due to different USB versions supported(USB 1.0, 2.0 & 3.0)
-usb_devices = list(set(usb_devices))
-if len(usb_devices) == 1:
-    print "Successful : Single unambiguious device found" 
-    ser=serial.Serial("/dev/" + str(usb_devices[0]))
-else:
-    print "Error : more than one or no USB-DMX found"
+#this writes the initialization codes to the DMX
+ser = usb_detector.get_serial()
 
 #this writes the initialization codes to the DMX
+
 ser.write( DMXOPEN+DMXINIT1+DMXCLOSE)
 ser.write( DMXOPEN+DMXINIT2+DMXCLOSE)
+
 
 # this sets up an array of 513 bytes, the first item in the array ( dmxdata[0] ) is the previously
 #mentioned spacer byte following the header. This makes the array math more obvious
@@ -64,34 +55,44 @@ dmxdata = [chr(0)]*513
 # the channel number and the value for that channel
 #senddmx writes to the serial port then returns the modified 513 byte array
 
+
+
 def isFloat(value):
   try:
     float(value)
     return True
   except ValueError:
     return False
+
     
-def start():
-    lastAction = None
+def start(lastAction):
     while True:
         if(actionQueue.isEmpty() is False) :
             msg = actionQueue.get()
             if msg == 'stop':
                 if(lastAction != 'stop'):
-                    logHandle.info("Projection: Stopping the projector")
+		            lastAction = 'stop'
+                    logHandle.info("Projection: stop lastAction updated to - %s" % lastAction)
                     display.stop()
-                    lastAction = 'stop'
-                else :
-                    logHandle.info("Projection: Skipping Stop Action, continuous 2 Stop command received")
+		        else:
+		            logHandle.info("Projection: continuous 2 stop command received")
             elif len(msg) >= 5 and msg[:5] == 'point':
                 if(lastAction != 'point'):
+		            lastAction = 'point'
+		            logHandle.info("Projection: point lastAction updated to - %s" % lastAction)
                     [X, Y, _D1, _D2, _D3, _BotDir] = [float(s) for s in msg.split(",") if isFloat(s)]
                     display.pointAndOscillate(X, Y)
-                    lastAction = 'point'
                 else :
-                    logHandle.info("Projection: Skipping Point Action, continuous 2 point command received")
+                    logHandle.info("Projection: continuous 2 point command received,first stoping projector then pointing")
+                    display.stop()
+                    sleep(0.2)
+                    [X, Y, _D1, _D2, _D3, _BotDir] = [float(s) for s in msg.split(",") if isFloat(s)]
+                    lastAction = 'point'
+                    logHandle.info("Projection: point lastAction updated to: %s " % lastAction)
+                    display.pointAndOscillate(X, Y)
             else:
                 logHandle.info("Projection: No Action, Unrecognized message from server")
+
 
 def send_dmx_data(data):
     # print "[DMX] Writing data :", data[1:11]
@@ -99,7 +100,13 @@ def send_dmx_data(data):
     for i in range(0, len(data)):
         data[i] = chr(data[i])
     sdata=''.join(data)
-    ser.write(DMXOPEN+DMXINTENSITY+sdata+DMXCLOSE)
+    try:
+    	ser.write(DMXOPEN+DMXINTENSITY+sdata+DMXCLOSE)
+	return True
+    except Exception, e:
+        logHandle.info("Projection: Error %s " % (e))
+        return False
+
 
 def senddmx(data, chan, intensity):
     # because the spacer bit is [0], the channel number is the array item number
@@ -111,6 +118,7 @@ def senddmx(data, chan, intensity):
     ser.write(DMXOPEN+DMXINTENSITY+sdata+DMXCLOSE)
     # return the data with the new value in place
     return(data)
+
 
 def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness):
     dmxdata = [0]*513
@@ -128,11 +136,13 @@ def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness):
     dmxdata[TILT_FINE_CHANNEL] = DmxTiltFine
     # Set pattern
     dmxdata[PATTERN_CHANNEL] = 0
-    send_dmx_data(dmxdata)
+    return send_dmx_data(dmxdata)
+
 
 def turnOffLight():
     dmxdata=[0]*513
-    send_dmx_data(dmxdata)
+    return send_dmx_data(dmxdata)
+
 
 def coordinateToDmx(X, Y):
     X = float(X)
@@ -150,6 +160,7 @@ def coordinateToDmx(X, Y):
     P_Pan_Fine    = (P_Pan - int(P_Pan)) * 255
     P_Tilt_Fine   = (P_Tilt - int(P_Tilt)) * 255
     return (int(P_Pan), int(P_Tilt), int(P_Pan_Fine), int(P_Tilt_Fine))
+
 
 def coordinateToDmx1(X, Y):
     X = float(X)
@@ -180,6 +191,7 @@ def coordinateToDmx1(X, Y):
     P_Tilt_Fine = (P_Tilt - int(P_Tilt)) * 255
     return (int(P_Pan), int(P_Tilt), int(P_Pan_Fine), int(P_Tilt_Fine))
 
+
 def coordinateToDmxGeometry(X, Y):
     X = float(X)
     Y = float(Y)
@@ -192,22 +204,28 @@ def coordinateToDmxGeometry(X, Y):
     P_Pan, _, P_Pan_Fine, _ = coordinateToDmx1(X, Y)
     return (P_Pan, P_Tilt, P_Pan_Fine, P_Tilt_Fine)
 
+
 def weighted_average(a1, w1, a2, w2):
     return (a1*w1 + a2*w2) / (w1+w2)
+
 
 def dmxToThetaDegrees(DmxValue):
     return numpy.interp(DmxValue, [0, 255], [THETA_MIN_DEG, THETA_MAX_DEG])
 
+
 def dmxToPhiDegrees(DmxValue):
     return numpy.interp(DmxValue, [0, 255], [PHI_MIN_DEG, PHI_MAX_DEG])
+
 
 def phiToDmx(Phi):
     DmxValue = numpy.interp(Phi, [PHI_MIN_DEG, PHI_MAX_DEG], [0, 255])
     return ( int(DmxValue), int((DmxValue % 1) * 255) ) # Two channel values : Coarse & fine
 
+
 def thetaToDmx(Theta):
     DmxValue = numpy.interp(Phi, [THETA_MIN_DEG, THETA_MAX_DEG], [0, 255])
     return ( int(DmxValue), int((DmxValue % 1) * 255) ) # Two channel values : Coarse & fine
+
 
 def distanceFromNearestInt(x):
     delta = x - int(x)
@@ -215,6 +233,7 @@ def distanceFromNearestInt(x):
         return 1 - delta
     else:
         return delta
+
 
 def setCoordinateToLight(X, Y, Brightness=255):
     X = float(X)
@@ -224,11 +243,13 @@ def setCoordinateToLight(X, Y, Brightness=255):
     # Y = Y + offset
     DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx1(X, Y)
     # print "[Debug] Final DMX values for (%s, %s) Pan: (%s, %s), Tilt: (%s, %s)" % (X, Y, DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
-    setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness)
+    return setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness)
+
 
 def setPhiOffset(NewPhiOffset):
     global PHI_OFFSET_DEGREES
     PHI_OFFSET_DEGREES = NewPhiOffset
+
 
 class Display(object):
     """docstring for ClassName"""
@@ -243,21 +264,33 @@ class Display(object):
         while(self.t.isAlive()):
             sleep(0.1)
         self.stop_flag = False
-        setCoordinateToLight(X, Y, 0)
-        logHandle.info("Projection: Projector pointing to {%s,%s}"% (X,Y))
-        sleep(0.2)
         self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(X, Y))
         self.t.start()
-        return "Point & Oscillate thread started successfully"
  
     def pointAndOscillateInternal(self, X, Y):
+    	global ser
+    	logHandle.info("Projection: Projector pointing to {%s,%s}"% (X,Y))
+    	flag = setCoordinateToLight(X, Y, 0)
+        sleep(0.2)
         while(self.stop_flag == False):
-            setCoordinateToLight(X, Y + OSCILLATION_AMP)
+            flag=setCoordinateToLight(X, Y + OSCILLATION_AMP)
             sleep(OSCILLATION_TIME_PERIOD)
-            setCoordinateToLight(X, Y - OSCILLATION_AMP)
+            flag=setCoordinateToLight(X, Y - OSCILLATION_AMP)
             sleep(OSCILLATION_TIME_PERIOD)
+    	    if flag is False:
+                logHandle.info("Trying to connect to usb")
+                ser = usb_detector.get_serial()
+    	        # empty the Actionqueue
+    	        break
+            else:
+                continue
         if self.stop_flag:
-            turnOffLight()
+	        logHandle.info("Projection: Stopping the projector")
+            flag = turnOffLight()
+	        if flag is False: 
+	            logHandle.info("Trying to connect to usb")
+                ser = usb_detector.get_serial()
+                # empty the Actionqueue
 
 def loadCalibrationData(filename):
     config = configparser.ConfigParser()
@@ -291,6 +324,7 @@ def testLoop():
 loadCalibrationData('corner_points.cfg')
 display = Display()
 
+
 # display.pointAndOscillate(0, 0)
 # print "Oscillation thread started"
 # sleep(100)
@@ -302,4 +336,4 @@ display = Display()
 # sleep(2)
 # print "stopping the 2nd thread"
 # display.stop()
-####################### Test #######################
+####################### Tet #######################

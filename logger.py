@@ -39,4 +39,6 @@ class gorLogger():
         if gorLogger.logInstance == None:
             gorLogger.create_logger()
         
-        return gorLogger.logInstance 
+        return gorLogger.logInstance
+gorLogger.loggerInit('Projection','projector.log','./log')
+logHandle = gorLogger.getInstance() 

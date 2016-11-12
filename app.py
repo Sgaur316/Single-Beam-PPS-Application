@@ -4,9 +4,9 @@ import projection
 from time import sleep
 import threading
 import actionQueue
-
+import logger
+logHandle = logger.logHandle
 server_address = (config.SERVER_IP, config.SERVER_PORT)
-projection.logHandle.info('\n<<<<<<<<<< Projector Started >>>>>>>>>>\n')
 
 
 def createSocket():
@@ -31,29 +31,29 @@ def main():
         sock = createSocket()
         set_keepalive_linux(sock)
         try:
-            projection.logHandle.info('App: connecting to %s port %s' % server_address)
+            logHandle.info('App: connecting to %s port %s' % server_address)
             sock.connect(server_address)
-            projection.logHandle.info('App: Connected to server...')
+            logHandle.info('App: Connected to server...')
     
             # Send connect packet with ID
             data = "pps_id, %s" % config.PPS_ID
             res = sock.send(data)
-            projectionThread = threading.Thread(target=projection.start)
+            projectionThread = threading.Thread(target=projection.start,args = [None,])
             projectionThread.start()
             while True:
-                projection.logHandle.info("App: Expecting a command from server...")
+                logHandle.info("App: Expecting a command from server...")
                 msg = sock.recv(4096)  
                 if(len(msg) == 0):
-                    projection.logHandle.info("App: Network connection lost, Retrying to connect after 5 sec")
+                    logHandle.info("App: Network connection lost, Retrying to connect after 5 sec")
                     sock.close()
                     sleep(5)
                     break
                 else:
                     msg = msg.strip()
-                    projection.logHandle.info("App: Received message: %s" % msg)
+                    logHandle.info("App: Received message: %s" % msg)
                     actionQueue.put(msg)                    
         except Exception, e:
-            projection.logHandle.info("App: Error %s closing socket and creating a new socket After 5 sec" % (e))
+            logHandle.info("App: Error %s closing socket and creating a new socket After 5 sec" % (e))
             sock.close()
             sleep(5)
             continue
