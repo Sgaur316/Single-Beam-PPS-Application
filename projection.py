@@ -71,15 +71,15 @@ def start(lastAction):
             msg = actionQueue.get()
             if msg == 'stop':
                 if(lastAction != 'stop'):
-		            lastAction = 'stop'
-                    logHandle.info("Projection: stop lastAction updated to - %s" % lastAction)
+		    lastAction = 'stop'
+                    logHandle.info("Projection: lastAction updated to - %s" % lastAction)
                     display.stop()
-		        else:
-		            logHandle.info("Projection: continuous 2 stop command received")
+		else:
+		    logHandle.info("Projection: skipping stop, continuous 2 stop command received")
             elif len(msg) >= 5 and msg[:5] == 'point':
                 if(lastAction != 'point'):
-		            lastAction = 'point'
-		            logHandle.info("Projection: point lastAction updated to - %s" % lastAction)
+		    lastAction = 'point'
+		    logHandle.info("Projection: lastAction updated to - %s" % lastAction)
                     [X, Y, _D1, _D2, _D3, _BotDir] = [float(s) for s in msg.split(",") if isFloat(s)]
                     display.pointAndOscillate(X, Y)
                 else :
@@ -88,7 +88,7 @@ def start(lastAction):
                     sleep(0.2)
                     [X, Y, _D1, _D2, _D3, _BotDir] = [float(s) for s in msg.split(",") if isFloat(s)]
                     lastAction = 'point'
-                    logHandle.info("Projection: point lastAction updated to: %s " % lastAction)
+                    logHandle.info("Projection: lastAction updated to: %s " % lastAction)
                     display.pointAndOscillate(X, Y)
             else:
                 logHandle.info("Projection: No Action, Unrecognized message from server")
@@ -123,9 +123,11 @@ def senddmx(data, chan, intensity):
 def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness):
     dmxdata = [0]*513
     # Set strobe mode - 255 means still light
-    dmxdata[STROBE_CHANNEL] = 255
+    dmxdata[STROBE_CHANNEL] = 250
     # Set dimmer value - channel 5 - min 0, max 255
     dmxdata[DIMMER_CHANNEL] = Brightness
+    # Set color value 
+    dmxdata[COLOR_CHANNEL] = COLOR
     # Set Theta
     dmxdata[PAN_CHANNEL] = DmxPan
     # Set Phi
@@ -270,7 +272,7 @@ class Display(object):
     def pointAndOscillateInternal(self, X, Y):
     	global ser
     	logHandle.info("Projection: Projector pointing to {%s,%s}"% (X,Y))
-    	flag = setCoordinateToLight(X, Y, 0)
+    	flag = setCoordinateToLight(X, Y)
         sleep(0.2)
         while(self.stop_flag == False):
             flag=setCoordinateToLight(X, Y + OSCILLATION_AMP)
@@ -281,16 +283,21 @@ class Display(object):
                 logHandle.info("Trying to connect to usb")
                 ser = usb_detector.get_serial()
     	        # empty the Actionqueue
+		actionQueue.emptyQueue()
+		flag = turnOffLight()
     	        break
             else:
                 continue
         if self.stop_flag:
-	        logHandle.info("Projection: Stopping the projector")
+	    logHandle.info("Projection: Stopping the projector")
             flag = turnOffLight()
-	        if flag is False: 
-	            logHandle.info("Trying to connect to usb")
+	    if flag is False: 
+	        logHandle.info("Trying to connect to usb")
                 ser = usb_detector.get_serial()
                 # empty the Actionqueue
+		actionQueue.emptyQueue()
+		flag = turnOffLight()
+
 
 def loadCalibrationData(filename):
     config = configparser.ConfigParser()

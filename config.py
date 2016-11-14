@@ -1,6 +1,6 @@
 # Connection paramaters
-PPS_ID 		= 2
-SERVER_IP   = '172.30.12.1' ##'192.168.8.128'
+PPS_ID = 2
+SERVER_IP  = '192.168.8.103' ##'172.30.12.1' ##'192.168.8.128'
 SERVER_PORT = 9000
 
 # 
@@ -26,6 +26,10 @@ TILT_FINE_CHANNEL  = 4
 STROBE_CHANNEL     = 7
 PATTERN_CHANNEL    = 6
 DIMMER_CHANNEL     = 8
+COLOR_CHANNEL      = 5
+
+# Color of Projector Light: For Red: 10, Yellow: 20, Blue: 70
+COLOR = 20 
 
 # Phi range - specific to the projector
 PHI_MIN_DEG = -13
