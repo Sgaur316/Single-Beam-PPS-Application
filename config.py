@@ -1,14 +1,14 @@
 # Connection paramaters
-PPS_ID = 2
-SERVER_IP  = '192.168.8.103' ##'172.30.12.1' ##'192.168.8.128'
+PPS_ID = 3
+SERVER_IP  = '192.168.8.103' ##'172.30.12.1' ##'192.168.8.128 ## 1'ii
 SERVER_PORT = 9000
 
-# 
+# Distances
 
 SCALE_OFFSET = -0.2
-PROJ_HEIGHT = 238.0
-RACK_PROJ_DISTANCE = 124.0
-RACK_ORIGIN_DISTANCE = -142.0
+PROJ_HEIGHT = 227.0
+RACK_PROJ_DISTANCE = 125
+RACK_ORIGIN_DISTANCE = -126.8
 
 # Rack width and height in cms
 
@@ -29,7 +29,7 @@ DIMMER_CHANNEL     = 8
 COLOR_CHANNEL      = 5
 
 # Color of Projector Light: For Red: 10, Yellow: 20, Blue: 70
-COLOR = 20 
+COLOR = 70
 
 # Phi range - specific to the projector
 PHI_MIN_DEG = -13
