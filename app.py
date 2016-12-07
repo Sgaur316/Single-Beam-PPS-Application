@@ -11,11 +11,11 @@ logHandle = logger.logHandle
 server_address = (config.SERVER_IP, config.SERVER_PORT)
 
 
-def createSocket():
+def create_socket():
     return socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
-def set_keepalive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
+def set_keep_alive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
     """Set TCP keepalive on an open socket.
 
     It activates after 1 second (after_idle_sec) of idleness,
@@ -30,8 +30,8 @@ def set_keepalive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
 
 def main():
     while True:
-        sock = createSocket()
-        set_keepalive_linux(sock)
+        sock = create_socket()
+        set_keep_alive_linux(sock)
         try:
             logHandle.info('App: connecting to %s port %s' % server_address)
             sock.connect(server_address)
@@ -40,14 +40,15 @@ def main():
             # Send connect packet with ID
             data = "pps_id, %s" % config.PPS_ID
             res = sock.send(data)
-            projectionThread = threading.Thread(target=projection.start,args = [None,])
-            projectionThread.start()
+            projection.sender.start()
             while True:
                 logHandle.info("App: Expecting a command from server...")
                 msg = sock.recv(4096)  
-                if(len(msg) == 0):
+                if len(msg) == 0:
                     logHandle.info("App: Network connection lost, Retrying to connect after 5 sec")
                     sock.close()
+                    projection.sender.stop()
+                    actionQueue.emptyQueue()
                     sleep(5)
                     break
                 else:
@@ -57,6 +58,8 @@ def main():
         except Exception, e:
             logHandle.info("App: Error %s closing socket and creating a new socket After 5 sec" % (e))
             sock.close()
+            projection.sender.stop()
+            actionQueue.emptyQueue()
             sleep(5)
             continue
 
