@@ -59,7 +59,7 @@ dmxdata = [chr(0)]*513
 def isFloat(value):
     try:
         float(value)
-            return True
+        return True
     except ValueError:
         return False
 
@@ -81,10 +81,10 @@ class Sender(object):
 
     def projection_thread(self):
         last_action = None
-        idel_time_count = 0
+        idle_time_count = 0
         while (self.stop_flag == False):
             if (actionQueue.isEmpty() is False):
-                idel_time_count = 0
+                idle_time_count = 0
                 msg = actionQueue.get()
                 if msg == 'stop':
                     if (last_action != 'stop'):
@@ -112,10 +112,10 @@ class Sender(object):
                     logHandle.info("Projection: No Action, Unrecognized message from server")
 
             else:
-                idel_time_count = idel_time_count + 1
+                idle_time_count = idle_time_count + 1
                 if (idel_time_count == 100000):
                     time.sleep(0.005)
-                    idel_time_count = 0
+                    idle_time_count = 0
 
 
 
@@ -297,7 +297,7 @@ class Display(object):
     def pointAndOscillateInternal(self, X, Y):
         global ser
         logHandle.info("Projection: Projector pointing to {%s,%s}"% (X,Y))
-        flag = setCoordinateToLight(X, Y + (oscillation_direction * OSCILLATION_AMP))
+        flag = setCoordinateToLight(X, Y)
         oscillation_direction = 1 # 1 for up and -1 for down
         start_time = time.time()
         while self.stop_flag == False:
