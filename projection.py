@@ -113,7 +113,7 @@ class Sender(object):
 
             else:
                 idle_time_count = idle_time_count + 1
-                if (idel_time_count == 100000):
+                if (idle_time_count == 100000):
                     time.sleep(0.005)
                     idle_time_count = 0
 
@@ -319,7 +319,7 @@ class Display(object):
                 time.sleep(0.0005)
         if self.stop_flag:
             logHandle.info("Projection: Stopping the projector")
-            flag = turnOffLight()
+            flag = setCoordinateToLight(X, Y, 0)
             if flag is False:
                 logHandle.info("Trying to connect to usb")
                 ser = usb_detector.get_serial()
