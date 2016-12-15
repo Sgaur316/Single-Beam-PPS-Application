@@ -72,6 +72,8 @@ class Sender(object):
         self.t = threading.Thread()
 
     def stop(self):
+	display.stop()
+	time.sleep(0.05)
         self.stop_flag = True
 
     def start(self):
