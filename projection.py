@@ -7,7 +7,7 @@ import numpy
 import threading
 import configparser
 import pyudev
-import actionQueue
+import action_queue
 import usb_detector
 import logger
 
@@ -85,9 +85,9 @@ class Sender(object):
         last_action = None
         idle_time_count = 0
         while (self.stop_flag == False):
-            if (actionQueue.isEmpty() is False):
+            if (action_queue.isEmpty() is False):
                 idle_time_count = 0
-                msg = actionQueue.get()
+                msg = action_queue.get()
                 if msg == 'stop':
                     if (last_action != 'stop'):
                         last_action = 'stop'
@@ -311,8 +311,8 @@ class Display(object):
                 if flag is False:
                     logHandle.info("Trying to connect to usb")
                     ser = usb_detector.get_serial()
-                    # empty the Actionqueue
-                    actionQueue.emptyQueue()
+                    # empty the Action queue
+                    action_queue.emptyQueue()
                     flag = turnOffLight()
                     break
                 else:
@@ -325,8 +325,8 @@ class Display(object):
             if flag is False:
                 logHandle.info("Trying to connect to usb")
                 ser = usb_detector.get_serial()
-                # empty the Actionqueue
-                actionQueue.emptyQueue()
+                # empty the Actionq ueue
+                action_queue.emptyQueue()
                 flag = turnOffLight()
 
 

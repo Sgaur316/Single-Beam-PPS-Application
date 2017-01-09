@@ -3,7 +3,7 @@ import config
 import projection
 from time import sleep
 import threading
-import actionQueue
+import action_queue
 import logger
 
 
@@ -48,18 +48,18 @@ def main():
                     logHandle.info("App: Network connection lost, Retrying to connect after 5 sec")
                     sock.close()
                     projection.sender.stop()
-                    actionQueue.emptyQueue()
+                    action_queue.emptyQueue()
                     sleep(5)
                     break
                 else:
                     msg = msg.strip()
                     logHandle.info("App: Received message: %s" % msg)
-                    actionQueue.put(msg)                    
+                    action_queue.put(msg)
         except Exception, e:
             logHandle.info("App: Error %s closing socket and creating a new socket After 5 sec" % (e))
             sock.close()
             projection.sender.stop()
-            actionQueue.emptyQueue()
+            action_queue.emptyQueue()
             sleep(5)
             continue
 
