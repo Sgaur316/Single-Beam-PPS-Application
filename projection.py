@@ -7,7 +7,7 @@ import numpy
 import threading
 import configparser
 import pyudev
-import actionQueue
+import action_queue
 import usb_detector
 import logger
 
