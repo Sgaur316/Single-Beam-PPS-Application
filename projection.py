@@ -99,17 +99,17 @@ class Sender(object):
                     if (last_action != 'point'):
                         last_action = 'point'
                         logHandle.info("Projection: lastAction updated to - %s" % last_action)
-                        [X, Y, _D1, _D2, _D3, _BotDir] = [float(s) for s in msg.split(",") if isFloat(s)]
-                        display.pointAndOscillate(X, Y)
+                        [X, Y, Dx, Dz, _D3, _BotDir] = [float(s) for s in msg.split(",") if isFloat(s)]
+                        display.pointAndOscillate(X, Y, Dx, Dz)
                     else:
                         logHandle.info(
                             "Projection: continuous 2 point command received,first stoping projector then pointing")
                         display.stop()
                         time.sleep(0.2)  # wait till projector stops projection
-                        [X, Y, _D1, _D2, _D3, _BotDir] = [float(s) for s in msg.split(",") if isFloat(s)]
+                        [X, Y, Dx, Dz, _D3, _BotDir] = [float(s) for s in msg.split(",") if isFloat(s)]
                         last_action = 'point'
                         logHandle.info("Projection: lastAction updated to: %s " % last_action)
-                        display.pointAndOscillate(X, Y)
+                        display.pointAndOscillate(X, Y, Dx, Dz)
                 else:
                     logHandle.info("Projection: No Action, Unrecognized message from server")
 
@@ -289,16 +289,28 @@ class Display(object):
     def stop(self):
         self.stop_flag = True
 
-    def pointAndOscillate(self, X, Y):
+    def pointAndOscillate(self, X, Y, Dx, Dz):
         while(self.t.isAlive()):
             time.sleep(0.1)
         self.stop_flag = False
-        self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(X, Y))
+        self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(X, Y, Dx, Dz))
         self.t.start()
  
-    def pointAndOscillateInternal(self, X, Y):
+    def pointAndOscillateInternal(self, X, Y, Dx, Dz):
         global ser
         logHandle.info("Projection: Projector pointing to {%s,%s}"% (X,Y))
+        X = X - Dx
+        # Dz causes plan shift
+        # DX due to plan shift
+        DX = Dz * (abs((RACK_ORIGIN_DISTANCE - X)/(RACK_PROJ_DISTANCE + Dz)))
+        # Change in Y due to plan shift
+        RackProjDistanceCorrected1 = math.sqrt( RACK_PROJ_DISTANCE ** 2 + (RACK_ORIGIN_DISTANCE - (X - DX)) ** 2 )
+        RackProjDistanceCorrected2 = math.sqrt( (RACK_PROJ_DISTANCE + Dz) ** 2 + (RACK_ORIGIN_DISTANCE - X) ** 2 )
+        DY = (RackProjDistanceCorrected1/RackProjDistanceCorrected2)*(PROJ_HEIGHT - Y)
+        # Correct values of X and Y
+        X = X - DX
+        Y = PROJ_HEIGHT - DY
+        logHandle.info("New X and Y {%s,%s}"% (X,Y))
         flag = setCoordinateToLight(X, Y)
         oscillation_direction = 1 # 1 for up and -1 for down
         start_time = time.time()
