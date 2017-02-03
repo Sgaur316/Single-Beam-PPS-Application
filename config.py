@@ -1,6 +1,6 @@
 # Connection paramaters
-PPS_ID = 3
-SERVER_IP  = '192.168.8.103' ##'172.30.12.1' ##'192.168.8.128 ## 1'ii
+PPS_ID = 0
+SERVER_IP  = '127.0.0.1' ##192.168.8.103' ##'172.30.12.1' ##'192.168.8.128 
 SERVER_PORT = 9000
 
 # Distances

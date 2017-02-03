@@ -3,7 +3,6 @@ from config import *
 import serial
 import math
 import time
-import numpy
 import threading
 import configparser
 import pyudev
@@ -135,18 +134,6 @@ def send_dmx_data(data):
         return False
 
 
-def senddmx(data, chan, intensity):
-    # because the spacer bit is [0], the channel number is the array item number
-    # set the channel number to the proper value
-    data[chan]=chr(intensity)
-    # join turns the array data into a string we can send down the DMX
-    sdata=''.join(data)
-    # write the data to the serial port, this sends the data to your fixture
-    ser.write(DMXOPEN+DMXINTENSITY+sdata+DMXCLOSE)
-    # return the data with the new value in place
-    return(data)
-
-
 def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness):
     dmxdata = [0]*513
     # Set strobe mode - 255 means still light
@@ -179,24 +166,6 @@ def coordinateToDmx(X, Y):
     # print "[Debug] Converting (%s, %s)" % (X, Y)
     E_Pan    = weighted_average(A_PAN, RACK_HEIGHT - Y, D_PAN, Y)
     E_Tilt   = weighted_average(A_TILT, RACK_HEIGHT - Y, D_TILT, Y)
-    # print "[Debug] E : (%s, %s) " % (E_Theta, E_Phi)
-    F_Pan    = weighted_average(B_PAN, RACK_HEIGHT - Y, C_PAN, Y)
-    F_Tilt   = weighted_average(B_TILT, RACK_HEIGHT - Y, C_TILT, Y)
-    # print "[Debug] F : (%s, %s) " % (F_Theta, F_Phi)
-    P_Pan    = weighted_average(F_Pan, X, E_Pan, RACK_WIDTH - X)
-    P_Tilt   = weighted_average(F_Tilt, X, E_Tilt, RACK_WIDTH - X)
-    # print "Final DMX in floating point : (%s, %s)" % (X_Theta, X_Phi)
-    P_Pan_Fine    = (P_Pan - int(P_Pan)) * 255
-    P_Tilt_Fine   = (P_Tilt - int(P_Tilt)) * 255
-    return (int(P_Pan), int(P_Tilt), int(P_Pan_Fine), int(P_Tilt_Fine))
-
-
-def coordinateToDmx1(X, Y):
-    X = float(X)
-    Y = float(Y)
-    # print "[Debug] Converting (%s, %s)" % (X, Y)
-    E_Pan    = weighted_average(A_PAN, RACK_HEIGHT - Y, D_PAN, Y)
-    E_Tilt   = weighted_average(A_TILT, RACK_HEIGHT - Y, D_TILT, Y)
     # print "[Debug] E : (%s, %s) " % (E_Pan, E_Tilt)
     F_Pan    = weighted_average(B_PAN, RACK_HEIGHT - Y, C_PAN, Y)
     F_Tilt   = weighted_average(B_TILT, RACK_HEIGHT - Y, C_TILT, Y)
@@ -220,64 +189,16 @@ def coordinateToDmx1(X, Y):
     P_Tilt_Fine = (P_Tilt - int(P_Tilt)) * 255
     return (int(P_Pan), int(P_Tilt), int(P_Pan_Fine), int(P_Tilt_Fine))
 
-
-def coordinateToDmxGeometry(X, Y):
-    X = float(X)
-    Y = float(Y)
-    TanPhiA  = math.tan(math.radians(dmxToPhiDegrees(A_TILT)))
-    TanPhiD  = math.tan(math.radians(dmxToPhiDegrees(D_TILT)))
-    TanPhiX  = (-TanPhiA / (TanPhiA - TanPhiD)) + (Y / RACK_HEIGHT)
-    PhiX  = math.degrees(math.atan(TanPhiX)) + PHI_OFFSET_DEGREES
-    # print "[Debug] TanPhiA =", TanPhiA, " TanPhiD =", TanPhiD, "PhiX =", PhiX
-    P_Tilt, P_Tilt_Fine = phiToDmx(PhiX)
-    P_Pan, _, P_Pan_Fine, _ = coordinateToDmx1(X, Y)
-    return (P_Pan, P_Tilt, P_Pan_Fine, P_Tilt_Fine)
-
-
 def weighted_average(a1, w1, a2, w2):
     return (a1*w1 + a2*w2) / (w1+w2)
-
-
-def dmxToThetaDegrees(DmxValue):
-    return numpy.interp(DmxValue, [0, 255], [THETA_MIN_DEG, THETA_MAX_DEG])
-
-
-def dmxToPhiDegrees(DmxValue):
-    return numpy.interp(DmxValue, [0, 255], [PHI_MIN_DEG, PHI_MAX_DEG])
-
-
-def phiToDmx(Phi):
-    DmxValue = numpy.interp(Phi, [PHI_MIN_DEG, PHI_MAX_DEG], [0, 255])
-    return ( int(DmxValue), int((DmxValue % 1) * 255) ) # Two channel values : Coarse & fine
-
-
-def thetaToDmx(Theta):
-    DmxValue = numpy.interp(Phi, [THETA_MIN_DEG, THETA_MAX_DEG], [0, 255])
-    return ( int(DmxValue), int((DmxValue % 1) * 255) ) # Two channel values : Coarse & fine
-
-
-def distanceFromNearestInt(x):
-    delta = x - int(x)
-    if delta > 0.5:
-        return 1 - delta
-    else:
-        return delta
 
 
 def setCoordinateToLight(X, Y, Brightness=255):
     X = float(X)
     Y = float(Y)
-    # offset = Y * SCALE_OFFSET * distanceFromNearestInt(1.0 - Y / RACK_HEIGHT)
-    # print "Applying offset of :", offset
-    # Y = Y + offset
-    DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx1(X, Y)
+    DmxPan, DmxTilt, DmxPanFine, DmxTiltFine = coordinateToDmx(X, Y)
     # print "[Debug] Final DMX values for (%s, %s) Pan: (%s, %s), Tilt: (%s, %s)" % (X, Y, DmxPan, DmxPanFine, DmxTilt, DmxTiltFine)
     return setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness)
-
-
-def setPhiOffset(NewPhiOffset):
-    global PHI_OFFSET_DEGREES
-    PHI_OFFSET_DEGREES = NewPhiOffset
 
 
 class Display(object):
@@ -289,7 +210,7 @@ class Display(object):
     def stop(self):
         self.stop_flag = True
 
-    def pointAndOscillate(self, X, Y, Dx, Dz):
+    def pointAndOscillate(self, X, Y, Dx=0, Dz=0):
         while(self.t.isAlive()):
             time.sleep(0.1)
         self.stop_flag = False
@@ -310,14 +231,14 @@ class Display(object):
         # Correct values of X and Y
         X = X - DX
         Y = PROJ_HEIGHT - DY
-        logHandle.info("New X and Y {%s,%s}"% (X,Y))
+        logHandle.info("Correct value X and Y: {%s,%s}"% (X,Y))
         flag = setCoordinateToLight(X, Y)
         oscillation_direction = 1 # 1 for up and -1 for down
         start_time = time.time()
         while self.stop_flag == False:
             current_time = time.time()
             if current_time - start_time > OSCILLATION_TIME_PERIOD:
-                flag=setCoordinateToLight(X, Y + (oscillation_direction * OSCILLATION_AMP))
+                flag = setCoordinateToLight(X, Y + (oscillation_direction * OSCILLATION_AMP))
                 start_time = time.time()
                 oscillation_direction = -1 * oscillation_direction # change direction
                 if flag is False:
@@ -374,5 +295,3 @@ def testLoop():
 loadCalibrationData('corner_points.cfg')
 display = Display()
 sender = Sender()
-
-
