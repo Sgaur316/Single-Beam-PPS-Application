@@ -62,6 +62,41 @@ def isFloat(value):
     except ValueError:
         return False
 
+def get_r_to_l_deviation(Dx, Dz, DTheta, BotFace):
+    if BotFace == 0:
+        return [(Dx * QDIRECTION) - DX_SHIFT, (Dz * QDIRECTION) - DZ_SHIFT, DTheta - DTHETA_SHIFT]
+    elif BotFace == 1:
+        return [(-1 * Dx * QDIRECTION) - DX_SHIFT, (-1 * Dz * QDIRECTION) - DZ_SHIFT, DTheta - DTHETA_SHIFT]
+
+# In this case we can assume all points are shifted by {DX, DZ},
+def get_final_xy_without_theta_consideration(X, Y, Dx, Dz):
+    X = X - Dx 
+    # Dz causes plan shift, so it creats deviation in both direction 
+    # DX due to plan shift
+    DX = Dz * (abs((RACK_ORIGIN_DISTANCE - X)/(RACK_PROJ_DISTANCE + Dz)))
+    # Change in Y due to plan shift
+    RackProjDistanceCorrected1 = math.sqrt( RACK_PROJ_DISTANCE ** 2 + (RACK_ORIGIN_DISTANCE - (X - DX)) ** 2 )
+    RackProjDistanceCorrected2 = math.sqrt( (RACK_PROJ_DISTANCE + Dz) ** 2 + (RACK_ORIGIN_DISTANCE - X) ** 2 )
+    DY = (RackProjDistanceCorrected1/RackProjDistanceCorrected2)*(PROJ_HEIGHT - Y)
+    # Return Correct values of X and Y
+    return [X - DX, PROJ_HEIGHT - DY]
+
+
+# In this case only center point is shifted by {DX, DZ}, deviation of other points depend on DTHETA
+def get_final_xy_with_theta_consideration(X, Y, Dx, Dz, DTHETA):
+    # DX and DZ are deviation of Rack center, But we need to get deviation of center point(DX, DY) of 
+    # front plan of rack.
+    # If DTHETA is zero OR we are not considering it than all points will have same DX and DZ shift as Rack Center
+    DX = Dx + (RACK_WIDTH/2) * math.sin(-1 * DTHETA) # For front plan center
+    DZ = Dz + (RACK_WIDTH/2) * (1 - math.cos(DTHETA)) # For front plan center
+    ExtraDz = (X - RACK_WIDTH/2) * math.sin(DTHETA) # for the point P
+    TotalDz = ExtraDz + DZ # for point P
+    # Distance parallel to X 
+    DistToCenter = (RACK_WIDTH/2 -X) * math.cos(DTHETA) # Distance from center(current plan)
+    DistToOrigCenter = DistToCenter + DX # Distance from center(original plan, at calibration time)
+    NewX = RACK_WIDTH/2 - DistToOrigCenter # w.r.t original plan
+    return get_final_xy_without_theta_consideration(NewX, Y, 0, TotalDz)
+
 
 class Sender(object):
     """docstring for ClassName"""
@@ -71,8 +106,8 @@ class Sender(object):
         self.t = threading.Thread()
 
     def stop(self):
-	display.stop()
-	time.sleep(0.05)
+        display.stop()
+        time.sleep(0.05)
         self.stop_flag = True
 
     def start(self):
@@ -98,17 +133,17 @@ class Sender(object):
                     if (last_action != 'point'):
                         last_action = 'point'
                         logHandle.info("Projection: lastAction updated to - %s" % last_action)
-                        [X, Y, Dx, Dz, _D3, _BotDir] = [float(s) for s in msg.split(",") if isFloat(s)]
-                        display.pointAndOscillate(X, Y, Dx, Dz)
+                        [X, Y, Dz, Dx, DTheta, BotFace] = [float(s) for s in msg.split(",") if isFloat(s)]
+                        display.pointAndOscillate(X, Y, Dx, Dz, DTheta, BotFace)
                     else:
                         logHandle.info(
                             "Projection: continuous 2 point command received,first stoping projector then pointing")
                         display.stop()
                         time.sleep(0.2)  # wait till projector stops projection
-                        [X, Y, Dx, Dz, _D3, _BotDir] = [float(s) for s in msg.split(",") if isFloat(s)]
+                        [X, Y, Dz, Dx, DTheta, BotFace] = [float(s) for s in msg.split(",") if isFloat(s)]
                         last_action = 'point'
                         logHandle.info("Projection: lastAction updated to: %s " % last_action)
-                        display.pointAndOscillate(X, Y, Dx, Dz)
+                        display.pointAndOscillate(X, Y, Dx, Dz, DTheta, BotFace)
                 else:
                     logHandle.info("Projection: No Action, Unrecognized message from server")
 
@@ -210,28 +245,23 @@ class Display(object):
     def stop(self):
         self.stop_flag = True
 
-    def pointAndOscillate(self, X, Y, Dx=0, Dz=0):
+    def pointAndOscillate(self, X, Y, Dx, Dz, DTheta, BotFace):
+        logHandle.info("Projection: Projector pointing to {%s,%s}"% (X,Y))
+        [DX, DZ, DTHETA] = get_r_to_l_deviation(Dx, Dz, DTheta, BotFace)
+        [FinalX, FinalY] = [0, 0]
+        if CONSIDER_THETA_SHIFT is True:
+            [FinalX, FinalY] = get_final_xy_with_theta_consideration(X, Y, DX, DZ, DTHETA)
+        else:
+            [FinalX, FinalY] = get_final_xy_without_theta_consideration(X, Y, DX, DZ)
+        logHandle.info("Projection: Correct Values of {X, Y} for projection: {%s,%s}"% (FinalX, FinalY))
         while(self.t.isAlive()):
             time.sleep(0.1)
         self.stop_flag = False
-        self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(X, Y, Dx, Dz))
+        self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(FinalX, FinalY))
         self.t.start()
  
-    def pointAndOscillateInternal(self, X, Y, Dx, Dz):
+    def pointAndOscillateInternal(self, X, Y):
         global ser
-        logHandle.info("Projection: Projector pointing to {%s,%s}"% (X,Y))
-        X = X - Dx
-        # Dz causes plan shift
-        # DX due to plan shift
-        DX = Dz * (abs((RACK_ORIGIN_DISTANCE - X)/(RACK_PROJ_DISTANCE + Dz)))
-        # Change in Y due to plan shift
-        RackProjDistanceCorrected1 = math.sqrt( RACK_PROJ_DISTANCE ** 2 + (RACK_ORIGIN_DISTANCE - (X - DX)) ** 2 )
-        RackProjDistanceCorrected2 = math.sqrt( (RACK_PROJ_DISTANCE + Dz) ** 2 + (RACK_ORIGIN_DISTANCE - X) ** 2 )
-        DY = (RackProjDistanceCorrected1/RackProjDistanceCorrected2)*(PROJ_HEIGHT - Y)
-        # Correct values of X and Y
-        X = X - DX
-        Y = PROJ_HEIGHT - DY
-        logHandle.info("Correct value X and Y: {%s,%s}"% (X,Y))
         flag = setCoordinateToLight(X, Y)
         oscillation_direction = 1 # 1 for up and -1 for down
         start_time = time.time()
@@ -287,10 +317,15 @@ This function is for testing the projector,
 points to locations marked on the chart paper
 '''
 def testLoop():
-    for x in range(0, int(RACK_WIDTH) + 1, 15):
-        for y in range(0, int(RACK_HEIGHT) + 1, 30):
-            setCoordinateToLight(x, y)
-            time.sleep(1.5)
+    # Set coordinates of different slots according to rack
+    # This Example is for racktype 21,22 and 23  
+    Slots = [[26.2, 2.5], [71.7, 2.5], [26.5, 62.5], [71.7, 62.5], [18.225, 122.5], [48.95, 122.5], [79.675, 122.5], [26.2, 142.5], [71.7, 142.5],[26.2, 180.5], [71.7, 180.5]]
+    for Slot in Slots:
+        X = Slot[0]
+        Y = Slot[1]
+        display.pointAndOscillate(X, Y, 0, 0)
+        time.sleep(2)
+        display.stop()
 
 loadCalibrationData('corner_points.cfg')
 display = Display()
