@@ -36,14 +36,14 @@ def main():
             logHandle.info('App: connecting to %s port %s' % server_address)
             sock.connect(server_address)
             logHandle.info('App: Connected to server...')
-    
+
             # Send connect packet with ID
             data = "pps_id, %s" % config.PPS_ID
             res = sock.send(data)
             projection.sender.start()
             while True:
                 logHandle.info("App: Expecting a command from server...")
-                msg = sock.recv(4096)  
+                msg = sock.recv(4096)
                 if len(msg) == 0:
                     logHandle.info("App: Network connection lost, Retrying to connect after 5 sec")
                     sock.close()

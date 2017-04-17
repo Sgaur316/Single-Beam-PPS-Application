@@ -2,15 +2,19 @@ import Queue
 
 actQueue = Queue.Queue()
 
+
 def get():
-	return actQueue.get()
+    return actQueue.get()
+
 
 def put(msg):
-	actQueue.put(msg)
+    actQueue.put(msg)
+
 
 def isEmpty():
-	return actQueue.empty()
+    return actQueue.empty()
+
 
 def emptyQueue():
-	with actQueue.mutex:
-    	    actQueue.queue.clear() 
+    with actQueue.mutex:
+        actQueue.queue.clear()

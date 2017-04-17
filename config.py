@@ -1,14 +1,14 @@
 # Connection paramaters
 PPS_ID = 0
-SERVER_IP  = '127.0.0.1'
+SERVER_IP = '127.0.0.1'
 SERVER_PORT = 9000
 
 # Distances in cms
 PROJ_HEIGHT = 227.0
 RACK_PROJ_DISTANCE = 125
 RACK_ORIGIN_DISTANCE = -126.8
-RACK_WIDTH   = 97.0
-RACK_HEIGHT  = 182.0
+RACK_WIDTH = 97.0
+RACK_HEIGHT = 182.0
 
 # Butler Queue Direction w.r.t to pps (Left to Right OR Right to Left)
 # For left to right QDIRECTION will be -1 and For right to left it will be 1
@@ -21,20 +21,19 @@ CONSIDER_THETA_SHIFT = False
 
 
 # Define DMX Channels - specific to the projector
-PAN_CHANNEL        = 1
-TILT_CHANNEL       = 3
-PAN_FINE_CHANNEL   = 2
-TILT_FINE_CHANNEL  = 4
-STROBE_CHANNEL     = 7
-PATTERN_CHANNEL    = 6
-DIMMER_CHANNEL     = 8
-COLOR_CHANNEL      = 5
+PAN_CHANNEL = 1
+TILT_CHANNEL = 3
+PAN_FINE_CHANNEL = 2
+TILT_FINE_CHANNEL = 4
+STROBE_CHANNEL = 7
+PATTERN_CHANNEL = 6
+DIMMER_CHANNEL = 8
+COLOR_CHANNEL = 5
 
 # Color of Projector Light: For Red: 10, Yellow: 20, Blue: 70
 COLOR = 70
 
 # Oscillation amplitude on y axis, in cm
 # Oscillation time period, in seconds
-OSCILLATION_AMP         = 1
+OSCILLATION_AMP = 1
 OSCILLATION_TIME_PERIOD = 0.3
-

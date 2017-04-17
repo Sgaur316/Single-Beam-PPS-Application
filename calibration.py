@@ -3,6 +3,7 @@ import configparser
 import projection
 from time import sleep
 
+
 def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine):
     print "Mock output DMX : ", DmxPan, DmxTilt, DmxPanFine, DmxTiltFine
 
@@ -15,10 +16,10 @@ stdscr.addstr(0, 0, "Calibrating the projector : Hit 'q' to quit")
 stdscr.refresh()
 
 # DMX Calibration params
-DmxPan       = 0
-DmxPanFine   = 0
-DmxTilt      = 0
-DmxTiltFine  = 0
+DmxPan = 0
+DmxPanFine = 0
+DmxTilt = 0
+DmxTiltFine = 0
 
 key = ''
 fineMode = False
@@ -29,22 +30,26 @@ currentPoint = 'a'
 config = configparser.ConfigParser()
 config.read('corner_points.cfg')
 
+
 def isValidDmx(value):
     return value >= 0 and value <= 255
+
 
 def increaseByOne(dmxValue):
     incremented = dmxValue + 1
     if isValidDmx(incremented):
         return incremented
     else:
-        return dmxValue # Return unchanged value
-    
+        return dmxValue   # Return unchanged value
+
+
 def decreaseByOne(dmxValue):
     decremented = dmxValue - 1
     if isValidDmx(decremented):
         return decremented
     else:
-        return dmxValue # Return unchanged value
+        return dmxValue   # Return unchanged value
+
 
 def redrawCustomScreen():
     # Repaints the enire screen : a work around for the problems
@@ -58,6 +63,7 @@ def redrawCustomScreen():
     stdscr.addstr(3, 0, "Last Key pressed : " + str(key))
     stdscr.addstr(4, 0, "Fine channels mode : " + str(fineMode))
     stdscr.refresh()
+
 
 def showEndScreen():
     redrawCustomScreen()
@@ -79,7 +85,7 @@ while pointsList != []:
         if fineMode:
             DmxTiltFine = decreaseByOne(DmxTiltFine)
         else:
-            DmxTilt = decreaseByOne(DmxTilt) 
+            DmxTilt = decreaseByOne(DmxTilt)
 
     elif key == curses.KEY_LEFT:
         # stdscr.addstr(2, 0, "Last Key pressed : Left\n")
@@ -101,9 +107,9 @@ while pointsList != []:
 
     elif key == ord('w') or key == ord('W'):
         # write config to file
-        config['DEFAULT'][currentPoint + '_pan']       = str(DmxPan)
-        config['DEFAULT'][currentPoint + '_pan_fine']  = str(DmxPanFine)
-        config['DEFAULT'][currentPoint + '_tilt']      = str(DmxTilt)
+        config['DEFAULT'][currentPoint + '_pan'] = str(DmxPan)
+        config['DEFAULT'][currentPoint + '_pan_fine'] = str(DmxPanFine)
+        config['DEFAULT'][currentPoint + '_tilt'] = str(DmxTilt)
         config['DEFAULT'][currentPoint + '_tilt_fine'] = str(DmxTiltFine)
         pointsList.remove(currentPoint)
         if pointsList == []:
@@ -118,15 +124,15 @@ while pointsList != []:
     elif key == ord('q'):
         break
 
-    for dmxValue in [DmxPan, DmxTilt, DmxPanFine, DmxTiltFine] :
+    for dmxValue in [DmxPan, DmxTilt, DmxPanFine, DmxTiltFine]:
         if dmxValue < 0 or dmxValue > 255:
             stdscr.addstr(5, 0, "Invalid DMX values detected, setting everything to zero. Press any key to restore")
             stdscr.getch()
             stdscr.refresh()
-            DmxPan       = 0
-            DmxPanFine   = 0
-            DmxTilt      = 0
-            DmxTiltFine  = 0
+            DmxPan = 0
+            DmxPanFine = 0
+            DmxTilt = 0
+            DmxTiltFine = 0
             break
 
     projection.setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, 255)

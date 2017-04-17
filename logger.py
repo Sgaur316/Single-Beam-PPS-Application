@@ -24,7 +24,7 @@ class gorLogger():
         return logger
 
     @staticmethod
-    def loggerInit(loggerName,fileName,logDirName):
+    def loggerInit(loggerName, fileName, logDirName):
         gorLogger.logFileName = fileName
         gorLogger.loggerName = loggerName
         if len(str(logDirName).strip()) == 0:
@@ -36,9 +36,9 @@ class gorLogger():
 
     @staticmethod
     def getInstance():
-        if gorLogger.logInstance == None:
+        if gorLogger.logInstance is None:
             gorLogger.create_logger()
-        
+
         return gorLogger.logInstance
-gorLogger.loggerInit('Projection','projector.log','./log')
-logHandle = gorLogger.getInstance() 
+gorLogger.loggerInit('Projection', 'projector.log', './log')
+logHandle = gorLogger.getInstance()
