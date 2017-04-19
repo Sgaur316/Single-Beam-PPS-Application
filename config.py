@@ -3,6 +3,13 @@ PPS_ID = 0
 SERVER_IP = '127.0.0.1'
 SERVER_PORT = 9000
 
+# Update PPS type here: 'split' OR 'normal'
+PPS_TYPE = 'normal'
+
+# Approximate Height of floors of rack
+FLOOR_B = 22.5
+FLOOR_C = 42.5
+
 # Distances in cms
 PROJ_HEIGHT = 227.0
 RACK_PROJ_DISTANCE = 125
@@ -37,3 +44,7 @@ COLOR = 70
 # Oscillation time period, in seconds
 OSCILLATION_AMP = 1
 OSCILLATION_TIME_PERIOD = 0.3
+
+# For split pps to fix deviation in Y direction increase oscillation amplitude
+# by this value
+OSCILLATION_AMP_EXTRA = 2

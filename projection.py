@@ -56,6 +56,18 @@ def isFloat(value):
         return False
 
 
+def get_oscillation_amp(Y):
+    if PPS_TYPE is 'normal':
+        return OSCILLATION_AMP
+    elif PPS_TYPE is 'split':
+        if Y <= FLOOR_B:
+            return OSCILLATION_AMP + OSCILLATION_AMP_EXTRA
+        elif (Y > FLOOR_B and Y < FLOOR_C):
+            return OSCILLATION_AMP + OSCILLATION_AMP_EXTRA - 1
+        else:
+            return OSCILLATION_AMP
+
+
 def get_r_to_l_deviation(Dx, Dz, DTheta, BotFace):
     if BotFace == 0:
         return [(Dx * QDIRECTION) - DX_SHIFT, (Dz * QDIRECTION) - DZ_SHIFT, DTheta - DTHETA_SHIFT]
@@ -259,11 +271,12 @@ class Display(object):
         global ser
         flag = setCoordinateToLight(X, Y)
         OscillationDirection = 1  # 1 for up and -1 for down
+        OscillationAmplitude = get_oscillation_amp(Y)
         start_time = time.time()
         while self.stop_flag is False:
             current_time = time.time()
             if current_time - start_time > OSCILLATION_TIME_PERIOD:
-                flag = setCoordinateToLight(X, Y + (OscillationDirection * OSCILLATION_AMP))
+                flag = setCoordinateToLight(X, Y + (OscillationDirection * OscillationAmplitude))
                 start_time = time.time()
                 OscillationDirection = -1 * OscillationDirection  # change direction
                 if flag is False:
