@@ -332,7 +332,7 @@ def testLoop():
     for Slot in Slots:
         X = Slot[0]
         Y = Slot[1]
-        display.pointAndOscillate(X, Y, 0, 0)
+        display.pointAndOscillate(X, Y, 0, 0, 0, 0)
         time.sleep(2)
         display.stop()
 
