@@ -9,6 +9,8 @@ import pyudev
 import action_queue
 import usb_detector
 import logger
+import requests
+import json
 
 logHandle = logger.logHandle
 logHandle.info('\n<<<<<<<<<< Projector Started >>>>>>>>>>\n')
@@ -77,8 +79,8 @@ def get_r_to_l_deviation(Dx, Dz, DTheta, BotFace):
 
 # In this case we can assume all points are shifted by {DX, DZ},
 def get_final_xy_without_theta_consideration(X, Y, Dx, Dz):
-    X = X - Dx 
-    # Dz causes plan shift, so it creats deviation in both direction 
+    X = X - Dx
+    # Dz causes plan shift, so it creats deviation in both direction
     # DX due to plan shift
     DX = Dz * (abs((RACK_ORIGIN_DISTANCE - X) / (RACK_PROJ_DISTANCE + Dz)))
     # Change in Y due to plan shift
@@ -91,14 +93,14 @@ def get_final_xy_without_theta_consideration(X, Y, Dx, Dz):
 
 # In this case only center point is shifted by {DX, DZ}, deviation of other points depend on DTHETA
 def get_final_xy_with_theta_consideration(X, Y, Dx, Dz, DTHETA):
-    # DX and DZ are deviation of Rack center, But we need to get deviation of center point(DX, DY) of 
+    # DX and DZ are deviation of Rack center, But we need to get deviation of center point(DX, DY) of
     # front plan of rack.
     # If DTHETA is zero OR we are not considering it than all points will have same DX and DZ shift as Rack Center
     DX = Dx + (RACK_WIDTH/2) * math.sin(-1 * DTHETA)  # For front plan center
     DZ = Dz + (RACK_WIDTH/2) * (1 - math.cos(DTHETA))  # For front plan center
     ExtraDz = (X - RACK_WIDTH/2) * math.sin(DTHETA)  # for the point P
     TotalDz = ExtraDz + DZ   # for point P
-    # Distance parallel to X 
+    # Distance parallel to X
     DistToCenter = (RACK_WIDTH/2 - X) * math.cos(DTHETA)  # Distance from center(current plan)
     DistToOrigCenter = DistToCenter + DX   # Distance from center(original plan, at calibration time)
     NewX = RACK_WIDTH/2 - DistToOrigCenter   # w.r.t original plan
@@ -266,7 +268,7 @@ class Display(object):
         self.stop_flag = False
         self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(FinalX, FinalY))
         self.t.start()
- 
+
     def pointAndOscillateInternal(self, X, Y):
         global ser
         flag = setCoordinateToLight(X, Y)
@@ -327,7 +329,7 @@ This function is for testing the projector
 
 def testLoop():
     # Set coordinates of different slots according to rack
-    # This Example is for racktype 21,22 and 23  
+    # This Example is for racktype 21,22 and 23
     Slots = [[26.2, 2.5], [71.7, 2.5], [26.5, 62.5], [71.7, 62.5], [18.225, 122.5], [48.95, 122.5], [79.675, 122.5], [26.2, 142.5], [71.7, 142.5], [26.2, 180.5], [71.7, 180.5]]
     for Slot in Slots:
         X = Slot[0]
@@ -335,6 +337,31 @@ def testLoop():
         display.pointAndOscillate(X, Y, 0, 0, 0, 0)
         time.sleep(2)
         display.stop()
+
+
+def test_projection_for_rack(RackID):
+    slot_list = []
+    try:
+        httpUrl = 'http://' + SERVER_IP + ':' + str(REMOTE_PORT) + '/api/slot_center'
+        dataJson = {}
+        dataJson['rack_id'] = RackID
+        response = requests.get(httpUrl, data=json.dumps(dataJson), headers={'content-type': 'application/json'}, timeout=10)
+        slot_center_dict = json.loads(response.content)
+        ## convert dict to list
+        temp = []
+        for key, value in slot_center_dict.iteritems():
+            temp = [int(key),value]
+            slot_list.append(temp)
+    except Exception as e:
+        logHandle.error("Cannot send data with exception %s" % str(e))
+    sorted_slots = sorted(slot_list)
+    for slot in sorted_slots:
+        X = slot[0]
+        Y = slot[1]
+        display.pointAndOscillate(X, Y, 0, 0, 0, 0)
+        time.sleep(2)
+        display.stop()
+
 
 loadCalibrationData('corner_points.cfg')
 display = Display()
