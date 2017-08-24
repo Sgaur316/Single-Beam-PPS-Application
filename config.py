@@ -2,6 +2,7 @@
 PPS_ID = 0
 SERVER_IP = '127.0.0.1'
 SERVER_PORT = 9000
+REMOTE_PORT = 8181
 
 # Update PPS type here: 'split' OR 'normal'
 PPS_TYPE = 'normal'
