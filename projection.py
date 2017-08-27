@@ -325,7 +325,8 @@ def loadCalibrationData(filename):
 '''
 This function is for testing the projector
 '''
-
+def getKey(item):
+    return (item[1], item[0])
 
 def testLoop():
     # Set coordinates of different slots according to rack
@@ -339,27 +340,29 @@ def testLoop():
         display.stop()
 
 
-def test_projection_for_rack(RackID):
+def test_projection_for_rack(RackID, RackFace):
     slot_list = []
+    sorted_slots = []
     try:
         httpUrl = 'http://' + SERVER_IP + ':' + str(REMOTE_PORT) + '/api/slot_center'
         dataJson = {}
-        dataJson['rack_id'] = RackID
+        dataJson['rack_id'] = RackId
+        dataJson['rack_face'] = RackFace
         response = requests.get(httpUrl, data=json.dumps(dataJson), headers={'content-type': 'application/json'}, timeout=10)
         slot_center_dict = json.loads(response.content)
         ## convert dict to list
         temp = []
         for key, value in slot_center_dict.iteritems():
-            temp = [int(key),value]
+            temp = value
             slot_list.append(temp)
     except Exception as e:
         logHandle.error("Cannot send data with exception %s" % str(e))
-    sorted_slots = sorted(slot_list)
+    sorted_slots = sorted(slot_list, key=getKey)
     for slot in sorted_slots:
         X = slot[0]
         Y = slot[1]
         display.pointAndOscillate(X, Y, 0, 0, 0, 0)
-        time.sleep(2)
+        time.sleep(1)
         display.stop()
 
 
