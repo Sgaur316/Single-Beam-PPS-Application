@@ -340,7 +340,7 @@ def testLoop():
         display.stop()
 
 
-def test_projection_for_rack(RackID, RackFace):
+def test_projection_for_rack(RackId, RackFace):
     slot_list = []
     sorted_slots = []
     try:
