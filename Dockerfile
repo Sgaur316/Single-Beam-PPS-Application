@@ -2,21 +2,8 @@
 FROM ubuntu:16.04
 
 #installing Python and essential packages
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y \
-    build-essential \
-    ca-certificates \
-    gcc \
-    git \
-    libpq-dev \
-    make \
-    python-pip \
-    python2.7 \
-    python2.7-dev \
-    ssh \
-    && apt-get autoremove \
-    && apt-get clean
+RUN apt-get update && apt-get install -y python-pip \
+    python2.7
 
 RUN pip install --upgrade pip
 

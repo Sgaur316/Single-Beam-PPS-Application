@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   projectorservice:
-    image: "im_projector_service"
+    image: "projector_service"
     container_name: "projectorservice"
     network_mode: "host"
     volumes: 
@@ -10,7 +10,10 @@ services:
         source: /dev
         target: /dev
       - type: "bind"
-        source: ~/gor/projector-experiments/config.py
+        source: /opt/projector_experiment/corner_points.cfg
+        target: /projector_release/src/corner_points.cfg
+      - type: "bind"
+        source: /opt/projector_experiment/config.py
         target: /projector_release/src/config.py
       - type: "bind"
         source: /opt/projector_experiment/log/
