@@ -25,4 +25,4 @@ services:
     stdin_open: true
     restart: always
     tty: true
-    command: python app.py
+    command: bash ./projector_entrypoint_inside_container.sh ${mode:-"app_mode"}
