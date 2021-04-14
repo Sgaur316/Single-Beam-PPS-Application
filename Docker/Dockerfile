@@ -2,13 +2,13 @@
 FROM ubuntu:16.04
 
 #installing Python and essential packages
-RUN apt-get update && apt-get install -y python-pip \
-    python2.7
+RUN apt-get update && apt-get install -y python2-pip \
+    python2
 
-RUN pip install --upgrade pip==20.3.1
+RUN python2 -m pip install --upgrade pip==20.3.1
 
 #--- Install App specific python packages---
-RUN pip install \
+RUN python2 -m pip install \
     pyserial \
     pyudev==0.17
 
