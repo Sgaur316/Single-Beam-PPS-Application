@@ -25,6 +25,6 @@ services:
     stdin_open: true
     restart: always
     tty: true  
-    command: python2 app.py
+    command: python app.py
     
     
