@@ -1,0 +1,6 @@
+
+*.pyc
+
+projector_venv/
+
+log/projector.log

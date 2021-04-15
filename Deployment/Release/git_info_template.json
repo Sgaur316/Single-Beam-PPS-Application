@@ -1,0 +1,6 @@
+{
+    "repo_name": "{{ repo_name }}",
+    "branch_name": "{{ branch_name }}",
+    "config_version": "embpc_controller_config_V{{ config_version }}",
+    "tag_id": "{{ image_tag }}"
+}

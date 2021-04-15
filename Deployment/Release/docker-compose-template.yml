@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  projectorservice:
+    image: "repo.labs.greyorange.com/projector-experiments:{{ image_tag }}"
+    container_name: "projectorservice"
+    network_mode: "host"
+    volumes: 
+      - type: "bind"
+        source: /dev
+        target: /dev
+      - type: "bind"
+        source: /opt/projector_experiment/corner_points.cfg
+        target: /projector_release/src/corner_points.cfg
+      - type: "bind"
+        source: /opt/projector_experiment/config.py
+        target: /projector_release/src/config.py
+      - type: "bind"
+        source: /opt/projector_experiment/log/
+        target: /projector_release/src/log/
+      - type: "bind"
+        source: /etc/localtime
+        target: /etc/localtime
+    privileged: true
+    stdin_open: true
+    restart: always
+    tty: true
+    command: bash ./projector_entrypoint_inside_container.sh ${mode:-"app_mode"}
