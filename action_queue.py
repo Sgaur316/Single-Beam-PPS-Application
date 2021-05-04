@@ -1,6 +1,6 @@
-import Queue
+import queue
 
-actQueue = Queue.Queue()
+actQueue = queue.Queue()
 
 
 def get():

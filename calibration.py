@@ -1,11 +1,11 @@
 import curses
 import configparser
 import projection
-from time import sleep
 
 
 def setDmxToLight(DmxPan, DmxTilt, DmxPanFine, DmxTiltFine):
-    print "Mock output DMX : ", DmxPan, DmxTilt, DmxPanFine, DmxTiltFine
+    print("Mock output DMX : ", DmxPan, DmxTilt, DmxPanFine, DmxTiltFine)
+
 
 stdscr = curses.initscr()
 curses.cbreak()
@@ -32,7 +32,7 @@ config.read('corner_points.cfg')
 
 
 def isValidDmx(value):
-    return value >= 0 and value <= 255
+    return 0 <= value <= 255
 
 
 def increaseByOne(dmxValue):
@@ -40,7 +40,7 @@ def increaseByOne(dmxValue):
     if isValidDmx(incremented):
         return incremented
     else:
-        return dmxValue   # Return unchanged value
+        return dmxValue  # Return unchanged value
 
 
 def decreaseByOne(dmxValue):
@@ -48,7 +48,7 @@ def decreaseByOne(dmxValue):
     if isValidDmx(decremented):
         return decremented
     else:
-        return dmxValue   # Return unchanged value
+        return dmxValue  # Return unchanged value
 
 
 def redrawCustomScreen():
@@ -69,7 +69,8 @@ def showEndScreen():
     redrawCustomScreen()
     stdscr.addstr(5, 0, "Written to config file, press any key to exit!!!")
 
-while pointsList != []:
+
+while pointsList:
     key = stdscr.getch()
     stdscr.refresh()
 
@@ -112,7 +113,7 @@ while pointsList != []:
         config['DEFAULT'][currentPoint + '_tilt'] = str(DmxTilt)
         config['DEFAULT'][currentPoint + '_tilt_fine'] = str(DmxTiltFine)
         pointsList.remove(currentPoint)
-        if pointsList == []:
+        if not pointsList:
             with open('corner_points.cfg', 'w') as configfile:
                 config.write(configfile)
             showEndScreen()

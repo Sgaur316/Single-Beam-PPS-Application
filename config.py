@@ -1,4 +1,4 @@
-# Connection paramaters
+# Connection parameters
 PPS_ID = 0
 SERVER_IP = '127.0.0.1'
 SERVER_PORT = 9000
@@ -8,7 +8,7 @@ REMOTE_PORT = 8181
 PPS_TYPE = 'normal'
 
 # Approximate Height of B and C floors of rack
-# The lowest among all racktypes
+# The lowest among all rack types
 FLOOR_B = 22.5
 FLOOR_C = 42.5
 

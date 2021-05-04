@@ -1,11 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import socket
 import config
-import projection
-from time import sleep
-import threading
-import action_queue
 import logger
-
+import projection
+import action_queue
+from time import sleep
 
 logHandle = logger.logHandle
 server_address = (config.SERVER_IP, config.SERVER_PORT)
@@ -16,10 +16,10 @@ def create_socket():
 
 
 def set_keep_alive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
-    """Set TCP keepalive on an open socket.
+    """Set TCP keep alive on an open socket.
 
     It activates after 1 second (after_idle_sec) of idleness,
-    then sends a keepalive ping once every 3 seconds (interval_sec),
+    then sends a keep alive ping once every 3 seconds (interval_sec),
     and closes the connection after 5 failed ping (max_fails), or 15 seconds
     """
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
@@ -55,13 +55,14 @@ def main():
                     msg = msg.strip()
                     logHandle.info("App: Received message: %s" % msg)
                     action_queue.put(msg)
-        except Exception, e:
-            logHandle.info("App: Error %s closing socket and creating a new socket After 5 sec" % (e))
+        except Exception as e:
+            logHandle.info("App: Error %s closing socket and creating a new socket After 5 sec" % e)
             sock.close()
             projection.sender.stop()
             action_queue.emptyQueue()
             sleep(5)
             continue
+
 
 if __name__ == '__main__':
     main()
