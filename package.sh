@@ -64,7 +64,7 @@ mkdir -p "${DEPS_CACHE}"
 
 
 # Copy files/folders to the required locations
-cp -r {action_queue.py,calibration.py,config.py,corner_points.cfg,logger.py,projection.py,usb_detector.py,"${DEPS_CACHE}",requirements.txt} "${BUILD_DIR}/opt/projector_experiment/"
+cp -r {action_queue.py,app.py,calibration.py,config.py,corner_points.cfg,logger.py,projection.py,usb_detector.py,"${DEPS_CACHE}",requirements.txt} "${BUILD_DIR}/opt/projector_experiment/"
 cp dpkg/projector_experiments.conf "${BUILD_DIR}/etc/supervisor/conf.d/"
 
 fpm -s dir -t deb --after-install "${AFTER_INSTALL}" --after-remove "${AFTER_REMOVE}" \
