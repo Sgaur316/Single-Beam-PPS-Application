@@ -3,6 +3,7 @@ import serial
 import pyudev
 import logger
 from time import sleep
+import serial.tools.list_ports
 
 logHandle = logger.logHandle
 
@@ -27,5 +28,33 @@ def get_serial():
         else:
             logHandle.info("Usb Detector: Error , more than one or no USB-DMX found retrying after 5 sec")
             yield None
-            sleep(5)
+            sleep(2)
             # continue
+
+
+def get_device_details():
+    response = {"name": "",
+                "model": "",
+                "serial_no": ""}
+
+    try:
+        for port in serial.tools.list_ports.comports():
+            if port.name == 'ttyUSB0':
+                response["name"] = str(port.name)
+                response["serial_no"] = str(port.serial_number)
+                response["model"] = str(port.manufacturer)
+                break
+                # print(port.hwid)
+                # print(port.location)
+                # print(port.manufacturer)
+                # print(port.product)
+                # print(port.serial_number)
+                # print(port.usb_description)
+                # print(port.usb_info)
+                # print(port.device)
+                # print(port.description)
+
+    except:
+        logHandle.warning("Usb Detector: Not able to read the projector details.")
+
+    return response

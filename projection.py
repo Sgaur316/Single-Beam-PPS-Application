@@ -17,23 +17,28 @@ logHandle.info('\n<<<<<<<<<< Projector Started >>>>>>>>>>\n')
 
 # setup the dmx
 # char 126 is 7E in hex. It's used to start all DMX512 commands
-DMXOPEN = chr(126)
+# DMXOPEN = chr(126)
+DMXOPEN = bytes([126])
 
 # char 231 is E7 in hex. It's used to close all DMX512 commands
-DMXCLOSE = chr(231)
+# DMXCLOSE = chr(231)
+DMXCLOSE = bytes([231])
 
 # I named the "output only send dmx packet request" DMXINTENSITY as I don't have
 # any moving fixtures. Char 6 is the label , I don't know what Char 1 and Char 2 mean
 # but my sniffer log showed those values always to be the same so I guess it's good enough.
-DMXINTENSITY = chr(6) + chr(1) + chr(2)
+# DMXINTENSITY = chr(6) + chr(1) + chr(2)
+DMXINTENSITY = bytes([6]) + bytes([1]) + bytes([2])
 
 # this code seems to initialize the communications. Char 3 is a request for the controller's
 # parameters. I didn't bother reading that data, I'm just assuming it's an init string.
-DMXINIT1 = chr(3) + chr(2) + chr(0) + chr(0) + chr(0)
+# DMXINIT1 = chr(3) + chr(2) + chr(0) + chr(0) + chr(0)
+DMXINIT1 = bytes([3]) + bytes([2]) + bytes([0]) + bytes([0]) + bytes([0])
 
 # likewise, char 10 requests the serial number of the unit. I'm not receiving it or using it
 # but the other softwares I tested did. You might want to.
-DMXINIT2 = chr(10) + chr(2) + chr(0) + chr(0) + chr(0)
+# DMXINIT2 = chr(10) + chr(2) + chr(0) + chr(0) + chr(0)
+DMXINIT2 = bytes([10]) + bytes([2]) + bytes([0]) + bytes([0]) + bytes([0])
 
 # open serial port 4. This is where the USB virtual port hangs on my machine. You
 # might need to change this number. Find out what com port your DMX controller is on
@@ -50,7 +55,8 @@ else:
 
 # this sets up an array of 513 bytes, the first item in the array (dmxdata[0]) is the previously
 # mentioned spacer byte following the header. This makes the array math more obvious
-dmxdata = [chr(0)] * 513
+# dmxdata = [chr(0)] * 513
+dmxdata = [bytes([0])] * 513
 
 
 def isFloat(value):
@@ -169,11 +175,14 @@ class Sender(object):
 def send_dmx_data(data):
     # print "[DMX] Writing data :", data[1:11]
     # print ""
+    new_data = bytes()
     for i in range(0, len(data)):
-        data[i] = chr(data[i])
-    sdata = ''.join(data)
+        # data[i] = chr(data[i])
+        new_data += bytes([data[i]])
+    # sdata = ''.join(data)
     try:
-        ser.write(DMXOPEN + DMXINTENSITY + sdata + DMXCLOSE)
+        # ser.write(bytes(DMXOPEN + DMXINTENSITY + sdata + DMXCLOSE, 'utf-8'))
+        ser.write(DMXOPEN + DMXINTENSITY + new_data + DMXCLOSE)
         return True
     except Exception as e:
         logHandle.info("Projection: Error %s " % e)
@@ -254,7 +263,7 @@ class Display(object):
 
     def __init__(self):
         self.stop_flag = True
-        self.t = threading.Thread()
+        # self.t = threading.Thread()
 
     def stop(self):
         self.stop_flag = True
@@ -268,11 +277,12 @@ class Display(object):
         else:
             [FinalX, FinalY] = get_final_xy_without_theta_consideration(X, Y, DX, DZ)
         logHandle.info("Projection: Correct Values of {X, Y} for projection: {%s,%s}" % (FinalX, FinalY))
-        while self.t.isAlive():
-            time.sleep(0.1)
+        # while self.t.isAlive():
+        #     time.sleep(0.1)
         self.stop_flag = False
-        self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(FinalX, FinalY))
-        self.t.start()
+        # self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(FinalX, FinalY))
+        # self.t.start()
+        self.pointAndOscillateInternal(FinalX, FinalY)
 
     def pointAndOscillateInternal(self, X, Y):
         global ser

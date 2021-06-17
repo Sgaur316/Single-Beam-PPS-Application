@@ -6,3 +6,7 @@ projector_venv/
 log/projector.log
 
 Deployment/Release/docker-compose.yml
+
+.idea/
+
+venv/
