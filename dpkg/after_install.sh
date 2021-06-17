@@ -6,8 +6,8 @@ supervisorctl stop projector_experiment
 
 cd /opt/projector_experiment
 
-pip uninstall virtualenv -y
-pip install virtualenv
+pip3 uninstall virtualenv -y
+pip3 install virtualenv
 virtualenv venv/
 ./venv/bin/pip3.6 install -r requirements.txt --no-index --find-links=/opt/projector_experiment/deps_cache/
 

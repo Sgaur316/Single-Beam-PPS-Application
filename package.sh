@@ -60,7 +60,7 @@ mkdir -p "${BUILD_DIR}/opt/projector_experiment"
 mkdir -p "${BUILD_DIR}/etc/supervisor/conf.d"
 mkdir -p "${DEPS_CACHE}"
 
-pip install --download "${DEPS_CACHE}" -r requirements.txt
+#pip install --download "${DEPS_CACHE}" -r requirements.txt
 
 
 # Copy files/folders to the required locations
