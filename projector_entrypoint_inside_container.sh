@@ -4,8 +4,8 @@ echo $1
 if [ $1 == "app_mode" ]
 then
    echo "Running container in application mode"
-   python app.py
+   python3.6 app.py
 else
    echo "Running container in calibration mode"
-   python calibration.py
+   python3.6 calibration.py
 fi
