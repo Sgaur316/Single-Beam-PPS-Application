@@ -27,7 +27,7 @@ def get_serial():
             p_details = get_device_details()
             for device in usb_devices:
                 serial_obj = serial.Serial("/dev/" + str(device))
-                if serial_obj.name == p_details.get("path", ""):
+                if str(device) == p_details.get("path", ""):
                     break
             yield serial_obj
             break
