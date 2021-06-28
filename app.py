@@ -39,7 +39,7 @@ def main():
 
             # Send connect packet with ID
             data = "pps_id, %s" % config.PPS_ID
-            res = sock.send(data)
+            res = sock.send(bytes(data, 'utf-8'))
             projection.sender.start()
             while True:
                 logHandle.info("App: Expecting a command from server...")
