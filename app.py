@@ -52,7 +52,7 @@ def main():
                     sleep(5)
                     break
                 else:
-                    msg = msg.strip()
+                    msg = msg.decode().strip()
                     logHandle.info("App: Received message: %s" % msg)
                     action_queue.put(msg)
         except Exception as e:

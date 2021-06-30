@@ -263,7 +263,7 @@ class Display(object):
 
     def __init__(self):
         self.stop_flag = True
-        # self.t = threading.Thread()
+        self.t = threading.Thread()
 
     def stop(self):
         self.stop_flag = True
@@ -277,12 +277,11 @@ class Display(object):
         else:
             [FinalX, FinalY] = get_final_xy_without_theta_consideration(X, Y, DX, DZ)
         logHandle.info("Projection: Correct Values of {X, Y} for projection: {%s,%s}" % (FinalX, FinalY))
-        # while self.t.isAlive():
-        #     time.sleep(0.1)
+        while self.t.isAlive():
+            time.sleep(0.1)
         self.stop_flag = False
-        # self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(FinalX, FinalY))
-        # self.t.start()
-        self.pointAndOscillateInternal(FinalX, FinalY)
+        self.t = threading.Thread(target=self.pointAndOscillateInternal, args=(FinalX, FinalY))
+        self.t.start()
 
     def pointAndOscillateInternal(self, X, Y):
         global ser

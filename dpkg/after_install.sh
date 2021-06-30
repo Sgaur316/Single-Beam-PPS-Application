@@ -11,7 +11,7 @@ apt-get install -y python3.6 python3-pip supervisor libpq-dev python3-dev libffi
 
 pip3 uninstall virtualenv -y
 pip3 install virtualenv
-virtualenv --python=/usr/bin/python3.6 venv/
+virtualenv --python=python3.6 venv/
 ./venv/bin/pip3.6 install -r requirements.txt --no-index --find-links=/opt/projector_experiment/deps_cache/
 
 
