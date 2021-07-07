@@ -42,7 +42,7 @@ fi
 #============================
 
 NAME="projector_experiment"
-VERSION="$(git describe --dirty --abbrev=7 --tags --always --first-parent)"
+VERSION="$(git describe --dirty --abbrev=7 --tags --always --first-parent | grep -o "V.*")"
 BUILD_DIR="build_files"
 AFTER_INSTALL="dpkg/after_install.sh"
 AFTER_REMOVE="dpkg/after_remove.sh"
