@@ -2,7 +2,6 @@
 # serial is PySerial, the serial port software for Python
 import math
 import time
-import json
 import requests
 import threading
 import configparser

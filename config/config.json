@@ -1,0 +1,35 @@
+{
+  "site": {
+    "PPS_ID": 0,
+    "SERVER_IP": "127.0.0.1",
+    "SERVER_PORT": 9000,
+    "REMOTE_PORT": 8181,
+    "PPS_TYPE": "normal",
+    "FLOOR_B": 22.5,
+    "FLOOR_C": 42.5,
+    "PROJ_HEIGHT": 227.0,
+    "RACK_PROJ_DISTANCE": 125,
+    "RACK_ORIGIN_DISTANCE": -126.8,
+    "RACK_WIDTH": 97.0,
+    "RACK_HEIGHT": 182.0,
+    "QDIRECTION": 1,
+    "DX_SHIFT": 0,
+    "DZ_SHIFT": 0,
+    "DTHETA_SHIFT": 0
+  },
+  "dev": {
+    "CONSIDER_THETA_SHIFT": false,
+    "COLOR": 70,
+    "OSCILLATION_AMP": 1,
+    "OSCILLATION_AMP_EXTRA": 2,
+    "OSCILLATION_TIME_PERIOD": 0.3,
+    "PAN_CHANNEL": 1,
+    "TILT_CHANNEL": 3,
+    "PAN_FINE_CHANNEL": 2,
+    "TILT_FINE_CHANNEL": 4,
+    "STROBE_CHANNEL": 7,
+    "PATTERN_CHANNEL": 6,
+    "DIMMER_CHANNEL": 8,
+    "COLOR_CHANNEL": 5
+  }
+}

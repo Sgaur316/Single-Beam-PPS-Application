@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
 
 import socket
-import config
 import logger
 import projection
 import action_queue
 from time import sleep
 
+from config import (
+    PPS_ID,
+    SERVER_IP,
+    SERVER_PORT
+)
+
 logHandle = logger.logHandle
-server_address = (config.SERVER_IP, config.SERVER_PORT)
+server_address = (SERVER_IP, SERVER_PORT)
 
 
 def create_socket():
@@ -38,7 +43,7 @@ def main():
             logHandle.info('App: Connected to server...')
 
             # Send connect packet with ID
-            data = "pps_id, %s" % config.PPS_ID
+            data = "pps_id, %s" % PPS_ID
             res = sock.send(bytes(data, 'utf-8'))
             projection.sender.start()
             while True:

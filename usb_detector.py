@@ -53,15 +53,6 @@ def get_device_details():
                 response["model"] = str(port.manufacturer)
                 response["path"] = str(port.name)
                 break
-                # print(port.hwid)
-                # print(port.location)
-                # print(port.manufacturer)
-                # print(port.product)
-                # print(port.serial_number)
-                # print(port.usb_description)
-                # print(port.usb_info)
-                # print(port.device)
-                # print(port.description)
 
     except:
         logHandle.warning("Usb Detector: Not able to read the projector details.")

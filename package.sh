@@ -42,7 +42,7 @@ fi
 #============================
 
 NAME="projector_experiment"
-VERSION="$(git describe --dirty --abbrev=7 --tags --always --first-parent | grep -o "V.*")"
+VERSION="$(git describe --abbrev=7 --tags --always --first-parent | grep -o "V.*")"
 BUILD_DIR="build_files"
 AFTER_INSTALL="dpkg/after_install.sh"
 AFTER_REMOVE="dpkg/after_remove.sh"
@@ -64,7 +64,7 @@ mkdir -p "${DEPS_CACHE}"
 
 
 # Copy files/folders to the required locations
-cp -r {action_queue.py,app.py,calibration.py,config.py,corner_points.cfg,logger.py,projection.py,usb_detector.py,"${DEPS_CACHE}",requirements.txt} "${BUILD_DIR}/opt/projector_experiment/"
+cp -r {action_queue.py,app.py,calibration.py,corner_points.cfg,logger.py,projection.py,usb_detector.py,config,"${DEPS_CACHE}",requirements.txt} "${BUILD_DIR}/opt/projector_experiment/"
 cp dpkg/projector_experiments.conf "${BUILD_DIR}/etc/supervisor/conf.d/"
 
 fpm -s dir -t deb --after-install "${AFTER_INSTALL}" --after-remove "${AFTER_REMOVE}" \
