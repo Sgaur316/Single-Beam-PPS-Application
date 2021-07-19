@@ -13,8 +13,8 @@ services:
         source: /opt/projector_experiment/corner_points.cfg
         target: /projector_release/src/corner_points.cfg
       - type: "bind"
-        source: /opt/projector_experiment/config.py
-        target: /projector_release/src/config.py
+        source: /opt/projector_experiment/config/config.json
+        target: /projector_release/src/config/config.json
       - type: "bind"
         source: /opt/projector_experiment/log/
         target: /projector_release/src/log/
