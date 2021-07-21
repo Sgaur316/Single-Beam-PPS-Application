@@ -18,6 +18,7 @@
     "DTHETA_SHIFT": 0
   },
   "dev": {
+    "PROJECTOR_TIMEOUT": 15,
     "CONSIDER_THETA_SHIFT": false,
     "COLOR": 70,
     "OSCILLATION_AMP": 1,

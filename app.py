@@ -9,7 +9,8 @@ from time import sleep
 from config import (
     PPS_ID,
     SERVER_IP,
-    SERVER_PORT
+    SERVER_PORT,
+    PROJECTOR_TIMEOUT
 )
 
 logHandle = logger.logHandle
@@ -40,6 +41,7 @@ def main():
         try:
             logHandle.info('App: connecting to %s port %s' % server_address)
             sock.connect(server_address)
+            sock.settimeout(PROJECTOR_TIMEOUT * 60)  # converted into seconds
             logHandle.info('App: Connected to server...')
 
             # Send connect packet with ID
@@ -62,6 +64,14 @@ def main():
                     action_queue.put(msg)
         except Exception as e:
             logHandle.info("App: Error %s closing socket and creating a new socket After 5 sec" % e)
+            sock.close()
+            projection.sender.stop()
+            action_queue.emptyQueue()
+            sleep(5)
+            continue
+
+        except socket.timeout as e:
+            logHandle.info("App: Timeout Socket Error %s closing socket and creating a new socket After 5 sec" % e)
             sock.close()
             projection.sender.stop()
             action_queue.emptyQueue()

@@ -54,6 +54,9 @@ DX_SHIFT = CONF_PARAMS['site'].get("DX_SHIFT", 0)
 DZ_SHIFT = CONF_PARAMS['site'].get("DZ_SHIFT", 0)
 DTHETA_SHIFT = CONF_PARAMS['site'].get("DTHETA_SHIFT", 0)
 
+# timeout(in minutes) for projector if no command received from the server
+PROJECTOR_TIMEOUT = CONF_PARAMS['dev'].get("PROJECTOR_TIMEOUT", 15)
+
 # Always keep this false unless otherwise told
 CONSIDER_THETA_SHIFT = CONF_PARAMS['dev'].get("CONSIDER_THETA_SHIFT", False)
 
