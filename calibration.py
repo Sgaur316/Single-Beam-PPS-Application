@@ -123,6 +123,7 @@ while pointsList:
             currentPoint = pointsList[0]
 
     elif key == ord('q'):
+        projection.setDmxToLight(0, 0, 0, 0, 0)
         break
 
     for dmxValue in [DmxPan, DmxTilt, DmxPanFine, DmxTiltFine]:
