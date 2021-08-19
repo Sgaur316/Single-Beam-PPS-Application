@@ -17,7 +17,7 @@ def read_json():
 CONF_PARAMS = read_json()
 
 # Connection parameters
-PPS_ID = CONF_PARAMS.get("PPS_ID", 0)
+PPS_ID = CONF_PARAMS['site'].get("PPS_ID", 1)
 SERVER_IP = CONF_PARAMS['site'].get("SERVER_IP", '127.0.0.1')
 SERVER_PORT = CONF_PARAMS['site'].get("SERVER_PORT", 9000)
 REMOTE_PORT = CONF_PARAMS['site'].get("REMOTE_PORT", 8181)

@@ -41,7 +41,7 @@ def main():
         try:
             logHandle.info('App: connecting to %s port %s' % server_address)
             sock.connect(server_address)
-            sock.settimeout(PROJECTOR_TIMEOUT * 60)  # converted into seconds
+            # sock.settimeout(PROJECTOR_TIMEOUT * 60)  # converted into seconds
             logHandle.info('App: Connected to server...')
 
             # Send connect packet with ID
