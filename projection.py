@@ -6,6 +6,7 @@ import requests
 import threading
 import configparser
 
+import config
 import logger
 import usb_detector
 import action_queue
@@ -121,6 +122,13 @@ class Sender(object):
     def __init__(self):
         self.stop_flag = True
         self.t = threading.Thread()
+        self.start_time = time.time()
+        self.timer_thread = threading.Timer(config.PROJECTOR_TIMEOUT, self.check_display)
+
+    def check_display(self):
+        if time.time() - self.start_time >= config.PROJECTOR_TIMEOUT:
+            self.stop()
+            self.start_time = time.time()
 
     def stop(self):
         display.stop()
@@ -138,6 +146,7 @@ class Sender(object):
         while not self.stop_flag:
             if not action_queue.isEmpty():
                 idle_time_count = 0
+                self.start_time = time.time()
                 msg = action_queue.get()
                 if msg == 'stop':
                     if last_action != 'stop':
@@ -147,6 +156,9 @@ class Sender(object):
                     else:
                         logHandle.info("Projection: skipping stop, continuous 2 stop command received")
                 elif len(msg) >= 5 and msg[:5] == 'point':
+                    self.timer_thread.cancel()
+                    self.timer_thread = threading.Timer(config.PROJECTOR_TIMEOUT, self.check_display)
+                    self.timer_thread.start()
                     if last_action != 'point':
                         last_action = 'point'
                         logHandle.info("Projection: lastAction updated to - %s" % last_action)
@@ -154,7 +166,7 @@ class Sender(object):
                         display.pointAndOscillate(X, Y, Dx, Dz, DTheta, BotFace)
                     else:
                         logHandle.info(
-                            "Projection: continuous 2 point command received,first stoping projector then pointing")
+                            "Projection: continuous 2 point command received,first stopping projector then pointing")
                         display.stop()
                         time.sleep(0.2)  # wait till projector stops projection
                         [X, Y, Dz, Dx, DTheta, BotFace] = [float(s) for s in msg.split(",") if isFloat(s)]

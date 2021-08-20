@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import socket
+import time
+
 import logger
 import projection
 import action_queue
@@ -9,8 +11,7 @@ from time import sleep
 from config import (
     PPS_ID,
     SERVER_IP,
-    SERVER_PORT,
-    PROJECTOR_TIMEOUT
+    SERVER_PORT
 )
 
 logHandle = logger.logHandle
@@ -41,7 +42,6 @@ def main():
         try:
             logHandle.info('App: connecting to %s port %s' % server_address)
             sock.connect(server_address)
-            # sock.settimeout(PROJECTOR_TIMEOUT * 60)  # converted into seconds
             logHandle.info('App: Connected to server...')
 
             # Send connect packet with ID
