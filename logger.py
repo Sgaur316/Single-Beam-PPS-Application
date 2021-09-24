@@ -1,4 +1,5 @@
 import os
+import re
 import logging
 from logging import handlers
 
@@ -17,7 +18,10 @@ class gorLogger():
         if not logger.handlers:
             if not os.path.exists(gorLogger.logDir):
                 os.makedirs(gorLogger.logDir)
-            handler = logging.handlers.RotatingFileHandler(gorLogger.logDir + gorLogger.logFileName, maxBytes=(1048576*10), backupCount=9)
+            handler = logging.handlers.TimedRotatingFileHandler(os.path.join(gorLogger.logDir + gorLogger.logFileName),
+                                                                when='midnight', backupCount=14)
+            handler.suffix = "%Y-%m-%d"
+            handler.extMatch = re.compile(r"^\d{4}-\d{2}-\d{2}$")
             handler.setFormatter(formatter)
             logger.addHandler(handler)
         gorLogger.logInstance = logger
