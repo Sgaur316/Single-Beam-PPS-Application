@@ -21,6 +21,11 @@ services:
       - type: "bind"
         source: /etc/localtime
         target: /etc/localtime
+    logging:
+      driver: "json-file"
+      options:
+        max-file: '3'
+        max-size: '20m'
     privileged: true
     stdin_open: true
     restart: always
