@@ -5,6 +5,7 @@ import time
 
 import logger
 import projection
+import msu_lidar
 import action_queue
 from time import sleep
 
@@ -36,6 +37,7 @@ def set_keep_alive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
 
 
 def main():
+    msu_lidar.msu_lidar_client.create_msu_lidar_client()
     while True:
         sock = create_socket()
         set_keep_alive_linux(sock)
@@ -62,6 +64,7 @@ def main():
                     msg = msg.decode().strip()
                     logHandle.info("App: Received message: %s" % msg)
                     action_queue.put(msg)
+                    msu_lidar.msu_lidar_client.send_data_to_msu_lidar_client(msg)
         except Exception as e:
             logHandle.info("App: Error %s closing socket and creating a new socket After 5 sec" % e)
             sock.close()
