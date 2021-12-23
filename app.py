@@ -37,13 +37,15 @@ def set_keep_alive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
 
 
 def main():
-    msu_lidar.msu_lidar_client.create_msu_lidar_client()
+    msu_lidar.msu_lidar_client.start()
+    logHandle.info("Created msu lidar client thread")
     while True:
         sock = create_socket()
         set_keep_alive_linux(sock)
         try:
             logHandle.info('App: connecting to %s port %s' % server_address)
             sock.connect(server_address)
+            action_queue.emptyQueue()
             logHandle.info('App: Connected to server...')
 
             # Send connect packet with ID
@@ -56,8 +58,9 @@ def main():
                 if len(msg) == 0:
                     logHandle.info("App: Network connection lost, Retrying to connect after 5 sec")
                     sock.close()
-                    projection.sender.stop()
-                    action_queue.emptyQueue()
+                    action_queue.put("disconnected")
+                    # projection.sender.stop()
+                    # action_queue.emptyQueue()
                     sleep(5)
                     break
                 else:
@@ -68,16 +71,18 @@ def main():
         except Exception as e:
             logHandle.info("App: Error %s closing socket and creating a new socket After 5 sec" % e)
             sock.close()
-            projection.sender.stop()
-            action_queue.emptyQueue()
+            action_queue.put("disconnected")
+            # projection.sender.stop()
+            # action_queue.emptyQueue()
             sleep(5)
             continue
 
         except socket.timeout as e:
             logHandle.info("App: Timeout Socket Error %s closing socket and creating a new socket After 5 sec" % e)
             sock.close()
-            projection.sender.stop()
-            action_queue.emptyQueue()
+            action_queue.put("disconnected")
+            # projection.sender.stop()
+            # action_queue.emptyQueue()
             sleep(5)
             continue
 
