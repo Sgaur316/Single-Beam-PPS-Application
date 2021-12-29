@@ -144,43 +144,40 @@ class Sender(object):
         last_action = None
         idle_time_count = 0
         while not self.stop_flag:
-            if not action_queue.isEmpty():
-                idle_time_count = 0
-                # self.start_time = time.time()
-                msg = action_queue.get()
-                if msg == 'stop':
-                    if last_action != 'stop':
-                        last_action = 'stop'
-                        logHandle.info("Projection: lastAction updated to - %s" % last_action)
-                        display.stop()
-                    else:
-                        logHandle.info("Projection: skipping stop, continuous 2 stop command received")
-                elif len(msg) >= 5 and msg[:5] == 'point':
-                    # self.timer_thread.cancel()
-                    # self.timer_thread = threading.Timer(config.PROJECTOR_TIMEOUT, self.check_display)
-                    # self.timer_thread.start()
-                    if last_action != 'point':
-                        last_action = 'point'
-                        logHandle.info("Projection: lastAction updated to - %s" % last_action)
-                        [X, Y, Dz, Dx, DTheta, BotFace] = [float(s) for s in msg.split(",") if isFloat(s)]
-                        display.pointAndOscillate(X, Y, Dx, Dz, DTheta, BotFace)
-                    else:
-                        logHandle.info(
-                            "Projection: continuous 2 point command received,first stopping projector then pointing")
-                        display.stop()
-                        time.sleep(0.2)  # wait till projector stops projection
-                        [X, Y, Dz, Dx, DTheta, BotFace] = [float(s) for s in msg.split(",") if isFloat(s)]
-                        last_action = 'point'
-                        logHandle.info("Projection: lastAction updated to: %s " % last_action)
-                        display.pointAndOscillate(X, Y, Dx, Dz, DTheta, BotFace)
+            idle_time_count = 0
+            msg = action_queue.get()
+            if msg == "disconnected":
+                display.stop()
+                time.sleep(0.05)
+                self.stop_flag = True
+                continue
+            if msg == 'stop':
+                if last_action != 'stop':
+                    last_action = 'stop'
+                    logHandle.info("Projection: lastAction updated to - %s" % last_action)
+                    display.stop()
                 else:
-                    logHandle.info("Projection: No Action, Unrecognized message from server")
-
+                    logHandle.info("Projection: skipping stop, continuous 2 stop command received")
+            elif len(msg) >= 5 and msg[:5] == 'point':
+                # self.timer_thread.cancel()
+                # self.timer_thread = threading.Timer(config.PROJECTOR_TIMEOUT, self.check_display)
+                # self.timer_thread.start()
+                if last_action != 'point':
+                    last_action = 'point'
+                    logHandle.info("Projection: lastAction updated to - %s" % last_action)
+                    [X, Y, Dz, Dx, DTheta, BotFace] = [float(s) for s in msg.split(",") if isFloat(s)]
+                    display.pointAndOscillate(X, Y, Dx, Dz, DTheta, BotFace)
+                else:
+                    logHandle.info(
+                        "Projection: continuous 2 point command received,first stopping projector then pointing")
+                    display.stop()
+                    time.sleep(0.2)  # wait till projector stops projection
+                    [X, Y, Dz, Dx, DTheta, BotFace] = [float(s) for s in msg.split(",") if isFloat(s)]
+                    last_action = 'point'
+                    logHandle.info("Projection: lastAction updated to: %s " % last_action)
+                    display.pointAndOscillate(X, Y, Dx, Dz, DTheta, BotFace)
             else:
-                idle_time_count = idle_time_count + 1
-                if idle_time_count == 100000:
-                    time.sleep(0.005)
-                    idle_time_count = 0
+                logHandle.info("Projection: No Action, Unrecognized message from server")
 
 
 def send_dmx_data(data):
@@ -320,7 +317,7 @@ class Display(object):
                 else:
                     continue
             else:
-                time.sleep(0.0005)
+                time.sleep(OSCILLATION_TIME_PERIOD)
         if self.stop_flag:
             logHandle.info("Projection: Stopping the projector")
             flag = setCoordinateToLight(X, Y, 0)
