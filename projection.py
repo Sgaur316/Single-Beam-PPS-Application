@@ -317,7 +317,7 @@ class Display(object):
                 else:
                     continue
             else:
-                time.sleep(0.0005)
+                time.sleep(OSCILLATION_TIME_PERIOD)
         if self.stop_flag:
             logHandle.info("Projection: Stopping the projector")
             flag = setCoordinateToLight(X, Y, 0)
