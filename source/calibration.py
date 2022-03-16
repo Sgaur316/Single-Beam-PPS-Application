@@ -5,7 +5,6 @@ import sys
 sys.path.append('./')
 import curses
 import json
-from curses import wrapper
 from source.projection import Dmxcontrol
 from source.leastCount import Leastcountvalue
 from config import CONF_PARAMS
@@ -14,7 +13,7 @@ from source import logger
 logHandle = logger.logHandle
 
 class Calibration():
-    cal_mode = '1'
+    cal_mode = '0'
     # using curses library for keyboard interactions and canvas control
     stdscr = curses.initscr()
     curses.cbreak()
@@ -168,44 +167,66 @@ class Calibration():
         """
             Support function for redrawCustomScreen function
         """
-        # print("Select the calibration mode:\n1. MSU measurements from ground,\n2. MSU 3 points Calibration,\n"
-        #       "3. Advanced Calibration")
         self.stdscr.addstr(0,0, "Select the calibration mode:\n1. MSU measurements from ground,\n2. Base Station "
                                 "Calibration, \n3. Advanced Calibration: \n")
         while True:
             try:
-                c = self.stdscr.getch()
+                choice = self.stdscr.getch()
                 self.stdscr.refresh()
-                if c == 49:
+                if choice == 49:
                     self.cal_mode = "1"
                     self.stdscr.clrtoeol()
                     self.stdscr.addstr(4, 0, self.cal_mode)
-                elif c == 50:
+                elif choice == 50:
                     self.cal_mode = "2"
                     self.stdscr.clrtoeol()
                     self.stdscr.addstr(4, 0, self.cal_mode)
-                elif c == 51:
+                elif choice == 51:
                     self.cal_mode = "3"
                     self.stdscr.clrtoeol()
                     self.stdscr.addstr(4, 0, self.cal_mode)
-                elif c == ord("\n"):
-                    self.stdscr.clear()
-                    curses.nocbreak()
-                    self.stdscr.keypad(False)
-                    curses.echo()
+                elif choice == ord("\n"):
                     break
-                elif c == curses.KEY_BACKSPACE:
-                    choice = 0
+                elif choice == curses.KEY_BACKSPACE:
+                    self.cal_mode = "0"
                     self.stdscr.clrtoeol()
                 else:
                     self.stdscr.addstr(4, 0, "Invalid Input")
-                    choice = 0
+                    self.cal_mode = "0"
             except Exception as e:
                 logHandle.error("Start Screen error: %s" % e)
 
+    def measrementcalibrations(self):
+        """
+        This function runs the application in measurement input mode.
+        """
+        try:
+            oscillation_choice = CONF_PARAMS["dev"]["OSCILLATION_CHOICE"]
+            self.stdscr.clear()
+            curses.echo()
+            self.stdscr.addstr(0, 0, "MSU Rack Width: \n")
+            CONF_PARAMS["site"]["RACK_WIDTH"] = float(self.stdscr.getstr(1,0,2))
+            self.stdscr.addstr(2, 0, "MSU Rack Base Height from ground: \n")
+            CONF_PARAMS["site"]["RACK_BASE_HEIGHT"] = float(self.stdscr.getstr(3,0,2))
+            self.stdscr.addstr(4, 0, "Projector Height from ground: \n")
+            CONF_PARAMS["site"]["PROJ_HEIGHT"] = float(self.stdscr.getstr(5,0,3))
+            self.stdscr.addstr(6, 0, "Set Oscillation True or False by pressing 'F': \n")
+            while True:
+                choice = self.stdscr.getch()
+                if choice == ord('f') or choice == ord('F'):
+                    oscillation_choice = not oscillation_choice
+                    self.stdscr.addstr(7, 0, str(oscillation_choice))
+                elif choice == ord('\n'):
+                    CONF_PARAMS["dev"]["OSCILLATION_CHOICE"] = oscillation_choice
+                    break
+            CONF_PARAMS["site"]["RACK_HEIGHT"] = CONF_PARAMS["site"]["PROJ_HEIGHT"] - CONF_PARAMS["site"]["RACK_BASE_HEIGHT"]
+            with open(r'./config/config.json', 'w') as con:
+                json.dump(CONF_PARAMS, con, indent=4)
+            curses.endwin()
+        except Exception as e:
+            logHandle.error("measurement calibration mode error: %s" % e)
 
 
-    # finetodec function is used for converting fine mode movements to 3 decimal places value
     def finetodec(self, a) -> float:
         return a / 255
 
@@ -219,16 +240,17 @@ class Calibration():
         lcv = Leastcountvalue()
         self.showStartScreen()
         if self.cal_mode == '1':
-            CONF_PARAMS["site"]["RACK_WIDTH"] = float(input("MSU Rack Width: \n"))
-            CONF_PARAMS["site"]["RACK_BASE_HEIGHT"] = float(input("MSU Rack Base Height from ground: \n"))
-            CONF_PARAMS["site"]["PROJ_HEIGHT"] = float(input("Projector Height from ground: \n"))
-            CONF_PARAMS["dev"]["OSCILLATION_CHOICE"] = bool(input("Set Oscillation True or False "
-                                                                  "respectively: \n"))
-            CONF_PARAMS["site"]["RACK_HEIGHT"] = CONF_PARAMS["site"]["PROJ_HEIGHT"] - CONF_PARAMS["site"][
-                "RACK_BASE_HEIGHT"]
-
-            with open(r'./config/config.json', 'w') as con:
-                json.dump(CONF_PARAMS, con, indent=4)
+            self.measrementcalibrations()
+            # CONF_PARAMS["site"]["RACK_WIDTH"] = float(input("MSU Rack Width: \n"))
+            # CONF_PARAMS["site"]["RACK_BASE_HEIGHT"] = float(input("MSU Rack Base Height from ground: \n"))
+            # CONF_PARAMS["site"]["PROJ_HEIGHT"] = float(input("Projector Height from ground: \n"))
+            # CONF_PARAMS["dev"]["OSCILLATION_CHOICE"] = bool(input("Set Oscillation True or False "
+            #                                                       "respectively: \n"))
+            # CONF_PARAMS["site"]["RACK_HEIGHT"] = CONF_PARAMS["site"]["PROJ_HEIGHT"] - CONF_PARAMS["site"][
+            #     "RACK_BASE_HEIGHT"]
+            #
+            # with open(r'./config/config.json', 'w') as con:
+            #     json.dump(CONF_PARAMS, con, indent=4)
 
         elif self.cal_mode == '2':
             while self.pointsList:
