@@ -1,4 +1,3 @@
-configparser
 pyudev==0.22.0
 pyserial==3.5
 requests==2.18.4

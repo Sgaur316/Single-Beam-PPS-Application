@@ -44,5 +44,7 @@ class gorLogger():
             gorLogger.create_logger()
 
         return gorLogger.logInstance
+
+
 gorLogger.loggerInit('Projection', 'projector.log', './log')
 logHandle = gorLogger.getInstance()

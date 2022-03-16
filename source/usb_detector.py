@@ -1,7 +1,7 @@
 # Serial is PySerial, the serial port software for Python
 import serial
 import pyudev
-import logger
+from source import logger
 from time import sleep
 import serial.tools.list_ports
 

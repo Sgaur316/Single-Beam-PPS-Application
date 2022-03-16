@@ -9,7 +9,6 @@ RUN python3.6 -m pip install --upgrade pip==20.3.1
 
 #--- Install App specific python packages---
 RUN python3.6 -m pip install \
-    configparser \
     pyudev==0.22.0 \
     pyserial==3.5 \
     requests==2.18.4
