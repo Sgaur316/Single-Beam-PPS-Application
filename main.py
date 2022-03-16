@@ -8,7 +8,7 @@ from source import logger
 from time import sleep
 from config import SERVER_IP, SERVER_PORT, PPS_ID
 import sys
-
+import os
 
 class Connection():
     server_address = (SERVER_IP, SERVER_PORT)
@@ -40,6 +40,7 @@ class Connection():
         Display().start()
         while True:
             sock = self.create_socket()
+            self.set_keep_alive_linux(sock=sock)
             try:
                 self.logHandle.info('App: connecting to %s port %s' % self.server_address)
                 sock.connect(self.server_address)
@@ -83,10 +84,12 @@ class Connection():
 # When running the application we call main function with two optional arguments for two different modes.
 # i.e. calibration and the application mode
 if __name__ == '__main__':
-    operation = sys.argv
     con = Connection()
     cal = Calibration()
-    if operation[1] == 'app':
-        con.connection()
-    elif operation[1] == 'calibrate':
+    if len(sys.argv) > 2:
+        sleep(1)
+        os._exit(os.EX_OK)
+    if len(sys.argv) == 2 and sys.argv[1] == "cal_mode":
         cal.calibrate()
+    else:
+        con.connection()
