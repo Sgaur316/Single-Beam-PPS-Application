@@ -69,7 +69,7 @@ cp -r {config,source,main.py,"${DEPS_CACHE}",requirements.txt} "${BUILD_DIR}/opt
 cp dpkg/projector_experiments.conf "${BUILD_DIR}/etc/supervisor/conf.d/"
 
 fpm -s dir -t deb --after-install "${AFTER_INSTALL}" --after-remove "${AFTER_REMOVE}" \
-    -d 'python' -d 'libpq-dev' -d 'virtualenv' -d 'python-dev' -d 'python-pip' -d 'supervisor' -d 'libffi-dev' \
+    -d 'python3' -d 'libpq-dev' -d 'virtualenv' -d 'python-dev' -d 'python-pip' -d 'supervisor' -d 'libffi-dev' \
     -d 'supervisor' -a all -n "${NAME}" -v "${VERSION}" \
     build_files/=/
 
