@@ -167,7 +167,7 @@ class Calibration():
         """
             Support function for redrawCustomScreen function
         """
-        self.stdscr.addstr(0,0, "Select the calibration mode:\n1. MSU measurements from ground,\n2. Base Station "
+        self.stdscr.addstr(0,0, "Select the calibration mode:\n1. MSU measurements from ground,\n2. MSU 3 point "
                                 "Calibration, \n3. Advanced Calibration: \n")
         while True:
             try:
