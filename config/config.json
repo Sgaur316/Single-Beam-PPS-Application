@@ -30,6 +30,7 @@
         "OSCILLATION_AMP_EXTRA": 2,
         "OSCILLATION_PATTERN": "V",
         "TILT_CHANNEL": 3,
+        "PAN_CHANNEL": 1,
         "PAN_FINE_CHANNEL": 2,
         "TILT_FINE_CHANNEL": 4,
         "STROBE_CHANNEL": 7,
