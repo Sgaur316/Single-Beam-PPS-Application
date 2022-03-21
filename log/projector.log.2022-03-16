@@ -1,0 +1,763 @@
+2022-03-16 13:01:32,637 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 13:01:32,637 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 13:01:32,644 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:01:32,646 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:01:32,646 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:01:32,646 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:01:32,650 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 13:01:32,655 - Projection - INFO - Ser :: Serial<id=0x7fbcdbfdf0f0, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 13:02:02,476 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 13:02:02,476 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 13:02:02,482 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:02:02,483 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:02:02,484 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:02:02,484 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:02:02,488 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 13:02:02,493 - Projection - INFO - Ser :: Serial<id=0x7f912ccf2550, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 13:03:43,033 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 13:03:43,033 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 13:03:43,039 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:03:43,041 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:03:43,041 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:03:43,042 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:03:43,045 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 13:03:43,050 - Projection - INFO - Ser :: Serial<id=0x7fb810ba7550, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 13:03:45,058 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:03:45,058 - Projection - INFO - App: Error [Errno 101] Network is unreachable closing socket and creating a new socket After 5 sec
+2022-03-16 13:03:50,064 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:03:50,064 - Projection - INFO - App: Error [Errno 101] Network is unreachable closing socket and creating a new socket After 5 sec
+2022-03-16 13:03:55,070 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:03:55,070 - Projection - INFO - App: Error [Errno 101] Network is unreachable closing socket and creating a new socket After 5 sec
+2022-03-16 13:04:00,072 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:04:00,073 - Projection - INFO - App: Error [Errno 101] Network is unreachable closing socket and creating a new socket After 5 sec
+2022-03-16 13:04:05,078 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:04:05,078 - Projection - INFO - App: Error [Errno 101] Network is unreachable closing socket and creating a new socket After 5 sec
+2022-03-16 13:04:10,083 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:04:10,084 - Projection - INFO - App: Error [Errno 101] Network is unreachable closing socket and creating a new socket After 5 sec
+2022-03-16 13:04:15,105 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:04:15,105 - Projection - INFO - App: Error [Errno 101] Network is unreachable closing socket and creating a new socket After 5 sec
+2022-03-16 13:04:20,114 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:04:20,114 - Projection - INFO - App: Error [Errno 101] Network is unreachable closing socket and creating a new socket After 5 sec
+2022-03-16 13:04:25,119 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:04:25,122 - Projection - INFO - App: Connected to server...
+2022-03-16 13:04:25,123 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:04:28,605 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 13:04:28,605 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 13:04:28,612 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:04:28,614 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:04:28,614 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:04:28,615 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:04:28,618 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 13:04:28,624 - Projection - INFO - Ser :: Serial<id=0x7fe4e5bca550, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 13:04:30,629 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:04:30,631 - Projection - INFO - App: Connected to server...
+2022-03-16 13:04:30,631 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:05:24,089 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 13:05:24,089 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 13:05:24,095 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:05:24,096 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:05:24,097 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:05:24,097 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:05:24,101 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 13:05:24,105 - Projection - INFO - Ser :: Serial<id=0x7fc8cae585c0, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 13:05:26,113 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:05:26,113 - Projection - INFO - App: Error [Errno 101] Network is unreachable closing socket and creating a new socket After 5 sec
+2022-03-16 13:05:31,122 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:05:31,122 - Projection - INFO - App: Error [Errno 101] Network is unreachable closing socket and creating a new socket After 5 sec
+2022-03-16 13:05:35,960 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 13:05:35,960 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 13:05:35,968 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:05:35,970 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:05:35,970 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:05:35,971 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:05:35,974 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 13:05:35,979 - Projection - INFO - Ser :: Serial<id=0x7f065a88a518, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 13:05:37,984 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:05:37,988 - Projection - INFO - App: Connected to server...
+2022-03-16 13:05:37,988 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:05:48,978 - Projection - INFO - App: Received message: point,15,157.5,0,0,0,1
+2022-03-16 13:05:48,978 - Projection - INFO - The length of message received 22
+2022-03-16 13:05:48,978 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:05:49,109 - Projection - INFO - 2. Projection: lastAction updated to - point
+2022-03-16 13:05:49,110 - Projection - INFO - Absolute: 18.43494882292201    25.59405071667401
+2022-03-16 13:05:49,110 - Projection - INFO - pan least count1.974     tilt least count1.163
+2022-03-16 13:05:49,110 - Projection - INFO - Mount error fix in X for Y tilts:-0.333433657540768
+2022-03-16 13:05:49,110 - Projection - INFO - Mount error fix in Y for X pans :-0.07550546138615614
+2022-03-16 13:05:49,111 - Projection - INFO - Final PAN value for given point: 76
+2022-03-16 13:05:49,111 - Projection - INFO - Final PAN Fine value for given point: 83
+2022-03-16 13:05:49,111 - Projection - INFO - Final TILT value for given point: 44
+2022-03-16 13:05:49,111 - Projection - INFO - Final TILT value for given point: 21
+2022-03-16 13:07:00,813 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 13:07:00,814 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 13:07:00,819 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:07:00,821 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:07:00,821 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:07:00,822 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:07:00,825 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 13:07:00,830 - Projection - INFO - Ser :: Serial<id=0x7f17b97c3518, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 13:07:02,841 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:07:02,845 - Projection - INFO - App: Connected to server...
+2022-03-16 13:07:02,845 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:07:47,506 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 13:07:47,506 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 13:07:47,512 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:07:47,514 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:07:47,514 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:07:47,515 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:07:47,518 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 13:07:47,524 - Projection - INFO - Ser :: Serial<id=0x7fb557a10518, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 13:07:49,531 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:07:49,535 - Projection - INFO - App: Connected to server...
+2022-03-16 13:07:49,536 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:08:07,583 - Projection - INFO - App: Received message: point,45,157.5,0,0,0,1
+2022-03-16 13:08:07,584 - Projection - INFO - The length of message received 22
+2022-03-16 13:08:07,584 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:08:07,715 - Projection - INFO - 2. Projection: lastAction updated to - point
+2022-03-16 13:08:07,715 - Projection - INFO - Absolute: 2.245742565895071    26.77159170342827
+2022-03-16 13:08:07,715 - Projection - INFO - pan least count1.974     tilt least count0.925
+2022-03-16 13:08:07,715 - Projection - INFO - Mount error fix in X for Y tilts:-0.43394581595657294
+2022-03-16 13:08:07,715 - Projection - INFO - Mount error fix in Y for X pans :-0.4482881420766541
+2022-03-16 13:08:07,716 - Projection - INFO - Final PAN value for given point: 84
+2022-03-16 13:08:07,717 - Projection - INFO - Final PAN Fine value for given point: 109
+2022-03-16 13:08:07,717 - Projection - INFO - Final TILT value for given point: 51
+2022-03-16 13:08:07,717 - Projection - INFO - Final TILT value for given point: 99
+2022-03-16 13:10:46,398 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 13:10:46,399 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 13:10:46,405 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:10:46,406 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:10:46,407 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:10:46,408 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 13:10:46,411 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 13:10:46,417 - Projection - INFO - Ser :: Serial<id=0x7f86ac1274a8, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 13:10:48,423 - Projection - INFO - App: connecting to 192.168.8.201 port 1571
+2022-03-16 13:10:48,425 - Projection - INFO - App: Connected to server...
+2022-03-16 13:10:48,425 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:10:57,897 - Projection - INFO - App: Received message: point,75,157.5,0,0,0,1
+2022-03-16 13:10:57,897 - Projection - INFO - The length of message received 22
+2022-03-16 13:10:57,898 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:10:58,028 - Projection - INFO - 2. Projection: lastAction updated to - point
+2022-03-16 13:10:58,029 - Projection - INFO - Absolute: -14.300277449185588    26.070531106977736
+2022-03-16 13:10:58,029 - Projection - INFO - pan least count1.974     tilt least count0.925
+2022-03-16 13:10:58,029 - Projection - INFO - Mount error fix in X for Y tilts:-0.4229617094708614
+2022-03-16 13:10:58,029 - Projection - INFO - Mount error fix in Y for X pans :-0.8292870371462093
+2022-03-16 13:10:58,030 - Projection - INFO - Final PAN value for given point: 92
+2022-03-16 13:10:58,030 - Projection - INFO - Final PAN Fine value for given point: 209
+2022-03-16 13:10:58,030 - Projection - INFO - Final TILT value for given point: 51
+2022-03-16 13:10:58,030 - Projection - INFO - Final TILT value for given point: 3
+2022-03-16 13:12:10,603 - Projection - INFO - App: Received message: point,15,175.5,0,0,0,1
+2022-03-16 13:12:10,603 - Projection - INFO - The length of message received 22
+2022-03-16 13:12:10,625 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:12:10,755 - Projection - INFO - Projection: continuous 2 point command received,first stopping projector then pointing
+2022-03-16 13:12:10,756 - Projection - INFO - 3. Projection: lastAction updated to: point 
+2022-03-16 13:12:10,756 - Projection - INFO - Absolute: 18.43494882292201    17.30585164289993
+2022-03-16 13:12:10,756 - Projection - INFO - pan least count1.974     tilt least count0.925
+2022-03-16 13:12:10,756 - Projection - INFO - Mount error fix in X for Y tilts:-0.28563809859616024
+2022-03-16 13:12:10,756 - Projection - INFO - Mount error fix in Y for X pans :-0.07550546138615614
+2022-03-16 13:12:10,757 - Projection - INFO - Final PAN value for given point: 76
+2022-03-16 13:12:10,757 - Projection - INFO - Final PAN Fine value for given point: 95
+2022-03-16 13:12:10,757 - Projection - INFO - Final TILT value for given point: 40
+2022-03-16 13:12:10,757 - Projection - INFO - Final TILT value for given point: 200
+2022-03-16 13:14:00,174 - Projection - INFO - App: Received message: point,45,175.5,0,0,0,1
+2022-03-16 13:14:00,174 - Projection - INFO - The length of message received 22
+2022-03-16 13:14:00,174 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:14:00,305 - Projection - INFO - Projection: continuous 2 point command received,first stopping projector then pointing
+2022-03-16 13:14:00,305 - Projection - INFO - 3. Projection: lastAction updated to: point 
+2022-03-16 13:14:00,305 - Projection - INFO - Absolute: 2.245742565895071    18.16875598261623
+2022-03-16 13:14:00,306 - Projection - INFO - pan least count1.974     tilt least count0.925
+2022-03-16 13:14:00,306 - Projection - INFO - Mount error fix in X for Y tilts:-0.299157947240364
+2022-03-16 13:14:00,306 - Projection - INFO - Mount error fix in Y for X pans :-0.4482881420766541
+2022-03-16 13:14:00,307 - Projection - INFO - Final PAN value for given point: 84
+2022-03-16 13:14:00,307 - Projection - INFO - Final PAN Fine value for given point: 143
+2022-03-16 13:14:00,307 - Projection - INFO - Final TILT value for given point: 42
+2022-03-16 13:14:00,307 - Projection - INFO - Final TILT value for given point: 22
+2022-03-16 13:14:32,862 - Projection - INFO - App: Received message: point,75,175.5,0,0,0,1
+2022-03-16 13:14:32,862 - Projection - INFO - The length of message received 22
+2022-03-16 13:14:32,863 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:14:32,993 - Projection - INFO - Projection: continuous 2 point command received,first stopping projector then pointing
+2022-03-16 13:14:32,994 - Projection - INFO - 3. Projection: lastAction updated to: point 
+2022-03-16 13:14:32,994 - Projection - INFO - Absolute: -14.300277449185588    17.653919909735905
+2022-03-16 13:14:32,994 - Projection - INFO - pan least count1.974     tilt least count0.925
+2022-03-16 13:14:32,994 - Projection - INFO - Mount error fix in X for Y tilts:-0.2910915771208133
+2022-03-16 13:14:32,994 - Projection - INFO - Mount error fix in Y for X pans :-0.8292870371462093
+2022-03-16 13:14:32,995 - Projection - INFO - Final PAN value for given point: 92
+2022-03-16 13:14:32,995 - Projection - INFO - Final PAN Fine value for given point: 243
+2022-03-16 13:14:32,995 - Projection - INFO - Final TILT value for given point: 41
+2022-03-16 13:14:32,995 - Projection - INFO - Final TILT value for given point: 233
+2022-03-16 13:14:59,289 - Projection - INFO - App: Received message: point,15,0,0,0,0,1
+2022-03-16 13:14:59,289 - Projection - INFO - The length of message received 18
+2022-03-16 13:14:59,289 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:14:59,420 - Projection - INFO - Projection: continuous 2 point command received,first stopping projector then pointing
+2022-03-16 13:14:59,420 - Projection - INFO - 3. Projection: lastAction updated to: point 
+2022-03-16 13:14:59,421 - Projection - INFO - Absolute: 18.43494882292201    62.777010608318875
+2022-03-16 13:14:59,421 - Projection - INFO - pan least count1.974     tilt least count0.925
+2022-03-16 13:14:59,421 - Projection - INFO - Mount error fix in X for Y tilts:-0.9980730216736212
+2022-03-16 13:14:59,421 - Projection - INFO - Mount error fix in Y for X pans :-0.07550546138615614
+2022-03-16 13:14:59,538 - Projection - INFO - Final PAN value for given point: 75
+2022-03-16 13:14:59,538 - Projection - INFO - Final PAN Fine value for given point: 169
+2022-03-16 13:14:59,539 - Projection - INFO - Final TILT value for given point: 89
+2022-03-16 13:14:59,539 - Projection - INFO - Final TILT value for given point: 240
+2022-03-16 13:16:42,382 - Projection - INFO - App: Received message: point,15,0,0,0,0,1
+2022-03-16 13:16:42,382 - Projection - INFO - The length of message received 18
+2022-03-16 13:16:42,383 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:16:42,513 - Projection - INFO - Projection: continuous 2 point command received,first stopping projector then pointing
+2022-03-16 13:16:42,513 - Projection - INFO - 3. Projection: lastAction updated to: point 
+2022-03-16 13:16:42,514 - Projection - INFO - Absolute: 18.43494882292201    62.777010608318875
+2022-03-16 13:16:42,514 - Projection - INFO - pan least count1.974     tilt least count0.925
+2022-03-16 13:16:42,514 - Projection - INFO - Mount error fix in X for Y tilts:-0.9980730216736212
+2022-03-16 13:16:42,514 - Projection - INFO - Mount error fix in Y for X pans :-0.07550546138615614
+2022-03-16 13:16:42,622 - Projection - INFO - Final PAN value for given point: 75
+2022-03-16 13:16:42,622 - Projection - INFO - Final PAN Fine value for given point: 169
+2022-03-16 13:16:42,622 - Projection - INFO - Final TILT value for given point: 89
+2022-03-16 13:16:42,622 - Projection - INFO - Final TILT value for given point: 240
+2022-03-16 13:16:50,757 - Projection - INFO - App: Received message: point,45.0,0,0,0,0,1
+2022-03-16 13:16:50,757 - Projection - INFO - The length of message received 20
+2022-03-16 13:16:50,757 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:16:50,888 - Projection - INFO - Projection: continuous 2 point command received,first stopping projector then pointing
+2022-03-16 13:16:50,888 - Projection - INFO - 3. Projection: lastAction updated to: point 
+2022-03-16 13:16:50,888 - Projection - INFO - Absolute: 2.245742565895071    63.9684967557956
+2022-03-16 13:16:50,888 - Projection - INFO - pan least count1.974     tilt least count0.925
+2022-03-16 13:16:50,888 - Projection - INFO - Mount error fix in X for Y tilts:-1.0167410380853208
+2022-03-16 13:16:50,888 - Projection - INFO - Mount error fix in Y for X pans :-0.4482881420766541
+2022-03-16 13:16:50,889 - Projection - INFO - Final PAN value for given point: 83
+2022-03-16 13:16:50,889 - Projection - INFO - Final PAN Fine value for given point: 215
+2022-03-16 13:16:50,890 - Projection - INFO - Final TILT value for given point: 91
+2022-03-16 13:16:50,890 - Projection - INFO - Final TILT value for given point: 153
+2022-03-16 13:17:25,297 - Projection - INFO - App: Received message: point,75,0,0,0,0,1
+2022-03-16 13:17:25,297 - Projection - INFO - The length of message received 18
+2022-03-16 13:17:25,319 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:17:25,450 - Projection - INFO - Projection: continuous 2 point command received,first stopping projector then pointing
+2022-03-16 13:17:25,450 - Projection - INFO - 3. Projection: lastAction updated to: point 
+2022-03-16 13:17:25,451 - Projection - INFO - Absolute: -14.300277449185588    63.26816747575583
+2022-03-16 13:17:25,451 - Projection - INFO - pan least count1.974     tilt least count0.925
+2022-03-16 13:17:25,451 - Projection - INFO - Mount error fix in X for Y tilts:-1.0057683897494059
+2022-03-16 13:17:25,451 - Projection - INFO - Mount error fix in Y for X pans :-0.8292870371462093
+2022-03-16 13:17:25,452 - Projection - INFO - Final PAN value for given point: 92
+2022-03-16 13:17:25,452 - Projection - INFO - Final PAN Fine value for given point: 60
+2022-03-16 13:17:25,452 - Projection - INFO - Final TILT value for given point: 91
+2022-03-16 13:17:25,452 - Projection - INFO - Final TILT value for given point: 57
+2022-03-16 13:17:41,273 - Projection - INFO - App: Received message: point,15,28.5,0,0,0,1
+2022-03-16 13:17:41,274 - Projection - INFO - The length of message received 21
+2022-03-16 13:17:41,274 - Projection - INFO - App: Expecting a command from server...
+2022-03-16 13:17:41,404 - Projection - INFO - Projection: continuous 2 point command received,first stopping projector then pointing
+2022-03-16 13:17:41,405 - Projection - INFO - 3. Projection: lastAction updated to: point 
+2022-03-16 13:17:41,405 - Projection - INFO - Absolute: 18.43494882292201    59.21924466072298
+2022-03-16 13:17:41,405 - Projection - INFO - pan least count1.974     tilt least count0.925
+2022-03-16 13:17:41,405 - Projection - INFO - Mount error fix in X for Y tilts:-0.9423305078060787
+2022-03-16 13:17:41,405 - Projection - INFO - Mount error fix in Y for X pans :-0.07550546138615614
+2022-03-16 13:17:41,406 - Projection - INFO - Final PAN value for given point: 75
+2022-03-16 13:17:41,406 - Projection - INFO - Final PAN Fine value for given point: 183
+2022-03-16 13:17:41,406 - Projection - INFO - Final TILT value for given point: 86
+2022-03-16 13:17:41,406 - Projection - INFO - Final TILT value for given point: 24
+2022-03-16 13:18:16,787 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:17,088 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:17,389 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:17,691 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:17,992 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:18,293 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:18,595 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:18,897 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:19,198 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:19,500 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:19,801 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:20,103 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:20,403 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:20,718 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:21,019 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:21,320 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:21,622 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:21,923 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:22,224 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:22,525 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:22,827 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:23,128 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:23,429 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:23,731 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:24,032 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:24,333 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:24,634 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:24,936 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:25,237 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:25,538 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:25,839 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:26,141 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:26,442 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:26,743 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:27,045 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:27,346 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:27,647 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:27,949 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:28,250 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:28,552 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:28,853 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:29,154 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:29,456 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:29,757 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:30,058 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:30,360 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:30,661 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:30,963 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:31,264 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:31,565 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:31,866 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:32,168 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:32,469 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:32,770 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:33,072 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:33,373 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:33,675 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:33,976 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:34,277 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:34,579 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:34,880 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:35,181 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:35,483 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:35,784 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:36,085 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:36,387 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:36,688 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:36,990 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:37,291 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:37,592 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:37,893 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:38,195 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:38,496 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:38,797 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:39,099 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:39,401 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:39,702 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:40,004 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:40,305 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:40,606 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:40,906 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:41,207 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:41,509 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:41,809 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:42,110 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:42,411 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:42,712 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:43,013 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:43,315 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:43,615 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:43,916 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:44,218 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:44,518 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:44,820 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:45,121 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:45,422 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:45,723 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:46,024 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:46,325 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:46,626 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:46,927 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:47,228 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:47,532 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:47,834 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:48,135 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:48,436 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:48,737 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:49,039 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:49,340 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:49,641 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:49,943 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:50,245 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:50,546 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:50,847 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:51,148 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:51,449 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:51,750 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:52,051 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:52,352 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:52,653 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:52,954 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:53,255 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:53,557 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:53,858 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:54,159 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:54,460 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:54,762 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:55,063 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:55,364 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:55,666 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:55,968 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:56,269 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:56,571 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:56,872 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:57,173 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:57,474 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:57,775 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:58,076 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:58,378 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:58,678 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:58,979 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:59,281 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:59,582 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:18:59,883 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:00,185 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:00,486 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:00,787 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:01,089 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:01,390 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:01,691 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:01,992 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:02,293 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:02,595 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:02,896 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:03,197 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:03,498 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:03,799 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:04,101 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:04,402 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:04,704 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:05,005 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:05,306 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:05,608 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:05,909 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:06,210 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:06,511 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:06,812 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:07,114 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:07,415 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:07,716 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:08,018 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:08,319 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:08,621 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:08,922 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:09,224 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:09,525 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:09,826 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:10,128 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 13:19:10,429 - Projection - ERROR - Projection: Error write failed: [Errno 5] Input/output error 
+2022-03-16 14:48:35,262 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 14:48:35,262 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 14:48:35,271 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 14:48:35,271 - Projection - INFO - Ser :: None
+2022-03-16 14:48:37,274 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 17:40:29,108 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 17:40:29,109 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 17:40:29,119 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 17:40:29,119 - Projection - INFO - Ser :: None
+2022-03-16 17:40:31,121 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 17:44:15,910 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 17:44:15,910 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 17:44:15,920 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 17:44:15,920 - Projection - INFO - Ser :: None
+2022-03-16 17:44:17,922 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 17:47:47,757 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 17:47:47,757 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 17:47:47,767 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 17:47:47,768 - Projection - INFO - Ser :: None
+2022-03-16 17:47:49,770 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 17:51:53,172 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 17:51:53,172 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 17:51:53,182 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 17:51:53,182 - Projection - INFO - Ser :: None
+2022-03-16 17:51:55,185 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 17:52:54,467 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 17:52:54,467 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 17:52:54,477 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 17:52:54,477 - Projection - INFO - Ser :: None
+2022-03-16 17:52:56,478 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 17:54:37,808 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 17:54:37,808 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 17:54:37,818 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 17:54:37,818 - Projection - INFO - Ser :: None
+2022-03-16 17:54:39,820 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 17:58:15,800 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 17:58:15,801 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 17:58:15,810 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 17:58:15,810 - Projection - INFO - Ser :: None
+2022-03-16 17:58:17,813 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 17:58:47,691 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 17:58:47,691 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 17:58:47,700 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 17:58:47,700 - Projection - INFO - Ser :: None
+2022-03-16 17:58:49,702 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:02:12,187 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:02:12,187 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:02:12,197 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 18:02:12,197 - Projection - INFO - Ser :: None
+2022-03-16 18:02:14,198 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:06:12,928 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:06:12,928 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:06:12,937 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 18:06:12,937 - Projection - INFO - Ser :: None
+2022-03-16 18:06:14,940 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:07:26,753 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:07:26,753 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:07:26,763 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 18:07:26,763 - Projection - INFO - Ser :: None
+2022-03-16 18:07:28,766 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:10:37,255 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:10:37,255 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:10:37,264 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 18:10:37,265 - Projection - INFO - Ser :: None
+2022-03-16 18:10:39,267 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:15:43,848 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:15:43,848 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:15:43,858 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 18:15:43,858 - Projection - INFO - Ser :: None
+2022-03-16 18:15:45,860 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:15:49,887 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:18:38,017 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:32:33,031 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:32:33,032 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:32:33,039 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 18:32:33,039 - Projection - INFO - Ser :: None
+2022-03-16 18:32:35,042 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:35:28,323 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:35:28,324 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:35:28,332 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 18:35:28,332 - Projection - INFO - Ser :: None
+2022-03-16 18:35:30,333 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:35:31,267 - Projection - INFO - 2
+2022-03-16 18:39:51,483 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:39:51,483 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:39:51,491 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 18:39:51,491 - Projection - INFO - Ser :: None
+2022-03-16 18:39:53,494 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:39:54,795 - Projection - INFO - 2
+2022-03-16 18:45:09,230 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:45:09,230 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:45:09,240 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 18:45:09,240 - Projection - INFO - Ser :: None
+2022-03-16 18:45:11,242 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:45:13,281 - Projection - INFO - 2
+2022-03-16 18:50:50,145 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:50:50,145 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:50:50,153 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 18:50:50,153 - Projection - INFO - Ser :: None
+2022-03-16 18:50:52,154 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:51:16,057 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:51:16,058 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:51:16,067 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 18:51:16,067 - Projection - INFO - Ser :: None
+2022-03-16 18:51:18,069 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 18:51:20,356 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,240 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,241 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,242 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,242 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,243 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,244 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,245 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,245 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,245 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,245 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,245 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,246 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,246 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,246 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,246 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,247 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,247 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,247 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,247 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,247 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,248 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,248 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,248 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:03,967 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:04,732 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:05,056 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:52:08,505 - Projection - ERROR - Projection: Error 'NoneType' object has no attribute 'write' 
+2022-03-16 18:58:15,142 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:58:15,142 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:58:15,149 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 18:58:15,152 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 18:58:15,152 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 18:58:15,154 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 18:58:15,159 - Projection - INFO - Ser :: Serial<id=0x7effba559f40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 18:59:11,925 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 18:59:11,925 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 18:59:11,932 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 18:59:11,935 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 18:59:11,935 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 18:59:11,937 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 18:59:11,942 - Projection - INFO - Ser :: Serial<id=0x7f3c4ed5bf40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:09:52,992 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:09:52,993 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:09:53,003 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:09:53,006 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:09:53,006 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:09:53,008 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 19:09:53,013 - Projection - INFO - Ser :: Serial<id=0x7fc7498a3f40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:10:15,332 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:10:15,332 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:10:15,339 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:10:15,341 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:10:15,341 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:10:15,343 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 19:10:15,350 - Projection - INFO - Ser :: Serial<id=0x7f96f7d0af40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:12:30,861 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:12:30,861 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:12:30,867 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:12:30,870 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:12:30,870 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:12:30,872 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 19:12:30,877 - Projection - INFO - Ser :: Serial<id=0x7f9e5b6a3f40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:14:10,095 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:14:10,095 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:14:10,101 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:14:10,103 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:14:10,104 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:14:10,106 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 19:14:10,111 - Projection - INFO - Ser :: Serial<id=0x7f4cd1c10f40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:14:50,424 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:14:50,424 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:14:50,432 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:14:50,434 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:14:50,435 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:14:50,437 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 19:14:50,443 - Projection - INFO - Ser :: Serial<id=0x7f55cc59af40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:16:18,019 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:16:18,019 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:16:18,026 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:16:18,028 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:16:18,029 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:16:18,031 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 19:16:18,037 - Projection - INFO - Ser :: Serial<id=0x7f4d45e12f40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:19:06,789 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:19:06,790 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:19:06,799 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:19:06,801 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:19:06,802 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:19:06,804 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 19:19:06,809 - Projection - INFO - Ser :: Serial<id=0x7faa5440ff40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:23:40,191 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:23:40,191 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:23:40,199 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:23:40,201 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:23:40,201 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:23:40,203 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 19:23:40,209 - Projection - INFO - Ser :: Serial<id=0x7f5f0f322f40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:24:02,948 - Projection - INFO - rack width: 22.0
+2022-03-16 19:42:47,704 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:42:47,704 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:42:47,710 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:42:47,712 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:42:47,712 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:42:47,714 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 19:42:47,718 - Projection - INFO - Ser :: Serial<id=0x7fdd3bf5cf40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:46:39,066 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:46:39,066 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:46:39,075 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:46:39,077 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:46:39,077 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:46:39,079 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 19:46:39,083 - Projection - INFO - Ser :: Serial<id=0x7fdb0660df40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:46:59,765 - Projection - ERROR - measurement calibration mode error: 'OSCILLATION_CHOICE'
+2022-03-16 19:50:45,614 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:50:45,614 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:50:45,620 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:50:45,624 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:50:45,625 - Projection - INFO - Usb Detector: ttyUSB0
+2022-03-16 19:50:45,627 - Projection - INFO - Usb Detector: Successful : Checking for Projector Serial USB
+2022-03-16 19:50:45,633 - Projection - INFO - Ser :: Serial<id=0x7f6f16967f40, open=True>(port='/dev/ttyUSB0', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+2022-03-16 19:50:49,200 - Projection - ERROR - measurement calibration mode error: 'OSCILLATION_CHOICE'
+2022-03-16 19:56:02,796 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:56:02,796 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:56:02,805 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 19:56:02,805 - Projection - INFO - Ser :: None
+2022-03-16 19:56:04,807 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 19:56:05,729 - Projection - ERROR - measurement calibration mode error: 'OSCILLATION_CHOICE'
+2022-03-16 19:57:45,783 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:57:45,783 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:57:45,793 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 19:57:45,793 - Projection - INFO - Ser :: None
+2022-03-16 19:57:47,794 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
+2022-03-16 19:57:48,629 - Projection - INFO - <class 'bool'>
+2022-03-16 19:59:05,961 - Projection - INFO - 
+<<<<<<<<<< Projector Started >>>>>>>>>>
+
+2022-03-16 19:59:05,961 - Projection - INFO - Usb Detector: Shorlisting USB devices
+2022-03-16 19:59:05,970 - Projection - INFO - Usb Detector: Error , no USB-DMX found retrying after 5 sec
+2022-03-16 19:59:05,970 - Projection - INFO - Ser :: None
+2022-03-16 19:59:07,973 - Projection - CRITICAL - Projector is not connected to the USB. Please connect and try again..
