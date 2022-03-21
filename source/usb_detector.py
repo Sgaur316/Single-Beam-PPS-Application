@@ -25,25 +25,31 @@ def get_serial():
             logHandle.info("Usb Detector: Successful : Checking for Projector Serial USB")
             serial_obj = None
             p_details = get_device_details()
-            for device in usb_devices:
-                serial_obj = serial.Serial("/dev/" + str(device))
-                if str(device) == p_details.get("path", ""):
-                    break
-            yield serial_obj
-            break
-
+            if p_details:
+                projector_connected = False
+                for device in usb_devices:
+                    serial_obj = serial.Serial("/dev/" + str(device))
+                    if str(device) == p_details.get("path", ""):
+                        projector_connected = True
+                        break
+                if projector_connected:
+                    yield serial_obj
+                else:
+                    yield None
+                break
+            else:
+                logHandle.error("Usb Detector: Error , no USB-DMX found retrying after 5 sec")
+                yield None
+                sleep(2)
         else:
-            logHandle.info("Usb Detector: Error , no USB-DMX found retrying after 5 sec")
+            logHandle.error("Usb Detector: Error , no USB-DMX found retrying after 5 sec")
             yield None
             sleep(2)
             # continue
 
 
 def get_device_details():
-    response = {"name": "",
-                "model": "",
-                "serial_no": "",
-                "path": ""}
+    response = {}
 
     try:
         for port in serial.tools.list_ports.comports():

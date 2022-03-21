@@ -49,7 +49,7 @@ class Dmxcontrol():
     time.sleep(2)
     if not ser:
         logHandle.critical("Projector is not connected to the USB. Please connect and try again..")
-
+        
     else:
         # this writes the initialization codes to the DMX
         ser.write(DMXOPEN + DMXINIT1 + DMXCLOSE)
@@ -152,7 +152,6 @@ class Dmxcontrol():
         """
         OSCILLATION_AMP = y
 
-
 class Display(threading.Thread):
     """
     Display class to create the display thread with the server
@@ -217,8 +216,8 @@ class Display(threading.Thread):
         """
         deltaX = lcv.mounterrorpan(dmxTILT)
         deltaY = lcv.mounterrortilt(dmxPAN)
-        logHandle.info("Mount error fix in X for Y tilts:" + str(deltaX))
-        logHandle.info("Mount error fix in Y for X pans :" + str(deltaY))
+        logHandle.info("Mount fix in X for Y tilts:" + str(deltaX))
+        logHandle.info("Mount fix in Y for X pans :" + str(deltaY))
         dmxPAN = dmxPAN + deltaX
         dmxPanFine = dmxcontrol.dectofine(dmxPAN)  # dectofine function to convert floating dmx value to fine movement
         dmxTILT = dmxTILT - deltaY
