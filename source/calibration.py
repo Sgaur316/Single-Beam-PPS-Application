@@ -86,13 +86,16 @@ class Calibration():
             dmxcontrol.setDmxToLight(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine), 255)
             while True:
                 self.stdscr.clear()
-                self.stdscr.addstr(0, 0, " PAN_LCV : %s" % CONF_PARAMS["Least_Counts"]["panLeastCount"])
-                self.stdscr.addstr(1, 0, " TILT_LCV : %s" % CONF_PARAMS["Least_Counts"]["tiltLeastCount"])
-                self.stdscr.addstr(2, 0,
-                            "Adjust the least count value in order to accumulate the projection span inaccuracy(e.g. "
-                            "reducing TILT_LCV will push and increase the tilt motion range downwards.i.e. Increases "
-                            "the Tilt DMX value).")
-                self.stdscr.addstr(3, 0, "Press 'E' to exit this prompt: ")
+                self.stdscr.addstr(0, 0, "If the projector is not pointing towards the intended D(0,0) coordinate "
+                                         "point adjust the projection to intended spot by altering span factors "
+                                         "using arrow keys.")
+                self.stdscr.addstr(1, 0, " PAN Span Factor : %s" % CONF_PARAMS["Least_Counts"]["panLeastCount"])
+                self.stdscr.addstr(2, 0, " TILT Span Factor : %s" % CONF_PARAMS["Least_Counts"]["tiltLeastCount"])
+                self.stdscr.addstr(3, 0,
+                            "Adjust the span factor in order to accumulate the projection span inaccuracy(e.g. "
+                            "reducing TILT span factor will push and increase the tilt motion range downwards"
+                            ".i.e.Increases the Tilt DMX value).")
+                self.stdscr.addstr(5, 0, "Press 'E' to exit this prompt: ")
 
                 try:
                     key = self.stdscr.getch()
@@ -215,8 +218,7 @@ class Calibration():
                         "Select the calibration mode:\n"
                         "1. MSU measurements from ground\n"
                         "2. Base Station Calibration\n"
-                        "3. Advanced Calibration\n"
-                        "4. Quit Calibration Process\n"
+                        "3. Quit Calibration Process\n"
                         "Select Option: ")
         while True:
             try:
@@ -321,16 +323,6 @@ class Calibration():
 
                 if self.cal_mode == '1':
                     self.measrementcalibrations()
-                    # CONF_PARAMS["site"]["RACK_WIDTH"] = float(input("MSU Rack Width: \n"))
-                    # CONF_PARAMS["site"]["RACK_BASE_HEIGHT"] = float(input("MSU Rack Base Height from ground: \n"))
-                    # CONF_PARAMS["site"]["PROJ_HEIGHT"] = float(input("Projector Height from ground: \n"))
-                    # CONF_PARAMS["dev"]["OSCILLATION_CHOICE"] = bool(input("Set Oscillation True or False "
-                    #                                                       "respectively: \n"))
-                    # CONF_PARAMS["site"]["RACK_HEIGHT"] = CONF_PARAMS["site"]["PROJ_HEIGHT"] - CONF_PARAMS["site"][
-                    #     "RACK_BASE_HEIGHT"]
-                    #
-                    # with open(r'./config/config.json', 'w') as con:
-                    #     json.dump(CONF_PARAMS, con, indent=4)
 
                 elif self.cal_mode == '2':
                     while self.pointsList:
@@ -404,16 +396,14 @@ class Calibration():
                                     f.close()
                                     self.showEndScreen()
                                     self.stdscr.getch()
-                                    curses.endwin()
-                                    break
+                                    # curses.endwin()
+                                    self.lcv_adjustment()
                                 else:
                                     self.currentPoint = self.pointsList[0]
 
                             elif key == ord('q') or key == ord('Q'):
                                 dmxcontrol.setDmxToLight(0, 0, 0, 0, 0)
-                                # self.stdscr.clear()
-                                # self.stdscr.refresh()
-                                # curses.endwin()
+
                                 break
 
                             dmxcontrol.setDmxToLight(int(self.DmxPan), int(self.DmxTilt), int(self.DmxPanFine), int(self.DmxTiltFine), 255)
@@ -425,10 +415,8 @@ class Calibration():
                             curses.endwin()
                             return
 
-                elif self.cal_mode == '3':
-                    self.lcv_adjustment()
 
-                elif self.cal_mode == '4':
+                elif self.cal_mode == '3':
                     logHandle.info("Exiting Calibration mode option selected")
                     self.stdscr.clear()
                     self.stdscr.refresh()

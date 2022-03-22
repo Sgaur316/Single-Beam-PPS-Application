@@ -31,28 +31,28 @@
     },
     "corner_points": {
         "a_pan": 75,
-        "a_pan_fine": 68,
-        "a_tilt": 25,
+        "a_pan_fine": 0,
+        "a_tilt": 24,
         "a_tilt_fine": 0,
-        "b_pan": 97,
-        "b_pan_fine": 85,
-        "b_tilt": 26,
+        "b_pan": 98,
+        "b_pan_fine": 0,
+        "b_tilt": 24,
         "b_tilt_fine": 0,
         "c_pan": 97,
-        "c_pan_fine": 53,
+        "c_pan_fine": 71,
         "c_tilt": 94,
         "c_tilt_fine": 0,
-        "d_pan": 75,
-        "d_pan_fine": 35,
-        "d_tilt": 93,
+        "d_pan": 74,
+        "d_pan_fine": 71,
+        "d_tilt": 94,
         "d_tilt_fine": 0
     },
     "Least_Counts": {
-        "panLeastCount": 2.119,
-        "tiltLeastCount": 0.856
+        "panLeastCount": 2.249,
+        "tiltLeastCount": 0.914
     },
     "Normal_DMX_values": {
-        "PAN_NORMAL": 86.3,
+        "PAN_NORMAL": 86.5,
         "TILT_NORMAL": 22.0
     }
 }
