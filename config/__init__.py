@@ -62,7 +62,7 @@ OSCILLATION_PATTERN = CONF_PARAMS["dev"]["OSCILLATION_PATTERN"]
 # Insert those values here
 
 # timeout(in minutes) for projector if no command received from the server
-PROJECTOR_TIMEOUT = CONF_PARAMS['dev'].get("PROJECTOR_TIMEOUT", 15)
+IDLE_TIMEOUT = CONF_PARAMS['dev'].get("IDLE_TIMEOUT_IN_MIN", 15)
 
 # Always keep this false unless otherwise told
 CONSIDER_THETA_SHIFT = CONF_PARAMS['dev'].get("CONSIDER_THETA_SHIFT", False)

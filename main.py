@@ -6,9 +6,10 @@ from source import action_queue
 from source.calibration import Calibration
 from source import logger
 from time import sleep
-from config import SERVER_IP, SERVER_PORT, PPS_ID
+from config import SERVER_IP, SERVER_PORT, PPS_ID, IDLE_TIMEOUT
 import sys
 import os
+import threading
 
 class Connection():
     server_address = (SERVER_IP, SERVER_PORT)
@@ -65,6 +66,8 @@ class Connection():
                         self.logHandle.info("App: Received message: %s" % msg)
                         self.logHandle.info("The length of message received %s" % len(msg))
                         action_queue.put(msg)
+                        stop_timer = threading.Timer(IDLE_TIMEOUT * 60, self.stop_timer_cb, [])
+                        stop_timer.start()
                         # TODO: below lines to be deleted
                         # time.sleep(0.02)
                         # input("Press Enter: ")
@@ -79,6 +82,13 @@ class Connection():
                 action_queue.emptyQueue()
                 sleep(5)
                 continue
+
+    def stop_timer_cb(self):
+        """
+        This method will send the bootup packet to the bridge
+        """
+        self.logHandle.debug(f"EVENT: Timer Expired")
+        action_queue.put('stop')
 
 
 # When running the application we call main function with two optional arguments for two different modes.

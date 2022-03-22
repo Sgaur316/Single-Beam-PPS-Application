@@ -14,7 +14,7 @@
         "QDIRECTION": 1
     },
     "dev": {
-        "PROJECTOR_TIMEOUT": 15,
+        "IDLE_TIMEOUT_IN_MIN": 10,
         "CONSIDER_THETA_SHIFT": false,
         "COLOR": 70,
         "OSCILLATION_CHOICE": false,
