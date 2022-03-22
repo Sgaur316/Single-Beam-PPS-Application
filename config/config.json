@@ -39,29 +39,29 @@
         "COLOR_CHANNEL": 5
     },
     "corner_points": {
-        "a_pan": 76,
-        "a_pan_fine": 0,
+        "a_pan": 75,
+        "a_pan_fine": 69,
         "a_tilt": 25,
         "a_tilt_fine": 0,
         "b_pan": 97,
-        "b_pan_fine": 0,
+        "b_pan_fine": 69,
         "b_tilt": 26,
         "b_tilt_fine": 0,
         "c_pan": 97,
-        "c_pan_fine": 0,
-        "c_tilt": 94,
+        "c_pan_fine": 69,
+        "c_tilt": 93,
         "c_tilt_fine": 0,
-        "d_pan": 76,
-        "d_pan_fine": 0,
-        "d_tilt": 93,
+        "d_pan": 75,
+        "d_pan_fine": 68,
+        "d_tilt": 92,
         "d_tilt_fine": 0
     },
     "Least_Counts": {
-        "panLeastCount": 2.235,
-        "tiltLeastCount": 0.855
+        "panLeastCount": 2.222,
+        "tiltLeastCount": 0.851
     },
     "Normal_DMX_values": {
-        "PAN_NORMAL": 86.5,
+        "PAN_NORMAL": 86.27058823529411,
         "TILT_NORMAL": 22.0
     }
 }

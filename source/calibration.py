@@ -390,7 +390,8 @@ class Calibration():
                                     CONF_PARAMS['corner_points']['d_pan_fine'] = self.dectofine(point_D_pan)
                                     CONF_PARAMS['corner_points']['d_tilt'] = int(point_D_tilt)
                                     CONF_PARAMS['corner_points']['d_tilt_fine'] = self.dectofine(point_D_tilt)
-                                    CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL'] = min(a_pan, b_pan) + (diff / 2)
+                                    formatted_string = "{:.3f}".format(min(a_pan, b_pan) + (diff / 2))
+                                    CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL'] = float(formatted_string)
                                     CONF_PARAMS["Least_Counts"]["panLeastCount"] = lcv.panLeastCount()
                                     CONF_PARAMS["Least_Counts"]["tiltLeastCount"] = lcv.tiltLeastCount()
                                     with open(r'./config/config.json', 'w') as f:
