@@ -1,7 +1,7 @@
 """ Calibration file is where we set the parameters and sets up our projection file according to the onsite situation"""
 # importing libraries
 import sys
-
+import time
 sys.path.append('./')
 import curses
 import json
@@ -311,6 +311,11 @@ class Calibration():
         try:
             dmxcontrol = Dmxcontrol()
             while True:
+                if dmxcontrol.is_projector_connected():
+                    break
+                else:
+                    time.sleep(5)
+            while True:
                 lcv = Leastcountvalue()
                 self.showStartScreen()
 
@@ -429,6 +434,7 @@ class Calibration():
                     self.stdscr.refresh()
                     curses.endwin()
                     break
+
                 else:
                     logHandle.error("Unknown input selected cal_mode = {}".format(self.cal_mode))
                     self.stdscr.clear()

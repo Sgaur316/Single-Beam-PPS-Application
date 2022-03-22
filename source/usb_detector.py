@@ -16,13 +16,12 @@ def get_serial():
         for device in context.list_devices(subsystem="usb"):
             for c in device.children:
                 if c.subsystem == "usb-serial":
-                    logHandle.info("Usb Detector: %s" % c.sys_name)
+                    logHandle.debug("Usb Detector: %s" % c.sys_name)
                     usb_devices.append(c.sys_name)
         # Make the list unique
         # Duplicates occur due to different USB versions supported(USB 1.0, 2.0 & 3.0)
         usb_devices = list(set(usb_devices))
         if len(usb_devices) >= 1:
-            logHandle.info("Usb Detector: Successful : Checking for Projector Serial USB")
             serial_obj = None
             p_details = get_device_details()
             if p_details:

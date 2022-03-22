@@ -68,6 +68,12 @@ class Dmxcontrol():
     mid_PAN = PAN_NORMAL
     tilt_norm = TILT_NORMAL
 
+    def is_projector_connected(self):
+        ser = next(usb_detector.get_serial())
+        if not ser:
+            self.logHandle.critical("Projector is not connected to the USB. Please connect and try again..")
+        return ser
+
     def send_dmx_data(self, data):
         """
         send_dmx_data function brings in
@@ -150,7 +156,7 @@ class Dmxcontrol():
         according to the y coordinate of point of projection
         to avoid over oscillation
         """
-        OSCILLATION_AMP = y
+        OSCILLATION_AMP = int(y)
 
 class Display(threading.Thread):
     """
@@ -220,7 +226,7 @@ class Display(threading.Thread):
         logHandle.info("Mount fix in Y for X pans :" + str(deltaY))
         dmxPAN = dmxPAN + deltaX
         dmxPanFine = dmxcontrol.dectofine(dmxPAN)  # dectofine function to convert floating dmx value to fine movement
-        dmxTILT = dmxTILT - deltaY
+        dmxTILT = dmxTILT + deltaY
         dmxTiltFine = dmxcontrol.dectofine(dmxTILT)
 
         # Oscillation choice decides whether we will just point at a coordinate or we will point and oscillate it
@@ -272,7 +278,16 @@ class Display(threading.Thread):
         dmxcontrol = Dmxcontrol()
         logHandle = dmxcontrol.logHandle
         while True:
+            if dmxcontrol.is_projector_connected():
+                break
+            else:
+                time.sleep(5)
+        action_queue.emptyQueue()
+        while True:
             msg = action_queue.get()
+            if not dmxcontrol.is_projector_connected():
+                logHandle.error("Projector Not connected, ignoring the event from server. Event: {}".format(msg))
+                continue
             self.stop()
             time.sleep(0.1)
             if msg == "disconnected":

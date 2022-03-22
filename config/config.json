@@ -17,7 +17,7 @@
         "PROJECTOR_TIMEOUT": 15,
         "CONSIDER_THETA_SHIFT": false,
         "COLOR": 70,
-        "OSCILLATION_CHOICE": true,
+        "OSCILLATION_CHOICE": false,
         "OSCILLATION_AMP": 50,
         "OSCILLATION_PATTERN": "V",
         "TILT_CHANNEL": 3,
@@ -31,28 +31,28 @@
     },
     "corner_points": {
         "a_pan": 75,
-        "a_pan_fine": 69,
+        "a_pan_fine": 68,
         "a_tilt": 25,
         "a_tilt_fine": 0,
         "b_pan": 97,
-        "b_pan_fine": 69,
+        "b_pan_fine": 85,
         "b_tilt": 26,
         "b_tilt_fine": 0,
         "c_pan": 97,
-        "c_pan_fine": 69,
-        "c_tilt": 93,
+        "c_pan_fine": 53,
+        "c_tilt": 94,
         "c_tilt_fine": 0,
         "d_pan": 75,
-        "d_pan_fine": 68,
-        "d_tilt": 92,
+        "d_pan_fine": 35,
+        "d_tilt": 93,
         "d_tilt_fine": 0
     },
     "Least_Counts": {
-        "panLeastCount": 2.222,
-        "tiltLeastCount": 0.851
+        "panLeastCount": 2.119,
+        "tiltLeastCount": 0.856
     },
     "Normal_DMX_values": {
-        "PAN_NORMAL": 86.27058823529411,
+        "PAN_NORMAL": 86.3,
         "TILT_NORMAL": 22.0
     }
 }
