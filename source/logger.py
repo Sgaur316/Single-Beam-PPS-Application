@@ -14,7 +14,8 @@ class gorLogger():
     def create_logger():
         logger = logging.getLogger(gorLogger.loggerName)
         logger.setLevel(logging.INFO)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] '
+                                          '- %(message)s')
         if not logger.handlers:
             if not os.path.exists(gorLogger.logDir):
                 os.makedirs(gorLogger.logDir)
