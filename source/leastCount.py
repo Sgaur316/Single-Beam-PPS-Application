@@ -18,12 +18,8 @@ class Leastcountvalue():
     y4 = float(CONF_PARAMS["corner_points"]["d_tilt"]) + ((float(CONF_PARAMS["corner_points"]["d_tilt_fine"]) // 0.255) / 1000)
 
     # Important Measurements
-    station_width = (CONF_PARAMS["site"]["WINDOW_WIDTH"]*10)/2
-    station_height = CONF_PARAMS["site"]["WINDOW_HEIGHT"]*10
     proj_unit_height = CONF_PARAMS["site"]["PROJECTOR_BASE_HEIGHT"]*10
     base_proj_dist = CONF_PARAMS["site"]["PROJECTOR_BASE_DISTANCE"]*10
-    # h1 = math.sqrt(math.pow(proj_unit_height,2)+math.pow(base_proj_dist,2))
-    # h2 = math.sqrt(math.pow(station_width,2)+math.pow(base_proj_dist,2))
     msu_widH = CONF_PARAMS["site"]["RACK_WIDTH"]/2
     msu_proj_dist = CONF_PARAMS["site"]["RACK_PROJ_DISTANCE"]
     msu_H = CONF_PARAMS["site"]["RACK_HEIGHT"]
@@ -45,22 +41,6 @@ class Leastcountvalue():
         return m * x
 
 
-    # Least Count calculation using base station calibration
-    # def panLeastCount()-> float:
-    #     diff = abs(x2-x1)
-    #     ang = 2 * (math.degrees(math.atan(station_width/h1)))
-    #     if diff == 0:
-    #         diff = 1
-    #     return ang/diff
-    #
-    # def tiltLeastCount()-> float:
-    #     diff = abs(y4-y1)
-    #     prfloat(h2)
-    #     prfloat(station_height-proj_unit_height)
-    #     ang = (math.degrees(math.atan(proj_unit_height/h2)))+(math.degrees(math.atan((station_height-proj_unit_height)/h2)))
-    #     if diff == 0:
-    #         diff = 1
-    #     return ang/diff
     """Least Count calculation using MSU calibration"""
 
     def panLeastCount(self) -> float:

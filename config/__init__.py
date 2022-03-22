@@ -28,7 +28,6 @@ PPS_TYPE = CONF_PARAMS['site'].get("PPS_TYPE", 'normal')
 # Approximate Height of B and C floors of rack
 # The lowest among all rack types
 FLOOR_B = CONF_PARAMS['site'].get("FLOOR_B")
-FLOOR_C = CONF_PARAMS['site'].get("FLOOR_C")
 
 #DMX Normals
 PAN_NORMAL = CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL']
@@ -41,8 +40,6 @@ TILT_NORMAL = CONF_PARAMS['Normal_DMX_values']['TILT_NORMAL']
 PROJ_HEIGHT = CONF_PARAMS['site']["PROJ_HEIGHT"]
 RACK_PROJ_DISTANCE = CONF_PARAMS['site']["RACK_PROJ_DISTANCE"]
 
-# RACK_ORIGIN_DISTANCE should be -ve if the rack is to the right of the projector
-RACK_ORIGIN_DISTANCE = CONF_PARAMS['site'].get("RACK_ORIGIN_DISTANCE", -126.8)
 RACK_WIDTH = CONF_PARAMS['site']["RACK_WIDTH"]
 RACK_HEIGHT = CONF_PARAMS['site']["RACK_HEIGHT"]
 
@@ -54,8 +51,6 @@ TILT_LEAST_COUNT = CONF_PARAMS["Least_Counts"]["tiltLeastCount"]
 # For left to right QDIRECTION will be -1 and For right to left it will be 1
 QDIRECTION = CONF_PARAMS['site']['QDIRECTION']
 
-BOT_LIFT = CONF_PARAMS["site"]["Bot_Lift"]
-
 # Oscillation Information intialization
 OSCILLATION_CHOICE = CONF_PARAMS["dev"]["OSCILLATION_CHOICE"]
 OSCILLATION_AMP = CONF_PARAMS["dev"]["OSCILLATION_AMP"]
@@ -65,10 +60,6 @@ OSCILLATION_PATTERN = CONF_PARAMS["dev"]["OSCILLATION_PATTERN"]
 # call `butler_communicator:send_data(gproc:lookup_local_name({butler_communicator, ButlerId}), {request_rack_deltas}).`
 # debug log of butler will contain three integers as a return value of this call in the form {x,y,z}.
 # Insert those values here
-# set DX_SHIFT, DZ_SHIFT, DTHETA_SHIFT here, Before calibration
-DX_SHIFT = CONF_PARAMS['site'].get("DX_SHIFT", 0)
-DZ_SHIFT = CONF_PARAMS['site'].get("DZ_SHIFT", 0)
-DTHETA_SHIFT = CONF_PARAMS['site'].get("DTHETA_SHIFT", 0)
 
 # timeout(in minutes) for projector if no command received from the server
 PROJECTOR_TIMEOUT = CONF_PARAMS['dev'].get("PROJECTOR_TIMEOUT", 15)
