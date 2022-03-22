@@ -119,7 +119,7 @@ class Dmxcontrol():
         except Exception as e:
             self.logHandle.error("Error in sending dmx data from setdmxlight %s" % str(e))
 
-    def calc_dmx(self, x, y, z):
+    def calc_dmx(self, x, y, z, PAN_LEAST_COUNT, TILT_LEAST_COUNT):
         """
         DMX value calculation for given coordinates
         """
@@ -209,7 +209,7 @@ class Display(threading.Thread):
         osc_amp(y)  # Here we are changing the amplitude for oscillations according to value of y coordinate 
         
         # calc_dmx function to find the dmx values for the given coordinates
-        dmxPAN, dmxTILT = dmxcontrol.calc_dmx(valueX, valueY, valueZ)
+        dmxPAN, dmxTILT = dmxcontrol.calc_dmx(valueX, valueY, valueZ, PAN_LEAST_COUNT, TILT_LEAST_COUNT)
         
         """
         Now we will fixate the mounting errors in our calculations using leastCount.py file
