@@ -40,6 +40,7 @@ class Connection():
 
         """
         Display().start()
+        stop_timer = None
         if MSU_LIDAR_SERVICE:
             msu_lidar.msu_lidar_client.start()
             self.logHandle.info("Created msu lidar client thread")
@@ -71,6 +72,8 @@ class Connection():
                         action_queue.put(msg)
                         if MSU_LIDAR_SERVICE:
                             msu_lidar.msu_lidar_client.send_data_to_msu_lidar_client(msg)
+                        if stop_timer:
+                            stop_timer.cancel()
                         stop_timer = threading.Timer(IDLE_TIMEOUT * 60, self.stop_timer_cb, [])
                         stop_timer.start()
                         # TODO: below lines to be deleted
@@ -92,7 +95,7 @@ class Connection():
         """
         This method will send the bootup packet to the bridge
         """
-        self.logHandle.debug(f"EVENT: Timer Expired")
+        self.logHandle.info(f"IDLE Timer Expired, Sending stop event to projector")
         action_queue.put('stop')
 
 
