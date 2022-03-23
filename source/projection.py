@@ -260,13 +260,13 @@ class Display(threading.Thread):
         osc_direction = 1
         self.osc_flag = True
         while True:
+            if not self.osc_flag:
+                break
             if OSCILLATION_PATTERN.lower() == "v":
                 dmxcontrol.setDmxToLight(pan, tilt, pan_fine, tilt_fine + (osc_direction * OSCILLATION_AMP), 255)
             elif OSCILLATION_PATTERN.lower() == "h":
                 dmxcontrol.setDmxToLight(pan, tilt, pan_fine + (osc_direction * OSCILLATION_AMP), tilt_fine, 255)
             osc_direction = -1 * osc_direction  # We will change the oscillation directions alternatively
-            if not self.osc_flag:
-                break
             time.sleep(0.3)
 
     def project(self):
@@ -298,9 +298,9 @@ class Display(threading.Thread):
                 if last_action != 'stop':
                     last_action = 'stop'
                     logHandle.info("1. Projection: lastAction updated to - %s" % last_action)
-
-                    dmxcontrol.setDmxToLight(0, 0, 0, 0, 0)
+                    self.osc_flag = False
                     time.sleep(0.02)
+                    dmxcontrol.setDmxToLight(0, 0, 0, 0, 0)
                 else:
                     logHandle.info("Projection: skipping stop, continuous 2 stop command received")
             elif len(msg) >= 5 and msg[:5] == 'point':
