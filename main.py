@@ -6,10 +6,11 @@ from source import action_queue
 from source.calibration import Calibration
 from source import logger
 from time import sleep
-from config import SERVER_IP, SERVER_PORT, PPS_ID, IDLE_TIMEOUT
+from config import SERVER_IP, SERVER_PORT, PPS_ID, IDLE_TIMEOUT, MSU_LIDAR_SERVICE
 import sys
 import os
 import threading
+from source import msu_lidar
 
 class Connection():
     server_address = (SERVER_IP, SERVER_PORT)
@@ -39,14 +40,17 @@ class Connection():
 
         """
         Display().start()
+        if MSU_LIDAR_SERVICE:
+            msu_lidar.msu_lidar_client.start()
+            self.logHandle.info("Created msu lidar client thread")
         while True:
             sock = self.create_socket()
             self.set_keep_alive_linux(sock=sock)
             try:
                 self.logHandle.info('App: connecting to %s port %s' % self.server_address)
                 sock.connect(self.server_address)
+                action_queue.emptyQueue()
                 self.logHandle.info('App: Connected to server...')
-
                 # Send connect packet with ID
                 data = "pps_id, %s" % PPS_ID
                 sock.send(data.encode('utf-8'))
@@ -58,14 +62,15 @@ class Connection():
                         self.logHandle.info("App: Network connection lost, Retrying to connect after 5 sec")
                         sock.close()
                         action_queue.put('stop')
-                        action_queue.emptyQueue()
-                        sleep(3)
+                        sleep(5)
                         break
                     else:
                         msg = msg.strip()
                         self.logHandle.info("App: Received message: %s" % msg)
                         self.logHandle.info("The length of message received %s" % len(msg))
                         action_queue.put(msg)
+                        if MSU_LIDAR_SERVICE:
+                            msu_lidar.msu_lidar_client.send_data_to_msu_lidar_client(msg)
                         stop_timer = threading.Timer(IDLE_TIMEOUT * 60, self.stop_timer_cb, [])
                         stop_timer.start()
                         # TODO: below lines to be deleted
