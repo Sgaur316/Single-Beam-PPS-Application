@@ -167,15 +167,14 @@ class Display(threading.Thread):
     def __init__(self):
         super().__init__()
         self.stop_flag = True
-        self.osc_flag = False
         self.tt = threading.Thread()
+        self.tt_event = threading.Event()
 
     def run(self) -> None:
         self.project()
 
     def stop(self):
-        # global osc_flag
-        self.osc_flag = False
+        self.tt_event.set()
         time.sleep(0.03)
 
     def action(self, x, y, dx, dz, dtheta, BotFace):
@@ -258,9 +257,10 @@ class Display(threading.Thread):
         """
         dmxcontrol = Dmxcontrol()
         osc_direction = 1
-        self.osc_flag = True
+        self.tt_event.clear()
         while True:
-            if not self.osc_flag:
+            if self.tt_event.is_set():
+                dmxcontrol.setDmxToLight(0, 0, 0, 0, 0)
                 break
             if OSCILLATION_PATTERN.lower() == "v":
                 dmxcontrol.setDmxToLight(pan, tilt, pan_fine, tilt_fine + (osc_direction * OSCILLATION_AMP), 255)
@@ -291,20 +291,18 @@ class Display(threading.Thread):
             self.stop()
             time.sleep(0.1)
             if msg == "disconnected":
-                dmxcontrol.setDmxToLight(0, 0, 0, 0, 0)
+                self.tt_event.set()
                 time.sleep(0.05)
                 continue
             if msg == 'stop':
                 if last_action != 'stop':
                     last_action = 'stop'
                     logHandle.info("1. Projection: lastAction updated to - %s" % last_action)
-                    self.osc_flag = False
+                    self.tt_event.set()
                     time.sleep(0.02)
-                    dmxcontrol.setDmxToLight(0, 0, 0, 0, 0)
                 else:
                     logHandle.info("Projection: skipping stop, continuous 2 stop command received")
             elif len(msg) >= 5 and msg[:5] == 'point':
-
                 if last_action != 'point':
                     last_action = 'point'
                     logHandle.info("2. Projection: lastAction updated to - %s" % last_action)
