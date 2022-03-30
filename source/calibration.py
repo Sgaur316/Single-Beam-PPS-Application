@@ -2,6 +2,7 @@
 # importing libraries
 import sys
 import time
+import traceback
 sys.path.append('./')
 import curses
 import json
@@ -82,7 +83,9 @@ class Calibration():
                 So in order to manage the span of movement of projection beam for any angle totally depends on the least count value, it can be regulated from this function.
             """
             dmxcontrol = Dmxcontrol()
+            logHandle.info("LCV Adjustment pan_lcv {} and tilt_lcv {}".format(self.pan_lcv, self.tilt_lcv))
             dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(0, 0, self.pan_lcv, self.tilt_lcv)
+            logHandle.info("LCV Adjustment dmxPAN {}, dmxTILT {}, dmxPanFine {} and dmxTiltFine {}".format(dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine))
             dmxcontrol.setDmxToLight(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine), 255)
             while True:
                 self.stdscr.clear()
@@ -152,6 +155,7 @@ class Calibration():
             self.stdscr.clear()
             self.stdscr.refresh()
             curses.endwin()
+            traceback.print_exc()
 
 
     # A simple function to increment the dmx value by one
@@ -391,6 +395,8 @@ class Calibration():
                                     CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL'] = float(formatted_string)
                                     CONF_PARAMS["Least_Counts"]["panLeastCount"] = lcv.panLeastCount()
                                     CONF_PARAMS["Least_Counts"]["tiltLeastCount"] = lcv.tiltLeastCount()
+                                    logHandle.info("pan least count : {}".format(CONF_PARAMS["Least_Counts"]["panLeastCount"]))
+                                    logHandle.info("tilt least count : {}".format(CONF_PARAMS["Least_Counts"]["tiltLeastCount"]))
                                     self.pan_lcv = CONF_PARAMS["Least_Counts"]["panLeastCount"]
                                     self.tilt_lcv = CONF_PARAMS["Least_Counts"]["tiltLeastCount"]
                                     with open(r'./config/config.json', 'w') as f:
