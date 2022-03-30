@@ -391,6 +391,8 @@ class Calibration():
                                     CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL'] = float(formatted_string)
                                     CONF_PARAMS["Least_Counts"]["panLeastCount"] = lcv.panLeastCount()
                                     CONF_PARAMS["Least_Counts"]["tiltLeastCount"] = lcv.tiltLeastCount()
+                                    self.pan_lcv = CONF_PARAMS["Least_Counts"]["panLeastCount"]
+                                    self.tilt_lcv = CONF_PARAMS["Least_Counts"]["tiltLeastCount"]
                                     with open(r'./config/config.json', 'w') as f:
                                         json.dump(CONF_PARAMS, f, indent=4)
                                     f.close()
