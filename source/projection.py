@@ -52,6 +52,8 @@ class Dmxcontrol():
         
     else:
         # this writes the initialization codes to the DMX
+        logHandle.info("Writing data on projector INIT1 {}".format(DMXOPEN + DMXINIT1 + DMXCLOSE))
+        logHandle.info("Writing data on projector INIT2 {}".format(DMXOPEN + DMXINIT2 + DMXCLOSE))
         ser.write(DMXOPEN + DMXINIT1 + DMXCLOSE)
         ser.write(DMXOPEN + DMXINIT2 + DMXCLOSE)
     dmxdata = [bytes([0])] * 513
@@ -92,7 +94,11 @@ class Dmxcontrol():
             new_data += bytes([data[i]])
         # sdata = ''.join(data)
         try:
-            self.ser.write(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE)
+            ser = next(usb_detector.get_serial())
+            if not ser:
+                return False
+            self.logHandle.info("Writing data on projector {}".format(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE))
+            ser.write(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE)
             return True
         except Exception as e:
             self.logHandle.error("Projection: Error %s " % e)
