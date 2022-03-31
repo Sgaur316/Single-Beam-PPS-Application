@@ -52,10 +52,14 @@ class Dmxcontrol():
         
     else:
         # this writes the initialization codes to the DMX
-        logHandle.info("Writing data on projector INIT1 {}".format(DMXOPEN + DMXINIT1 + DMXCLOSE))
-        logHandle.info("Writing data on projector INIT2 {}".format(DMXOPEN + DMXINIT2 + DMXCLOSE))
         ser.write(DMXOPEN + DMXINIT1 + DMXCLOSE)
+        time.sleep(0.05)
+        data = serial_obj.read(15)
+        logHandle.info("reading data on projector INIT1 {}".format(list(data)))
         ser.write(DMXOPEN + DMXINIT2 + DMXCLOSE)
+        time.sleep(0.05)
+        data = serial_obj.read(15)
+        logHandle.info("reading data on projector INIT2 {}".format(list(data)))
     dmxdata = [bytes([0])] * 513
 
     # Important measurements around projector and MSU

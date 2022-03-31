@@ -27,7 +27,7 @@ def get_serial():
             if p_details:
                 projector_connected = False
                 for device in usb_devices:
-                    serial_obj = serial.Serial("/dev/" + str(device))
+                    serial_obj = serial.Serial("/dev/" + str(device), timeout=0)
                     if str(device) == p_details.get("path", ""):
                         projector_connected = True
                         break
