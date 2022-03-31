@@ -54,11 +54,11 @@ class Dmxcontrol():
         # this writes the initialization codes to the DMX
         ser.write(DMXOPEN + DMXINIT1 + DMXCLOSE)
         time.sleep(0.05)
-        data = serial_obj.read(15)
+        data = ser.read(15)
         logHandle.info("reading data on projector INIT1 {}".format(list(data)))
         ser.write(DMXOPEN + DMXINIT2 + DMXCLOSE)
         time.sleep(0.05)
-        data = serial_obj.read(15)
+        data = ser.read(15)
         logHandle.info("reading data on projector INIT2 {}".format(list(data)))
     dmxdata = [bytes([0])] * 513
 
@@ -75,10 +75,14 @@ class Dmxcontrol():
         self.tilt_norm = CONF_PARAMS['Normal_DMX_values']['TILT_NORMAL']
 
     def is_projector_connected(self):
-        ser = next(usb_detector.get_serial())
-        if not ser:
-            self.logHandle.critical("Projector is not connected to the USB. Please connect and try again..")
-        return ser
+        try:
+            ser = next(usb_detector.get_serial())
+            if not ser:
+                self.logHandle.critical("Projector is not connected to the USB. Please connect and try again..")
+            return ser
+        except Exception as e:
+            self.logHandle.error("Projection: Exception occurred while checking projection connection {}".format(e))
+            return False
 
     def send_dmx_data(self, data):
         """
@@ -134,6 +138,7 @@ class Dmxcontrol():
             return self.send_dmx_data(self.dmxdata)
         except Exception as e:
             self.logHandle.error("Error in sending dmx data from setdmxlight %s" % str(e))
+            return False
 
     def calc_dmx(self, x, y, z, PAN_LEAST_COUNT, TILT_LEAST_COUNT):
         """
@@ -265,19 +270,26 @@ class Display(threading.Thread):
         """
         pointAndOscillate function is used to oscillate the beam in horizontal or vertical direction while pointing at bin
         """
-        dmxcontrol = Dmxcontrol()
-        osc_direction = 1
-        self.tt_event.clear()
-        while True:
-            if self.tt_event.is_set():
-                dmxcontrol.setDmxToLight(0, 0, 0, 0, 0)
-                break
-            if OSCILLATION_PATTERN.lower() == "v":
-                dmxcontrol.setDmxToLight(pan, tilt, pan_fine, tilt_fine + (osc_direction * OSCILLATION_AMP), 255)
-            elif OSCILLATION_PATTERN.lower() == "h":
-                dmxcontrol.setDmxToLight(pan, tilt, pan_fine + (osc_direction * OSCILLATION_AMP), tilt_fine, 255)
-            osc_direction = -1 * osc_direction  # We will change the oscillation directions alternatively
-            time.sleep(0.3)
+        try:
+            dmxcontrol = Dmxcontrol()
+            osc_direction = 1
+            self.tt_event.clear()
+            while True:
+                if self.tt_event.is_set():
+                    dmxcontrol.setDmxToLight(0, 0, 0, 0, 0)
+                    break
+                if OSCILLATION_PATTERN.lower() == "v":
+                    status = dmxcontrol.setDmxToLight(pan, tilt, pan_fine, tilt_fine + (osc_direction * OSCILLATION_AMP), 255)
+                elif OSCILLATION_PATTERN.lower() == "h":
+                    status = dmxcontrol.setDmxToLight(pan, tilt, pan_fine + (osc_direction * OSCILLATION_AMP), tilt_fine, 255)
+                osc_direction = -1 * osc_direction  # We will change the oscillation directions alternatively
+                if not status:
+                    self.tt_event.set()
+                    break
+                time.sleep(0.3)
+        except Exception as e:
+            self.logHandle.error("Exception Occurred {}".format(e))
+            self.tt_event.set()
 
     def project(self):
         """
