@@ -57,16 +57,16 @@ class Dmxcontrol():
     dmxdata = [bytes([0])] * 513
 
     # Important measurements around projector and MSU
-    projectorDistance = RACK_PROJ_DISTANCE * 10
-    projectorHeight = PROJ_HEIGHT * 10
-    msuWH = (RACK_WIDTH / 2) * 10
-    msuH = RACK_HEIGHT * 10
-    # Dmx Normals
-    # PAN_NORMAL is the mid-point dmx value of the mount calculated using 'a' and 'b' points from calibration.
-    # TILT_NORMAL is the Tilt value for which the projector shows straight line pan motion rather a curve usually it lies
-    # from 21-26, but it may vary for different projectors
-    mid_PAN = PAN_NORMAL
-    tilt_norm = TILT_NORMAL
+    def __init__(self):
+        self.projectorDistance = CONF_PARAMS['site']["RACK_PROJ_DISTANCE"] * 10
+        self.msuWH = (CONF_PARAMS['site']["RACK_WIDTH"] / 2) * 10
+        self.msuH = CONF_PARAMS['site']["RACK_HEIGHT"] * 10
+        # Dmx Normals
+        # PAN_NORMAL is the mid-point dmx value of the mount calculated using 'a' and 'b' points from calibration.
+        # TILT_NORMAL is the Tilt value for which the projector shows straight line pan motion rather a curve usually it lies
+        # from 21-26, but it may vary for different projectors
+        self.mid_PAN = CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL']
+        self.tilt_norm = CONF_PARAMS['Normal_DMX_values']['TILT_NORMAL']
 
     def is_projector_connected(self):
         ser = next(usb_detector.get_serial())

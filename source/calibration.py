@@ -8,7 +8,7 @@ import curses
 import json
 from source.projection import Dmxcontrol
 from source.projection import Display
-from source.leastCount import Leastcountvalue
+from source import leastCount
 from config import CONF_PARAMS, RACK_PROJ_DISTANCE, TILT_LEAST_COUNT, PAN_LEAST_COUNT
 from source import logger
 
@@ -61,7 +61,7 @@ class Calibration():
         dmxcontrol = Dmxcontrol()
         valueZ = RACK_PROJ_DISTANCE * 10
         dmxPAN, dmxTILT = dmxcontrol.calc_dmx(0, 0, valueZ, panLeastCount, tiltLeastCount)
-        lcv = Leastcountvalue()
+        lcv = leastCount.Leastcountvalue()
         deltaX = lcv.mounterrorpan(dmxTILT)
         deltaY = lcv.mounterrortilt(dmxPAN)
         logHandle.info("Mount fix in X for Y tilts:" + str(deltaX))
@@ -322,7 +322,7 @@ class Calibration():
                 else:
                     time.sleep(5)
             while True:
-                lcv = Leastcountvalue()
+                lcv = leastCount.Leastcountvalue()
                 self.showStartScreen()
 
                 if self.cal_mode == '1':
@@ -402,6 +402,7 @@ class Calibration():
                                     with open(r'./config/config.json', 'w') as f:
                                         json.dump(CONF_PARAMS, f, indent=4)
                                     f.close()
+                                    logHandle.debug("New CONF_PARAMS : {}".format(CONF_PARAMS))
                                     self.showEndScreen()
                                     self.stdscr.getch()
                                     # curses.endwin()
@@ -422,15 +423,16 @@ class Calibration():
                             self.stdscr.refresh()
                             curses.endwin()
                             return
-
-
+                    self.fineMode = False
+                    # We only need to calibrate 3 points of the MSU adding the 4th point adds complexity to mounting error handling
+                    self.pointsList = ['a', 'b', 'c']
+                    self.currentPoint = 'a'
                 elif self.cal_mode == '3':
                     logHandle.info("Exiting Calibration mode option selected")
                     self.stdscr.clear()
                     self.stdscr.refresh()
                     curses.endwin()
                     break
-
                 else:
                     logHandle.error("Unknown input selected cal_mode = {}".format(self.cal_mode))
                     self.stdscr.clear()

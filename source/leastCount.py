@@ -3,26 +3,29 @@
 import json
 import math
 from config import CONF_PARAMS
+from source import logger
+
+logHandle = logger.logHandle
 
 
 class Leastcountvalue():
 
     # following are the x and y coordinates of four corner points of MSU with fine movements adjusted as decimals
-    x1 = float(CONF_PARAMS["corner_points"]["a_pan"]) + ((float(CONF_PARAMS["corner_points"]["a_pan_fine"]) // 0.255) / 1000)
-    y1 = float(CONF_PARAMS["corner_points"]["a_tilt"]) + ((float(CONF_PARAMS["corner_points"]["a_tilt_fine"]) // 0.255) / 1000)
-    x2 = float(CONF_PARAMS["corner_points"]["b_pan"]) + ((float(CONF_PARAMS["corner_points"]["b_pan_fine"]) // 0.255) / 1000)
-    y2 = float(CONF_PARAMS["corner_points"]["b_tilt"]) + ((float(CONF_PARAMS["corner_points"]["b_tilt_fine"]) // 0.255) / 1000)
-    x3 = float(CONF_PARAMS["corner_points"]["c_pan"]) + ((float(CONF_PARAMS["corner_points"]["c_pan_fine"]) // 0.255) / 1000)
-    y3 = float(CONF_PARAMS["corner_points"]["c_tilt"]) + ((float(CONF_PARAMS["corner_points"]["c_tilt_fine"]) // 0.255) / 1000)
-    x4 = float(CONF_PARAMS["corner_points"]["d_pan"]) + ((float(CONF_PARAMS["corner_points"]["d_pan_fine"]) // 0.255) / 1000)
-    y4 = float(CONF_PARAMS["corner_points"]["d_tilt"]) + ((float(CONF_PARAMS["corner_points"]["d_tilt_fine"]) // 0.255) / 1000)
+    def __init__(self):
+        logHandle.debug("CONF_PARAMS : {}".format(CONF_PARAMS))
+        self.x1 = float(CONF_PARAMS["corner_points"]["a_pan"]) + ((float(CONF_PARAMS["corner_points"]["a_pan_fine"]) // 0.255) / 1000)
+        self.y1 = float(CONF_PARAMS["corner_points"]["a_tilt"]) + ((float(CONF_PARAMS["corner_points"]["a_tilt_fine"]) // 0.255) / 1000)
+        self.x2 = float(CONF_PARAMS["corner_points"]["b_pan"]) + ((float(CONF_PARAMS["corner_points"]["b_pan_fine"]) // 0.255) / 1000)
+        self.y2 = float(CONF_PARAMS["corner_points"]["b_tilt"]) + ((float(CONF_PARAMS["corner_points"]["b_tilt_fine"]) // 0.255) / 1000)
+        self.x3 = float(CONF_PARAMS["corner_points"]["c_pan"]) + ((float(CONF_PARAMS["corner_points"]["c_pan_fine"]) // 0.255) / 1000)
+        self.y3 = float(CONF_PARAMS["corner_points"]["c_tilt"]) + ((float(CONF_PARAMS["corner_points"]["c_tilt_fine"]) // 0.255) / 1000)
+        self.x4 = float(CONF_PARAMS["corner_points"]["d_pan"]) + ((float(CONF_PARAMS["corner_points"]["d_pan_fine"]) // 0.255) / 1000)
+        self.y4 = float(CONF_PARAMS["corner_points"]["d_tilt"]) + ((float(CONF_PARAMS["corner_points"]["d_tilt_fine"]) // 0.255) / 1000)
 
-    # Important Measurements
-    proj_unit_height = CONF_PARAMS["site"]["PROJECTOR_BASE_HEIGHT"]*10
-    base_proj_dist = CONF_PARAMS["site"]["PROJECTOR_BASE_DISTANCE"]*10
-    msu_widH = CONF_PARAMS["site"]["RACK_WIDTH"]/2
-    msu_proj_dist = CONF_PARAMS["site"]["RACK_PROJ_DISTANCE"]
-    msu_H = CONF_PARAMS["site"]["RACK_HEIGHT"]
+        # Important Measurements
+        self.msu_widH = CONF_PARAMS["site"]["RACK_WIDTH"]/2
+        self.msu_proj_dist = CONF_PARAMS["site"]["RACK_PROJ_DISTANCE"]
+        self.msu_H = CONF_PARAMS["site"]["RACK_HEIGHT"]
 
     def mounterrortilt(self, delX):
         """
