@@ -274,6 +274,7 @@ class Display(threading.Thread):
             dmxcontrol = Dmxcontrol()
             osc_direction = 1
             self.tt_event.clear()
+            status = True
             while True:
                 if self.tt_event.is_set():
                     dmxcontrol.setDmxToLight(0, 0, 0, 0, 0)
