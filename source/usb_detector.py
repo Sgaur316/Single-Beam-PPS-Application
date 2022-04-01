@@ -9,7 +9,7 @@ logHandle = logger.logHandle
 
 
 def get_serial():
-    logHandle.info("Usb Detector: Shorlisting USB devices")
+    logHandle.debug("Usb Detector: Shorlisting USB devices")
     context = pyudev.Context()
     usb_devices = []
     projector_connected = False
@@ -26,9 +26,10 @@ def get_serial():
         p_details = get_device_details()
         if p_details:
             for device in usb_devices:
-                serial_obj = serial.Serial("/dev/" + str(device), timeout=0)
                 if str(device) == p_details.get("path", ""):
+                    serial_obj = serial.Serial("/dev/" + str(device), timeout=0)
                     projector_connected = True
+                    logHandle.debug("Usb device found {}, {}".format(str(device), p_details.get("path", "")))
         else:
             logHandle.error("Usb Detector: Error , no USB-DMX found retrying after 5 sec")
     else:
@@ -48,8 +49,8 @@ def get_device_details():
                 response["serial_no"] = str(port.serial_number)
                 response["model"] = str(port.manufacturer)
                 response["path"] = str(port.name)
+                logHandle.debug("usb response {}".format(response))
                 break
-
     except:
         logHandle.warning("Usb Detector: Not able to read the projector details.")
 

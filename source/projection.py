@@ -46,29 +46,40 @@ class Dmxcontrol():
     # this writes the initialization codes to the DMX
     ser = usb_detector.get_serial()
     logHandle.info(f"Ser :: {ser}")
-    time.sleep(2)
+    time.sleep(0.5)
     if not ser:
         logHandle.critical("Projector is not connected to the USB. Please connect and try again..")
         
     else:
         # this writes the initialization codes to the DMX
         ser.write(DMXOPEN + DMXINIT1 + DMXCLOSE)
-        time.sleep(0.05)
+        time.sleep(0.1)
         data = ser.read(15)
         logHandle.info("reading data on projector INIT1 {}".format(list(data)))
+        if len(data) != 0:
+            if list(data)[0] != 126 or list(data)[-1] != 231:
+                logHandle.error("Projector not responding to init commands")
+        else:
+            logHandle.error("Projector not responding to init commands")
         ser.write(DMXOPEN + DMXINIT2 + DMXCLOSE)
-        time.sleep(0.05)
+        time.sleep(0.1)
         data = ser.read(15)
-        logHandle.info("reading data on projector INIT2 {}".format(list(data)))
+        logHandle.info("reading data on projector INIT2 {}".format(list(data), ))
+        if len(data) != 0:
+            if list(data)[0] != 126 or list(data)[-1] != 231:
+                logHandle.error("Projector not responding to init commands")
+        else:
+            logHandle.error("Projector not responding to init commands")
     dmxdata = [bytes([0])] * 513
     projectorDistance = CONF_PARAMS['site']["RACK_PROJ_DISTANCE"] * 10
 
     def is_projector_connected(self):
         try:
             self.ser = usb_detector.get_serial()
-            self.logHandle.info("Is projector connected : {}".format(self.ser))
+            self.logHandle.debug("Is projector connected : {}".format(self.ser))
             if not self.ser:
-                self.logHandle.critical("Projector is not connected to the USB. Please connect and try again..")
+                self.logHandle.error("Projector is not connected to the USB. Please connect and try again..")
+                return False
             return True
         except Exception as e:
             self.logHandle.error("Projection: Exception occurred while checking projector connection {}".format(e))
@@ -93,7 +104,6 @@ class Dmxcontrol():
         # sdata = ''.join(data)
         self.logHandle.debug("Writing data on projector {}".format(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE))
         try:
-            self.logHandle.info("serial {}".format(self.ser))
             self.ser.write(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE)
             return True
         except Exception as e:
@@ -272,6 +282,7 @@ class Display(threading.Thread):
         """
         try:
             dmxcontrol = Dmxcontrol()
+            dmxcontrol.logHandle.info("Oscillation thread started")
             osc_direction = 1
             self.tt_event.clear()
             status = True
