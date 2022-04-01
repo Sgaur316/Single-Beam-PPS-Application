@@ -44,7 +44,7 @@ class Dmxcontrol():
     # might need to change this number. Find out what com port your DMX controller is on
     # and subtract 1, the ports are numbered 0-3 instead of 1-4
     # this writes the initialization codes to the DMX
-    ser = next(usb_detector.get_serial())
+    ser = usb_detector.get_serial()
     logHandle.info(f"Ser :: {ser}")
     time.sleep(2)
     if not ser:
@@ -61,27 +61,17 @@ class Dmxcontrol():
         data = ser.read(15)
         logHandle.info("reading data on projector INIT2 {}".format(list(data)))
     dmxdata = [bytes([0])] * 513
-
-    # Important measurements around projector and MSU
-    def __init__(self):
-        self.projectorDistance = CONF_PARAMS['site']["RACK_PROJ_DISTANCE"] * 10
-        self.msuWH = (CONF_PARAMS['site']["RACK_WIDTH"] / 2) * 10
-        self.msuH = CONF_PARAMS['site']["RACK_HEIGHT"] * 10
-        # Dmx Normals
-        # PAN_NORMAL is the mid-point dmx value of the mount calculated using 'a' and 'b' points from calibration.
-        # TILT_NORMAL is the Tilt value for which the projector shows straight line pan motion rather a curve usually it lies
-        # from 21-26, but it may vary for different projectors
-        self.mid_PAN = CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL']
-        self.tilt_norm = CONF_PARAMS['Normal_DMX_values']['TILT_NORMAL']
+    projectorDistance = CONF_PARAMS['site']["RACK_PROJ_DISTANCE"] * 10
 
     def is_projector_connected(self):
         try:
-            ser = next(usb_detector.get_serial())
-            if not ser:
+            self.ser = usb_detector.get_serial()
+            self.logHandle.info("Is projector connected : {}".format(self.ser))
+            if not self.ser:
                 self.logHandle.critical("Projector is not connected to the USB. Please connect and try again..")
-            return ser
+            return True
         except Exception as e:
-            self.logHandle.error("Projection: Exception occurred while checking projection connection {}".format(e))
+            self.logHandle.error("Projection: Exception occurred while checking projector connection {}".format(e))
             return False
 
     def send_dmx_data(self, data):
@@ -101,16 +91,22 @@ class Dmxcontrol():
                 data[--i] = data[i] - 1
             new_data += bytes([data[i]])
         # sdata = ''.join(data)
+        self.logHandle.debug("Writing data on projector {}".format(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE))
         try:
-            ser = next(usb_detector.get_serial())
-            if not ser:
-                return False
-            self.logHandle.info("Writing data on projector {}".format(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE))
-            ser.write(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE)
+            self.logHandle.info("serial {}".format(self.ser))
+            self.ser.write(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE)
             return True
         except Exception as e:
-            self.logHandle.error("Projection: Error %s " % e)
-            return False
+            try:
+                self.ser = usb_detector.get_serial()
+                if self.ser:
+                    self.ser.write(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE)
+                    return True
+                else:
+                    return False
+            except Exception as e:
+                self.logHandle.error("Projection: Error %s " % e)
+                return False
 
     def setDmxToLight(self, DmxPan, DmxTilt, DmxPanFine, DmxTiltFine, Brightness):
         """
@@ -144,6 +140,8 @@ class Dmxcontrol():
         """
         DMX value calculation for given coordinates
         """
+        self.msuWH = (CONF_PARAMS['site']["RACK_WIDTH"] / 2) * 10
+        self.msuH = CONF_PARAMS['site']["RACK_HEIGHT"] * 10
         Y = self.msuH - y
         X = self.msuWH - x
         b = z
@@ -154,7 +152,9 @@ class Dmxcontrol():
         vertical_angle = math.degrees(math.asin(line[2] / square_value))
         self.logHandle.info("Absolute: " + str(horizontal_angle) + "    " + str(vertical_angle))
         self.logHandle.info("pan least count" + str(PAN_LEAST_COUNT) + "     tilt least count" + str(TILT_LEAST_COUNT))
-        try:    
+        self.mid_PAN = CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL']
+        self.tilt_norm = CONF_PARAMS['Normal_DMX_values']['TILT_NORMAL']
+        try:
             return self.mid_PAN - (horizontal_angle / PAN_LEAST_COUNT), self.tilt_norm + (vertical_angle / TILT_LEAST_COUNT)
         except Exception as e:
             self.logHandle.error("DMX calculation Failed: %s " % str(e))
