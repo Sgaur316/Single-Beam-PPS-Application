@@ -267,7 +267,7 @@ class Display(threading.Thread):
                 except Exception as e:
                     logHandle.error("Projection and oscillation thread join error %s" % e)
             self.tt = threading.Thread(target=self.pointAndOscillate,
-                                       args=(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine)))
+                                       args=(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine), x * 10, y * 10))
             self.tt.start()
             # pointAndOscillate(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine))
 
@@ -276,7 +276,7 @@ class Display(threading.Thread):
         logHandle.info("Final TILT value for given point: %s" % int(dmxTILT))
         logHandle.info("Final TILT value for given point: %s" % int(dmxTiltFine))
 
-    def pointAndOscillate(self, pan, tilt, pan_fine, tilt_fine):
+    def pointAndOscillate(self, pan, tilt, pan_fine, tilt_fine, x, y):
         """
         pointAndOscillate function is used to oscillate the beam in horizontal or vertical direction while pointing at bin
         """
@@ -286,12 +286,35 @@ class Display(threading.Thread):
             osc_direction = 1
             self.tt_event.clear()
             status = True
+            tilt_temp = 0
+            tilt_fine_temp = 0
+            osc_amplitude = 0
+            y_up_limit = (PROJ_HEIGHT / 2) * 10
+            if y > y_up_limit:
+                osc_amplitude = 255
+            else:
+                osc_amplitude = OSCILLATION_AMP
+            dmxcontrol.logHandle.info("osc_amplitude: {}".format(osc_amplitude))
             while True:
                 if self.tt_event.is_set():
                     dmxcontrol.setDmxToLight(0, 0, 0, 0, 0)
                     break
                 if OSCILLATION_PATTERN.lower() == "v":
-                    status = dmxcontrol.setDmxToLight(pan, tilt, pan_fine, tilt_fine + (osc_direction * OSCILLATION_AMP), 255)
+                    if osc_direction == 1:
+                        if (tilt_fine + osc_amplitude) > 255:
+                            tilt_temp = tilt + 1
+                        else:
+                            tilt_temp = tilt
+                        tilt_fine_temp = (tilt_fine + osc_amplitude) % 255
+                    elif osc_direction == -1:
+                        if (tilt_fine - osc_amplitude) < 0:
+                            tilt_temp = tilt - 1
+                            tilt_fine_temp = 255 - (osc_amplitude - tilt_fine)
+                        else:
+                            tilt_temp = tilt
+                            tilt_fine_temp = tilt_fine - osc_amplitude
+                    # dmxcontrol.logHandle.info("Tilt: {} tilt_fine: {}".format(tilt_temp, tilt_fine_temp))
+                    status = dmxcontrol.setDmxToLight(pan, tilt_temp, pan_fine, tilt_fine_temp, 255)
                 elif OSCILLATION_PATTERN.lower() == "h":
                     status = dmxcontrol.setDmxToLight(pan, tilt, pan_fine + (osc_direction * OSCILLATION_AMP), tilt_fine, 255)
                 osc_direction = -1 * osc_direction  # We will change the oscillation directions alternatively
@@ -300,7 +323,7 @@ class Display(threading.Thread):
                     break
                 time.sleep(0.3)
         except Exception as e:
-            self.logHandle.error("Exception Occurred {}".format(e))
+            dmxcontrol.logHandle.error("Exception Occurred {}".format(e))
             self.tt_event.set()
 
     def project(self):
