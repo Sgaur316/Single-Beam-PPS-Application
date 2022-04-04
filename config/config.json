@@ -10,9 +10,9 @@
         "PROJECTOR_BASE_HEIGHT": 22.5,
         "PROJECTOR_BASE_DISTANCE": 70.0,
         "PROJ_HEIGHT": 245.0,
-        "RACK_PROJ_DISTANCE": 102.0,
+        "RACK_PROJ_DISTANCE": 107.0,
         "RACK_BASE_HEIGHT": 36.0,
-        "RACK_WIDTH": 98.0,
+        "RACK_WIDTH": 93.0,
         "RACK_HEIGHT": 209.0,
         "QDIRECTION": 1
     },
@@ -20,9 +20,11 @@
         "IDLE_TIMEOUT_IN_MIN": 10,
         "CONSIDER_THETA_SHIFT": false,
         "COLOR": 70,
-        "OSCILLATION_CHOICE": false,
-        "OSCILLATION_AMP": 50,
+        "OSCILLATION_CHOICE": true,
+        "OSCILLATION_AMP": 100,
+        "OSCILLATION_AMP_UPPER_RACK": 200,
         "OSCILLATION_PATTERN": "V",
+        "UPPER_RACK_SHIFT_TUNING": -3,
         "TILT_CHANNEL": 3,
         "PAN_CHANNEL": 1,
         "PAN_FINE_CHANNEL": 2,
@@ -34,28 +36,28 @@
     },
     "corner_points": {
         "a_pan": 75,
-        "a_pan_fine": 0,
-        "a_tilt": 24,
+        "a_pan_fine": 71,
+        "a_tilt": 25,
         "a_tilt_fine": 0,
-        "b_pan": 98,
-        "b_pan_fine": 0,
-        "b_tilt": 24,
-        "b_tilt_fine": 0,
-        "c_pan": 97,
-        "c_pan_fine": 71,
-        "c_tilt": 94,
-        "c_tilt_fine": 0,
+        "b_pan": 96,
+        "b_pan_fine": 105,
+        "b_tilt": 25,
+        "b_tilt_fine": 81,
+        "c_pan": 96,
+        "c_pan_fine": 26,
+        "c_tilt": 93,
+        "c_tilt_fine": 111,
         "d_pan": 74,
-        "d_pan_fine": 71,
-        "d_tilt": 94,
-        "d_tilt_fine": 0
+        "d_pan_fine": 247,
+        "d_tilt": 93,
+        "d_tilt_fine": 30
     },
     "Least_Counts": {
-        "panLeastCount": 2.249,
-        "tiltLeastCount": 0.914
+        "panLeastCount": 2.106,
+        "tiltLeastCount": 0.852
     },
     "Normal_DMX_values": {
-        "PAN_NORMAL": 86.5,
+        "PAN_NORMAL": 85.845,
         "TILT_NORMAL": 22.0
     }
 }
