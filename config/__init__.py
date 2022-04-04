@@ -57,7 +57,9 @@ QDIRECTION = CONF_PARAMS['site']['QDIRECTION']
 # Oscillation Information intialization
 OSCILLATION_CHOICE = CONF_PARAMS["dev"]["OSCILLATION_CHOICE"]
 OSCILLATION_AMP = CONF_PARAMS["dev"]["OSCILLATION_AMP"]
+OSCILLATION_AMP_UPPER_RACK = CONF_PARAMS["dev"]["OSCILLATION_AMP_UPPER_RACK"]
 OSCILLATION_PATTERN = CONF_PARAMS["dev"]["OSCILLATION_PATTERN"]
+UPPER_RACK_SHIFT_TUNING = CONF_PARAMS["dev"]["UPPER_RACK_SHIFT_TUNING"]
 
 # Manual Step: When a butler is standing at PPS with its rack lifted up,
 # call `butler_communicator:send_data(gproc:lookup_local_name({butler_communicator, ButlerId}), {request_rack_deltas}).`

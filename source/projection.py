@@ -131,13 +131,13 @@ class Dmxcontrol():
         # Set color value
         self.dmxdata[COLOR_CHANNEL] = COLOR
         # Set Theta
-        self.dmxdata[PAN_CHANNEL] = DmxPan
+        self.dmxdata[PAN_CHANNEL] = int(DmxPan)
         # Set Phi
-        self.dmxdata[TILT_CHANNEL] = DmxTilt
+        self.dmxdata[TILT_CHANNEL] = int(DmxTilt)
         # Set Theta - Fine
-        self.dmxdata[PAN_FINE_CHANNEL] = DmxPanFine
+        self.dmxdata[PAN_FINE_CHANNEL] = int(DmxPanFine)
         # Set Pan_Fine_channel
-        self.dmxdata[TILT_FINE_CHANNEL] = DmxTiltFine
+        self.dmxdata[TILT_FINE_CHANNEL] = int(DmxTiltFine)
         # Set pattern
         self.dmxdata[PATTERN_CHANNEL] = 0
         try:
@@ -288,13 +288,12 @@ class Display(threading.Thread):
             status = True
             tilt_temp = 0
             tilt_fine_temp = 0
-            osc_amplitude = 0
+            osc_amplitude = OSCILLATION_AMP
+            osc_amplitude_temp = 0
             y_up_limit = (PROJ_HEIGHT / 2) * 10
             if y > y_up_limit:
-                osc_amplitude = 255
-            else:
-                osc_amplitude = OSCILLATION_AMP
-            dmxcontrol.logHandle.info("osc_amplitude: {}".format(osc_amplitude))
+                osc_amplitude = OSCILLATION_AMP_UPPER_RACK
+            dmxcontrol.logHandle.debug("osc_amplitude: {}".format(osc_amplitude))
             while True:
                 if self.tt_event.is_set():
                     dmxcontrol.setDmxToLight(0, 0, 0, 0, 0)
@@ -302,14 +301,15 @@ class Display(threading.Thread):
                 if OSCILLATION_PATTERN.lower() == "v":
                     if osc_direction == 1:
                         if (tilt_fine + osc_amplitude) > 255:
-                            tilt_temp = tilt + 1
+                            tilt_temp = tilt + int((tilt_fine + osc_amplitude) / 255)
                         else:
                             tilt_temp = tilt
                         tilt_fine_temp = (tilt_fine + osc_amplitude) % 255
                     elif osc_direction == -1:
                         if (tilt_fine - osc_amplitude) < 0:
-                            tilt_temp = tilt - 1
-                            tilt_fine_temp = 255 - (osc_amplitude - tilt_fine)
+                            tilt_temp = tilt - (int(osc_amplitude / 255) + 1)
+                            osc_amplitude_temp = osc_amplitude % 255
+                            tilt_fine_temp = 255 - (osc_amplitude_temp - tilt_fine)
                         else:
                             tilt_temp = tilt
                             tilt_fine_temp = tilt_fine - osc_amplitude
@@ -365,15 +365,20 @@ class Display(threading.Thread):
                     logHandle.info("2. Projection: lastAction updated to - %s" % last_action)
                     try:
                         [X, Y, Dx, Dz, DTheta, Qdir] = [float(s) for s in msg.split(",")[1:] if len(msg) > 14]
+                        y_up_limit = (PROJ_HEIGHT / 2)
+                        if Y > y_up_limit:
+                            Y += UPPER_RACK_SHIFT_TUNING
                         self.action(X, Y, Dz, Dx, DTheta, Qdir)
                     except Exception as e:
                         logHandle.error("String Length mismatch error: %s" % str(e))
-
                 else:
                     logHandle.info("Projection: continuous 2 point command received,first stopping projector then "
                                    "pointing")
                     try:
                         [X, Y, Dx, Dz, DTheta, Qdir] = [float(s) for s in msg.split(",")[1:] if len(msg) > 14]
+                        y_up_limit = (PROJ_HEIGHT / 2)
+                        if Y > y_up_limit:
+                            Y += UPPER_RACK_SHIFT_TUNING
                         last_action = 'point'
                         logHandle.info("3. Projection: lastAction updated to: %s " % last_action)
                         self.action(X, Y, Dz, Dx, DTheta, Qdir)
