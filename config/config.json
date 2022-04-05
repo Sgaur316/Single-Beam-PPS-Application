@@ -19,6 +19,7 @@
     "dev": {
         "IDLE_TIMEOUT_IN_MIN": 10,
         "CONSIDER_THETA_SHIFT": false,
+        "LOG_LEVEL": "info",
         "COLOR": 70,
         "OSCILLATION_CHOICE": true,
         "OSCILLATION_AMP": 100,

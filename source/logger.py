@@ -2,7 +2,7 @@ import os
 import re
 import logging
 from logging import handlers
-
+from config import LOG_LEVEL
 
 class gorLogger():
     logFileName = ''
@@ -13,7 +13,7 @@ class gorLogger():
     @staticmethod
     def create_logger():
         logger = logging.getLogger(gorLogger.loggerName)
-        logger.setLevel(logging.INFO)
+        logger.setLevel(getattr(logging, LOG_LEVEL.upper()))
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] '
                                           '- %(message)s')
         if not logger.handlers:

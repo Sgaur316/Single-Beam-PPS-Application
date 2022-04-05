@@ -74,7 +74,7 @@ CONSIDER_THETA_SHIFT = CONF_PARAMS['dev'].get("CONSIDER_THETA_SHIFT", False)
 
 # Color of Projector Light: For Red: 10, Yellow: 20, Blue: 70
 COLOR = CONF_PARAMS['dev'].get("COLOR", 20)
-
+LOG_LEVEL = CONF_PARAMS['dev'].get("LOG_LEVEL", "info")
 # DO NOT CHANGE THESE
 # Define DMX Channels - specific to the projector
 PAN_CHANNEL = CONF_PARAMS['dev'].get("PAN_CHANNEL", 1)
