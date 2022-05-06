@@ -60,7 +60,7 @@ class Connection():
                     msg = sock.recv(4096)
                     msg = msg.decode()
                     if len(msg) == 0:
-                        self.logHandle.info("App: Network connection lost, Retrying to connect after 5 sec")
+                        self.logHandle.error("App: Network connection lost, Retrying to connect after 5 sec")
                         sock.close()
                         action_queue.put('stop')
                         sleep(5)
@@ -84,7 +84,7 @@ class Connection():
 
 
             except Exception as e:
-                self.logHandle.info("App: Error %s closing socket and creating a new socket After 5 sec" % (e))
+                self.logHandle.error("App: Error %s closing socket and creating a new socket After 5 sec" % (e))
                 sock.close()
                 action_queue.put("stop")
                 action_queue.emptyQueue()
