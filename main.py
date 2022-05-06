@@ -108,6 +108,8 @@ if __name__ == '__main__':
         sleep(1)
         os._exit(os.EX_OK)
     if len(sys.argv) == 2 and sys.argv[1] == "cal_mode":
+        logHandle.info("\n****************\nSingle Beam projector is running in CALIBRATION mode\n****************\n")
         cal.calibrate()
     else:
+        logHandle.info("\n****************\nSingle Beam projector is running in APPLICATION mode\n****************\n")
         con.connection()
