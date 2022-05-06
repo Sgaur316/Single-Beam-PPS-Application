@@ -4,7 +4,7 @@ import pyudev
 from source import logger
 from time import sleep
 import serial.tools.list_ports
-
+import time
 logHandle = logger.logHandle
 
 
@@ -13,15 +13,22 @@ def get_serial():
     context = pyudev.Context()
     usb_devices = []
     projector_connected = False
-    for device in context.list_devices(subsystem="usb"):
-        for c in device.children:
-            if c.subsystem == "usb-serial":
-                logHandle.debug("Usb Detector: %s" % c.sys_name)
-                usb_devices.append(c.sys_name)
-    # Make the list unique
-    # Duplicates occur due to different USB versions supported(USB 1.0, 2.0 & 3.0)
-    usb_devices = list(set(usb_devices))
-    if len(usb_devices) >= 1:
+
+    def CheckUSBConnection():
+        nonlocal usb_devices
+        nonlocal context
+        for device in context.list_devices(subsystem="usb"):
+            for c in device.children:
+                if c.subsystem == "usb-serial":
+                    logHandle.debug("Usb Detector: %s" % c.sys_name)
+                    usb_devices.append(c.sys_name)
+        # Make the list unique
+        # Duplicates occur due to different USB versions supported(USB 1.0, 2.0 & 3.0)
+        usb_devices = list(set(usb_devices))
+        return len(usb_devices)
+
+    CheckUSBConnection()
+    if  CheckUSBConnection() >= 1:
         serial_obj = None
         p_details = get_device_details()
         if p_details:
@@ -29,12 +36,17 @@ def get_serial():
                 if str(device) == p_details.get("path", ""):
                     serial_obj = serial.Serial("/dev/" + str(device), timeout=0)
                     projector_connected = True
-                    logHandle.debug("Usb device found {}, {}".format(str(device), p_details.get("path", "")))
+                    logHandle.info("Usb device found {}, {}".format(str(device), p_details.get("path", "")))
         else:
             logHandle.error("Usb Detector: Error , no USB-DMX found retrying after 5 sec")
     else:
-        logHandle.error("Usb Detector: Error , no USB-DMX found retrying after 5 sec")
+        while CheckUSBConnection() <= 0:
+            logHandle.error("Usb Detector: Error , no USB-DMX found retrying after 5 sec")
+            time.sleep(5)
+        logHandle.info("USB-DMX found and status is Connected")    
+            
     if projector_connected:
+        logHandle.info("Usb device found {}, {}".format(str(device), p_details.get("path", "")))
         return serial_obj
     else:
         None

@@ -39,11 +39,13 @@ class Connection():
         connection function is used to establish the client-server connection & stores received data in action-queue
 
         """
+        self.logHandle.info("\n****************\nSingle Beam projector is running in APPLICATION mode\n****************\n")
         Display().start()
         stop_timer = None
         if MSU_LIDAR_SERVICE:
             msu_lidar.msu_lidar_client.start()
             self.logHandle.info("Created msu lidar client thread")
+        
         while True:
             sock = self.create_socket()
             self.set_keep_alive_linux(sock=sock)
@@ -60,7 +62,7 @@ class Connection():
                     msg = sock.recv(4096)
                     msg = msg.decode()
                     if len(msg) == 0:
-                        self.logHandle.info("App: Network connection lost, Retrying to connect after 5 sec")
+                        self.logHandle.error("App: Network connection lost, Retrying to connect after 5 sec")
                         sock.close()
                         action_queue.put('stop')
                         sleep(5)
@@ -84,7 +86,7 @@ class Connection():
 
 
             except Exception as e:
-                self.logHandle.info("App: Error %s closing socket and creating a new socket After 5 sec" % (e))
+                self.logHandle.error("App: Error %s closing socket and creating a new socket After 5 sec" % (e))
                 sock.close()
                 action_queue.put("stop")
                 action_queue.emptyQueue()
