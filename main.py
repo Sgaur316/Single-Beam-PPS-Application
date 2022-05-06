@@ -39,11 +39,13 @@ class Connection():
         connection function is used to establish the client-server connection & stores received data in action-queue
 
         """
+        self.logHandle.info("\n****************\nSingle Beam projector is running in APPLICATION mode\n****************\n")
         Display().start()
         stop_timer = None
         if MSU_LIDAR_SERVICE:
             msu_lidar.msu_lidar_client.start()
             self.logHandle.info("Created msu lidar client thread")
+        
         while True:
             sock = self.create_socket()
             self.set_keep_alive_linux(sock=sock)
@@ -108,8 +110,6 @@ if __name__ == '__main__':
         sleep(1)
         os._exit(os.EX_OK)
     if len(sys.argv) == 2 and sys.argv[1] == "cal_mode":
-        logHandle.info("\n****************\nSingle Beam projector is running in CALIBRATION mode\n****************\n")
         cal.calibrate()
     else:
-        logHandle.info("\n****************\nSingle Beam projector is running in APPLICATION mode\n****************\n")
         con.connection()

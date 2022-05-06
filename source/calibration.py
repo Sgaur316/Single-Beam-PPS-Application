@@ -315,6 +315,8 @@ class Calibration():
     # Main function of the script to run the calibration application
     def calibrate(self):
         try:
+            global logHandle
+            logHandle.info("\n****************\nSingle Beam projector is running in CALIBRATION mode\n****************\n")
             dmxcontrol = Dmxcontrol()
             while True:
                 if dmxcontrol.is_projector_connected():
