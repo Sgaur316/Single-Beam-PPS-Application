@@ -328,6 +328,8 @@ class Calibration():
             bottoleftY = 2 * centroidY - topright[1]
             return bottomleftX, bottoleftY
         try:
+            global logHandle
+            logHandle.info("\n****************\nSingle Beam projector is running in CALIBRATION mode\n****************\n")
             dmxcontrol = Dmxcontrol()
             while True:
                 if dmxcontrol.is_projector_connected():
