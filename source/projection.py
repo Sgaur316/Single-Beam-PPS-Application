@@ -94,12 +94,12 @@ class Dmxcontrol():
         new_data = bytes()
         for i in range(0, len(data)):
             # data[i] = chr(data[i])
-            if data[i] > 255:
-                data[i] = data[i] - 255
-                data[--i] = data[i] + 1
+            if data[i] > 160:
+                data[i] = data[i] - 160
+                data[i-1] = data[i-1] + 1
             elif data[i] < 0:
-                data[i] = 255 + data[i]
-                data[--i] = data[i] - 1
+                data[i] = 160 + data[i]
+                data[i-1] = data[i-1] - 1
             new_data += bytes([data[i]])
         # sdata = ''.join(data)
         self.logHandle.debug("Writing data on projector {}".format(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE))
@@ -160,12 +160,16 @@ class Dmxcontrol():
         square_value = math.sqrt(math.pow(line[0], 2) + math.pow(line[1], 2) + math.pow(line[2], 2))
         # horizontal_angle = math.degrees(math.asin(line[0] / square_value))
         vertical_angle = math.degrees(math.asin(line[2] / square_value))
-        self.logHandle.info("Absolute: " + str(horizontal_angle) + "    " + str(vertical_angle))
-        self.logHandle.info("pan least count" + str(PAN_LEAST_COUNT) + "     tilt least count" + str(TILT_LEAST_COUNT))
+
+        self.logHandle.info("Absolute: " + str(horizontal_angle).format(".3f") + "    " + str(vertical_angle).format(".3f"))
+        self.logHandle.info("pan least count: " + str(PAN_LEAST_COUNT) + "     tilt least count: " + str(TILT_LEAST_COUNT))
         self.mid_PAN = CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL']
         self.tilt_norm = CONF_PARAMS['Normal_DMX_values']['TILT_NORMAL']
+        
         try:
-            return self.mid_PAN - (horizontal_angle / PAN_LEAST_COUNT), self.tilt_norm + (vertical_angle / TILT_LEAST_COUNT)
+            effec_PAN = self.mid_PAN - (horizontal_angle / PAN_LEAST_COUNT)
+            effec_TILT =  self.tilt_norm + (vertical_angle / TILT_LEAST_COUNT)
+            return effec_PAN, effec_TILT
         except Exception as e:
             self.logHandle.error("DMX calculation Failed: %s " % str(e))
 
@@ -173,7 +177,9 @@ class Dmxcontrol():
         """
         dectofine function converts the decimal dmx values to fine movement Dmx values
         """
-        return int((a % 1) * 255)
+        round_value = round(a,3)
+        decimal_value = round_value - int(round_value)
+        return int(decimal_value * 160)
 
     def get_osc_amp(self, y):
         """
