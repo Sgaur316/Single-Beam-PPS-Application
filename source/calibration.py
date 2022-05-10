@@ -43,23 +43,6 @@ class Calibration():
     def isValidDmx(self, value):
         return 0 <= value <= 255
 
-<<<<<<< HEAD
-=======
-    def upd_lcv(self, x, c, v):
-        try:
-            val = 0
-            if v == 1:
-                val = x + 0.005
-            elif v == -1:
-                val = x - 0.005
-            if c == 0:
-                CONF_PARAMS["Least_Counts"]["panLeastCount"] = val
-            elif c == 1:
-                CONF_PARAMS["Least_Counts"]["tiltLeastCount"] = val
-        except Exception as e:
-            logHandle.error("Advanced calibration LCV inundation error %s"% str(e))
-
->>>>>>> 2ece7f8308ec7cf31214e209819466cc35908b3b
     def convert_distance_to_dmx(self, panLeastCount, tiltLeastCount):
         dmxcontrol = Dmxcontrol()
         valueZ = RACK_PROJ_DISTANCE * 10
@@ -69,9 +52,7 @@ class Calibration():
         deltaY = lcv.mounterrortilt(dmxPAN)
         logHandle.info("Mount fix in X for Y tilts:" + str(deltaX))
         logHandle.info("Mount fix in Y for X pans :" + str(deltaY))
-        dmxPAN = dmxPAN + deltaX
         dmxPanFine = dmxcontrol.dectofine(dmxPAN)  # dectofine function to convert floating dmx value to fine movement
-        dmxTILT = dmxTILT + deltaY
         dmxTiltFine = dmxcontrol.dectofine(dmxTILT)
         logHandle.info("Effective PAN: {} , Effective Pan fine: {} \n Effective Tilt: {}, Effective tilt fine: {}\n".format(int(dmxPAN), dmxPanFine, int(dmxTILT) , dmxTiltFine))
         return dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine

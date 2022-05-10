@@ -94,7 +94,6 @@ class Dmxcontrol():
         new_data = bytes()
         for i in range(0, len(data)):
             # data[i] = chr(data[i])
-<<<<<<< HEAD
             if data[PAN_FINE_CHANNEL] > 160:
                 data[PAN_FINE_CHANNEL] = data[PAN_FINE_CHANNEL] - 160
                 data[PAN_CHANNEL] = data[PAN_CHANNEL] + 1
@@ -108,14 +107,6 @@ class Dmxcontrol():
             elif data[TILT_FINE_CHANNEL] < 0:
                 data[TILT_FINE_CHANNEL] = 160 + data[TILT_FINE_CHANNEL]
                 data[TILT_CHANNEL] = data[TILT_CHANNEL] - 1
-=======
-            if data[i] > 160:
-                data[i] = data[i] - 160
-                data[i-1] = data[i-1] + 1
-            elif data[i] < 0:
-                data[i] = 160 + data[i]
-                data[i-1] = data[i-1] - 1
->>>>>>> 2ece7f8308ec7cf31214e209819466cc35908b3b
             new_data += bytes([data[i]])
         # sdata = ''.join(data)
         self.logHandle.debug("Writing data on projector {}".format(self.DMXOPEN + self.DMXINTENSITY + new_data + self.DMXCLOSE))
@@ -270,9 +261,7 @@ class Display(threading.Thread):
         deltaY = lcv.mounterrortilt(dmxPAN)
         logHandle.info("Mount fix in X for Y tilts:" + str(deltaX))
         logHandle.info("Mount fix in Y for X pans :" + str(deltaY))
-        dmxPAN = dmxPAN + deltaX
         dmxPanFine = dmxcontrol.dectofine(dmxPAN)  # dectofine function to convert floating dmx value to fine movement
-        dmxTILT = dmxTILT + deltaY
         dmxTiltFine = dmxcontrol.dectofine(dmxTILT)
 
         # Oscillation choice decides whether we will just point at a coordinate or we will point and oscillate it

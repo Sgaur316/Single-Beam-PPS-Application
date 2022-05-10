@@ -76,11 +76,6 @@ class Leastcountvalue():
             diff = math.sqrt((self.x2 - self.x3)**2 + (self.y2 - self.y3)**2)
             hypot = math.sqrt((self.msu_H)**2 + (self.msu_widH)**2 + (self.msu_proj_dist)**2)
             ang = (math.degrees(math.asin(self.msu_H/hypot)))
-<<<<<<< HEAD
-=======
-            if diff == 0:
-                diff = 1
->>>>>>> 2ece7f8308ec7cf31214e209819466cc35908b3b
             res = (ang / diff)
             formatted_string = "{:.3f}".format(res)
             res = float(formatted_string)
