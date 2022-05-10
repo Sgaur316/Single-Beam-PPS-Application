@@ -269,7 +269,7 @@ class Calibration():
             self.stdscr.clear()
             curses.echo()
             self.stdscr.addstr(0, 0, "MSU Rack Width: ")
-            CONF_PARAMS["site"]["RACK_WIDTH"] = float(self.stdscr.getstr(0, len("MSU Rack Width: "), 2))
+            CONF_PARAMS["site"]["RACK_WIDTH"] = float(self.stdscr.getstr(0, len("MSU Rack Width: "), 3))
             self.stdscr.addstr(2, 0, "MSU Rack Base Height from ground: ")
             CONF_PARAMS["site"]["RACK_BASE_HEIGHT"] = float(self.stdscr.getstr(2, len("MSU Rack Base Height from ground: "), 2))
             self.stdscr.addstr(4, 0, "Projector Height from ground: ")
@@ -329,35 +329,46 @@ class Calibration():
                     self.measrementcalibrations()
 
                 elif self.cal_mode == '2':
+                    tiltmovestatus = False
                     while self.pointsList:
                         try:
                             key = self.stdscr.getch()
                             self.stdscr.refresh()
-
-                            if key == curses.KEY_UP:
+                            if key == curses.KEY_UP and tiltmovestatus:
+                                # stdscr.addstr(2, 0, "Last Key pressed : Up")
                                 if self.fineMode:
                                     self.DmxTiltFine = self.increaseByOne(self.DmxTiltFine)
                                 else:
                                     self.DmxTilt = self.increaseByOne(self.DmxTilt)
 
-                            elif key == curses.KEY_DOWN:
+                            elif key == curses.KEY_DOWN and tiltmovestatus:
+                            # stdscr.addstr(2, 0, "Last Key pressed : Down\n")
                                 if self.fineMode:
                                     self.DmxTiltFine = self.decreaseByOne(self.DmxTiltFine)
                                 else:
                                     self.DmxTilt = self.decreaseByOne(self.DmxTilt)
 
                             elif key == curses.KEY_LEFT:
+                            # stdscr.addstr(2, 0, "Last Key pressed : Left\n")
                                 if self.fineMode:
                                     self.DmxPanFine = self.decreaseByOne(self.DmxPanFine)
                                 else:
                                     self.DmxPan = self.decreaseByOne(self.DmxPan)
-                                    self.DmxTiltFine = self.DmxTiltFine
+                                    if 60 <= self.DmxPan <= 130:
+                                        tiltmovestatus = True
+                                    else:
+                                        tiltmovestatus = False
 
                             elif key == curses.KEY_RIGHT:
+                            # stdscr.addstr(2, 0, "Last Key pressed : Down\n")
                                 if self.fineMode:
                                     self.DmxPanFine = self.increaseByOne(self.DmxPanFine)
                                 else:
                                     self.DmxPan = self.increaseByOne(self.DmxPan)
+                                    if 60 <= self.DmxPan <= 130:
+                                        tiltmovestatus = True
+                                    else:
+                                        tiltmovestatus = False
 
                             elif key == ord('f') or key == ord('F'):
                                 # Flip the fine mode
