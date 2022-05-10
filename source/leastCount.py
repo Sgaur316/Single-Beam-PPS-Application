@@ -59,10 +59,8 @@ class Leastcountvalue():
         Least count value for pan movement at given MSU distance
         """
         try:
-            diff = abs(self.x2-self.x1)
+            diff = math.sqrt((self.x2 - self.x1)**2 + (self.y2 - self.y1)**2)
             ang = 2 * (math.degrees(math.atan(self.msu_widH/self.msu_proj_dist)))
-            if diff == 0:
-                diff = 1
             res = (ang/diff)
             formatted_string = "{:.3f}".format(res)
             res = float(formatted_string)
@@ -75,10 +73,9 @@ class Leastcountvalue():
         Least count value for tilt movement at given MSU distance
         """
         try:
-            diff = abs(self.y4-self.y1)
-            ang = (math.degrees(math.atan(self.msu_H/self.msu_proj_dist)))
-            if diff == 0:
-                diff = 1
+            diff = math.sqrt((self.x2 - self.x3)**2 + (self.y2 - self.y3)**2)
+            hypot = math.sqrt((self.msu_H)**2 + (self.msu_widH)**2 + (self.msu_proj_dist)**2)
+            ang = (math.degrees(math.asin(self.msu_H/hypot)))
             res = (ang / diff)
             formatted_string = "{:.3f}".format(res)
             res = float(formatted_string)

@@ -43,21 +43,7 @@ class Calibration():
     def isValidDmx(self, value):
         return 0 <= value <= 255
 
-    def upd_lcv(self, x, c, v):
-        try:
-            val = 0
-            if v == 1:
-                val = x + 0.005
-            elif v == -1:
-                val = x - 0.005
-            if c == 0:
-                CONF_PARAMS["Least_Counts"]["panLeastCount"] = val
-            elif c == 1:
-                CONF_PARAMS["Least_Counts"]["tiltLeastCount"] = val
-        except Exception as e:
-            logHandle.error("Advanced calibration LCV inundation error %s"% str(e))
-
-    def convert_distance_to_dmx(self, x, y, panLeastCount, tiltLeastCount):
+    def convert_distance_to_dmx(self, panLeastCount, tiltLeastCount):
         dmxcontrol = Dmxcontrol()
         valueZ = RACK_PROJ_DISTANCE * 10
         dmxPAN, dmxTILT = dmxcontrol.calc_dmx(0, 0, valueZ, panLeastCount, tiltLeastCount)
@@ -68,23 +54,26 @@ class Calibration():
         logHandle.info("Mount fix in Y for X pans :" + str(deltaY))
         dmxPAN = dmxPAN + deltaX
         dmxPanFine = dmxcontrol.dectofine(dmxPAN)  # dectofine function to convert floating dmx value to fine movement
-        dmxTILT = dmxTILT - deltaY
+        dmxTILT = dmxTILT + deltaY
         dmxTiltFine = dmxcontrol.dectofine(dmxTILT)
+        logHandle.info("Effective PAN: {} , Effective Pan fine: {} \n Effective Tilt: {}, Effective tilt fine: {}\n".format(int(dmxPAN), dmxPanFine, int(dmxTILT) , dmxTiltFine))
         return dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine
 
 
     def lcv_adjustment(self):
         try:
             """
-                    LCV stands for "Least Count Value"
+                                LCV stands for "Least Count Value"
             lcv_adjustment function is used for tuning the least count values to increase flexibility and gain scenario
             independency, Projectors may show different pan tilt angles covered for a single Dmx value change which makes it a
             mechanically dependent variable and is exactly what the least count is.
-                So in order to manage the span of movement of projection beam for any angle totally depends on the least count value, it can be regulated from this function.
+                So in order to manage the span of movement of projection beam for any angle totally depends on the 
+                least count value, it can be regulated from this function.
             """
+
             dmxcontrol = Dmxcontrol()
             logHandle.info("LCV Adjustment pan_lcv {} and tilt_lcv {}".format(self.pan_lcv, self.tilt_lcv))
-            dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(0, 0, self.pan_lcv, self.tilt_lcv)
+            dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(self.pan_lcv, self.tilt_lcv)
             logHandle.info("LCV Adjustment dmxPAN {}, dmxTILT {}, dmxPanFine {} and dmxTiltFine {}".format(dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine))
             dmxcontrol.setDmxToLight(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine), 255)
             while True:
@@ -92,13 +81,13 @@ class Calibration():
                 self.stdscr.addstr(0, 0, "If the projector is not pointing towards the intended D(0,0) coordinate "
                                          "point adjust the projection to intended spot by altering span factors "
                                          "using arrow keys.")
-                self.stdscr.addstr(1, 0, " PAN Span Factor : %s" % CONF_PARAMS["Least_Counts"]["panLeastCount"])
-                self.stdscr.addstr(2, 0, " TILT Span Factor : %s" % CONF_PARAMS["Least_Counts"]["tiltLeastCount"])
-                self.stdscr.addstr(3, 0,
+                self.stdscr.addstr(2, 0, " PAN Span Factor : %s" % CONF_PARAMS["Least_Counts"]["panLeastCount"])
+                self.stdscr.addstr(3, 0, " TILT Span Factor : %s" % CONF_PARAMS["Least_Counts"]["tiltLeastCount"])
+                self.stdscr.addstr(5, 0,
                             "Adjust the span factor in order to accumulate the projection span inaccuracy(e.g. "
                             "reducing TILT span factor will push and increase the tilt motion range downwards"
                             ".i.e.Increases the Tilt DMX value).")
-                self.stdscr.addstr(5, 0, "Press 'E' to exit this prompt: ")
+                self.stdscr.addstr(7, 0, "Press 'E' to exit this prompt: ")
 
                 try:
                     key = self.stdscr.getch()
@@ -109,7 +98,7 @@ class Calibration():
                         formatted_string = "{:.3f}".format(self.tilt_lcv)
                         self.tilt_lcv = float(formatted_string)
                         CONF_PARAMS["Least_Counts"]["tiltLeastCount"] = self.tilt_lcv
-                        dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(0, 0, self.pan_lcv, self.tilt_lcv)
+                        dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(self.pan_lcv, self.tilt_lcv)
                         dmxcontrol.setDmxToLight(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine), 255)
                     elif key == curses.KEY_DOWN:
                         self.tilt_lcv = self.tilt_lcv - 0.005
@@ -117,23 +106,23 @@ class Calibration():
                         self.tilt_lcv = float(formatted_string)
                         CONF_PARAMS["Least_Counts"]["tiltLeastCount"] = self.tilt_lcv
                         # TILT_LEAST_COUNT = CONF_PARAMS["Least_Counts"]["tiltLeastCount"]
-                        dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(0, 0, self.pan_lcv, self.tilt_lcv)
+                        dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(self.pan_lcv, self.tilt_lcv)
                         dmxcontrol.setDmxToLight(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine), 255)
                     elif key == curses.KEY_LEFT:
-                        self.pan_lcv = self.pan_lcv - 0.001
+                        self.pan_lcv = self.pan_lcv - 0.005
                         formatted_string = "{:.3f}".format(self.pan_lcv)
                         self.pan_lcv = float(formatted_string)
                         CONF_PARAMS["Least_Counts"]["panLeastCount"] = self.pan_lcv
                         # PAN_LEAST_COUNT = CONF_PARAMS["Least_Counts"]["panLeastCount"]
-                        dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(0, 0, self.pan_lcv, self.tilt_lcv)
+                        dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(self.pan_lcv, self.tilt_lcv)
                         dmxcontrol.setDmxToLight(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine), 255)
                     elif key == curses.KEY_RIGHT:
-                        self.pan_lcv = self.pan_lcv + 0.001
+                        self.pan_lcv = self.pan_lcv + 0.005
                         formatted_string = "{:.3f}".format(self.pan_lcv)
                         self.pan_lcv = float(formatted_string)
                         CONF_PARAMS["Least_Counts"]["panLeastCount"] = self.pan_lcv
                         # PAN_LEAST_COUNT = CONF_PARAMS["Least_Counts"]["panLeastCount"]
-                        dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(0, 0, self.pan_lcv, self.tilt_lcv)
+                        dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(self.pan_lcv, self.tilt_lcv)
                         dmxcontrol.setDmxToLight(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine), 255)
                     elif key == ord('e') or key == ord('E'):
                         with open(r'./config/config.json', 'w') as conf:
@@ -301,20 +290,32 @@ class Calibration():
 
     def finetodec(self, a) -> float:
         try:
-            return a / 255
+            return a / 160
         except Exception as e:
             logHandle.error("Exception occurred {}".format(e))
 
     # dectofine function is used for converting decimal value to fine mode dmx values
     def dectofine(self, a):
+        """
+        dectofine function converts the decimal dmx values to fine movement Dmx values
+        """
+        round_value = round(a,3)
+        decimal_value = round_value - int(round_value)
         try:
-            return int((a % 1) * 255)
+            return int(decimal_value * 160)
         except Exception as e:
-            logHandle.error("Exception occurred {}".format(e))
+            logHandle.error("Decimal to fine conversion error ->", e)
 
     # Main function of the script to run the calibration application
     def calibrate(self):
+        def fourthvertex(topleft, topright, bottomright):
+            centroidX, centroidY = ((topleft[0] + bottomright[0])/2), ((topleft[1] + bottomright[1])/2)
+            bottomleftX = 2 * centroidX - topright[0]
+            bottoleftY = 2 * centroidY - topright[1]
+            return bottomleftX, bottoleftY
         try:
+            global logHandle
+            logHandle.info("\n****************\nSingle Beam projector is running in CALIBRATION mode\n****************\n")
             dmxcontrol = Dmxcontrol()
             while True:
                 if dmxcontrol.is_projector_connected():
@@ -337,7 +338,10 @@ class Calibration():
                             if key == curses.KEY_UP and tiltmovestatus:
                                 # stdscr.addstr(2, 0, "Last Key pressed : Up")
                                 if self.fineMode:
-                                    self.DmxTiltFine = self.increaseByOne(self.DmxTiltFine)
+                                    if self.DmxTiltFine <= 159:
+                                        self.DmxTiltFine = self.increaseByOne(self.DmxTiltFine)
+                                    else:
+                                        self.DmxTiltFine = 160
                                 else:
                                     self.DmxTilt = self.increaseByOne(self.DmxTilt)
 
@@ -362,7 +366,10 @@ class Calibration():
                             elif key == curses.KEY_RIGHT:
                             # stdscr.addstr(2, 0, "Last Key pressed : Down\n")
                                 if self.fineMode:
-                                    self.DmxPanFine = self.increaseByOne(self.DmxPanFine)
+                                    if self.DmxPanFine <= 159:
+                                        self.DmxPanFine = self.increaseByOne(self.DmxPanFine)
+                                    else:
+                                        self.DmxPanFine = 160
                                 else:
                                     self.DmxPan = self.increaseByOne(self.DmxPan)
                                     if 60 <= self.DmxPan <= 130:
@@ -390,24 +397,29 @@ class Calibration():
                                             + self.finetodec(CONF_PARAMS['corner_points']['b_pan_fine'])
                                     b_tilt = float(CONF_PARAMS['corner_points']['b_tilt']) \
                                             + self.finetodec(CONF_PARAMS['corner_points']['b_tilt_fine'])
-                                    diff = abs(b_pan - a_pan)
+                                    # diff = abs(b_pan - a_pan)
                                     c_pan = float(CONF_PARAMS['corner_points']['c_pan']) \
                                             + self.finetodec(CONF_PARAMS['corner_points']['c_pan_fine'])
                                     c_tilt = float(CONF_PARAMS['corner_points']['c_tilt']) \
                                             + self.finetodec(CONF_PARAMS['corner_points']['c_tilt_fine'])
-                                    diff_y = abs(c_tilt - b_tilt)
-                                    point_D_pan = c_pan - diff
-                                    point_D_tilt = a_tilt + diff_y
+                                    # diff_y = abs(c_tilt - b_tilt)
+                                    # point_D_pan = c_pan - diff
+                                    # point_D_tilt = a_tilt + diff_y
+                                    point_D_pan, point_D_tilt = fourthvertex([a_pan, a_tilt], [b_pan, b_tilt], [c_pan, c_tilt])
                                     CONF_PARAMS['corner_points']['d_pan'] = int(point_D_pan)
                                     CONF_PARAMS['corner_points']['d_pan_fine'] = self.dectofine(point_D_pan)
                                     CONF_PARAMS['corner_points']['d_tilt'] = int(point_D_tilt)
                                     CONF_PARAMS['corner_points']['d_tilt_fine'] = self.dectofine(point_D_tilt)
-                                    formatted_string = "{:.3f}".format(min(a_pan, b_pan) + (diff / 2))
+                                    logHandle.info("Predicted D point is: {}, {}, {}, {}".format(int(point_D_pan), self.dectofine(point_D_pan), int(point_D_tilt), self.dectofine(point_D_tilt)) )
+
+                                    formatted_string = "{:.3f}".format(min(a_pan, b_pan) + (abs(b_pan - a_pan) / 2))
                                     CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL'] = float(formatted_string)
                                     CONF_PARAMS["Least_Counts"]["panLeastCount"] = lcv.panLeastCount()
                                     CONF_PARAMS["Least_Counts"]["tiltLeastCount"] = lcv.tiltLeastCount()
+
                                     logHandle.info("pan least count : {}".format(CONF_PARAMS["Least_Counts"]["panLeastCount"]))
                                     logHandle.info("tilt least count : {}".format(CONF_PARAMS["Least_Counts"]["tiltLeastCount"]))
+
                                     self.pan_lcv = CONF_PARAMS["Least_Counts"]["panLeastCount"]
                                     self.tilt_lcv = CONF_PARAMS["Least_Counts"]["tiltLeastCount"]
                                     with open(r'./config/config.json', 'w') as f:
