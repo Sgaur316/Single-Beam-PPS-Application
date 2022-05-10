@@ -167,10 +167,12 @@ class Dmxcontrol():
         square_value = math.sqrt(math.pow(line[0], 2) + math.pow(line[1], 2) + math.pow(line[2], 2))
         # horizontal_angle = math.degrees(math.asin(line[0] / square_value))
         vertical_angle = math.degrees(math.asin(line[2] / square_value))
-        self.logHandle.info("Absolute: " + str(horizontal_angle) + "    " + str(vertical_angle))
-        self.logHandle.info("pan least count" + str(PAN_LEAST_COUNT) + "     tilt least count" + str(TILT_LEAST_COUNT))
+
+        self.logHandle.info("Absolute: " + str(horizontal_angle).format(".3f") + "    " + str(vertical_angle).format(".3f"))
+        self.logHandle.info("pan least count: " + str(PAN_LEAST_COUNT) + "     tilt least count: " + str(TILT_LEAST_COUNT))
         self.mid_PAN = CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL']
         self.tilt_norm = CONF_PARAMS['Normal_DMX_values']['TILT_NORMAL']
+        
         try:
             effec_PAN = self.mid_PAN - (horizontal_angle / PAN_LEAST_COUNT)
             effec_TILT =  self.tilt_norm + (vertical_angle / TILT_LEAST_COUNT)
