@@ -92,13 +92,13 @@ class Calibration():
                 self.stdscr.addstr(0, 0, "If the projector is not pointing towards the intended D(0,0) coordinate "
                                          "point adjust the projection to intended spot by altering span factors "
                                          "using arrow keys.")
-                self.stdscr.addstr(1, 0, " PAN Span Factor : %s" % CONF_PARAMS["Least_Counts"]["panLeastCount"])
-                self.stdscr.addstr(2, 0, " TILT Span Factor : %s" % CONF_PARAMS["Least_Counts"]["tiltLeastCount"])
-                self.stdscr.addstr(3, 0,
+                self.stdscr.addstr(2, 0, " PAN Span Factor : %s" % CONF_PARAMS["Least_Counts"]["panLeastCount"])
+                self.stdscr.addstr(3, 0, " TILT Span Factor : %s" % CONF_PARAMS["Least_Counts"]["tiltLeastCount"])
+                self.stdscr.addstr(5, 0,
                             "Adjust the span factor in order to accumulate the projection span inaccuracy(e.g. "
                             "reducing TILT span factor will push and increase the tilt motion range downwards"
                             ".i.e.Increases the Tilt DMX value).")
-                self.stdscr.addstr(5, 0, "Press 'E' to exit this prompt: ")
+                self.stdscr.addstr(7, 0, "Press 'E' to exit this prompt: ")
 
                 try:
                     key = self.stdscr.getch()
@@ -120,7 +120,7 @@ class Calibration():
                         dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(0, 0, self.pan_lcv, self.tilt_lcv)
                         dmxcontrol.setDmxToLight(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine), 255)
                     elif key == curses.KEY_LEFT:
-                        self.pan_lcv = self.pan_lcv - 0.001
+                        self.pan_lcv = self.pan_lcv - 0.005
                         formatted_string = "{:.3f}".format(self.pan_lcv)
                         self.pan_lcv = float(formatted_string)
                         CONF_PARAMS["Least_Counts"]["panLeastCount"] = self.pan_lcv
@@ -128,7 +128,7 @@ class Calibration():
                         dmxPAN, dmxTILT, dmxPanFine, dmxTiltFine = self.convert_distance_to_dmx(0, 0, self.pan_lcv, self.tilt_lcv)
                         dmxcontrol.setDmxToLight(int(dmxPAN), int(dmxTILT), int(dmxPanFine), int(dmxTiltFine), 255)
                     elif key == curses.KEY_RIGHT:
-                        self.pan_lcv = self.pan_lcv + 0.001
+                        self.pan_lcv = self.pan_lcv + 0.005
                         formatted_string = "{:.3f}".format(self.pan_lcv)
                         self.pan_lcv = float(formatted_string)
                         CONF_PARAMS["Least_Counts"]["panLeastCount"] = self.pan_lcv
@@ -269,7 +269,7 @@ class Calibration():
             self.stdscr.clear()
             curses.echo()
             self.stdscr.addstr(0, 0, "MSU Rack Width: ")
-            CONF_PARAMS["site"]["RACK_WIDTH"] = float(self.stdscr.getstr(0, len("MSU Rack Width: "), 2))
+            CONF_PARAMS["site"]["RACK_WIDTH"] = float(self.stdscr.getstr(0, len("MSU Rack Width: "), 3))
             self.stdscr.addstr(2, 0, "MSU Rack Base Height from ground: ")
             CONF_PARAMS["site"]["RACK_BASE_HEIGHT"] = float(self.stdscr.getstr(2, len("MSU Rack Base Height from ground: "), 2))
             self.stdscr.addstr(4, 0, "Projector Height from ground: ")
@@ -329,35 +329,46 @@ class Calibration():
                     self.measrementcalibrations()
 
                 elif self.cal_mode == '2':
+                    tiltmovestatus = False
                     while self.pointsList:
                         try:
                             key = self.stdscr.getch()
                             self.stdscr.refresh()
-
-                            if key == curses.KEY_UP:
+                            if key == curses.KEY_UP and tiltmovestatus:
+                                # stdscr.addstr(2, 0, "Last Key pressed : Up")
                                 if self.fineMode:
                                     self.DmxTiltFine = self.increaseByOne(self.DmxTiltFine)
                                 else:
                                     self.DmxTilt = self.increaseByOne(self.DmxTilt)
 
-                            elif key == curses.KEY_DOWN:
+                            elif key == curses.KEY_DOWN and tiltmovestatus:
+                            # stdscr.addstr(2, 0, "Last Key pressed : Down\n")
                                 if self.fineMode:
                                     self.DmxTiltFine = self.decreaseByOne(self.DmxTiltFine)
                                 else:
                                     self.DmxTilt = self.decreaseByOne(self.DmxTilt)
 
                             elif key == curses.KEY_LEFT:
+                            # stdscr.addstr(2, 0, "Last Key pressed : Left\n")
                                 if self.fineMode:
                                     self.DmxPanFine = self.decreaseByOne(self.DmxPanFine)
                                 else:
                                     self.DmxPan = self.decreaseByOne(self.DmxPan)
-                                    self.DmxTiltFine = self.DmxTiltFine
+                                    if 60 <= self.DmxPan <= 130:
+                                        tiltmovestatus = True
+                                    else:
+                                        tiltmovestatus = False
 
                             elif key == curses.KEY_RIGHT:
+                            # stdscr.addstr(2, 0, "Last Key pressed : Down\n")
                                 if self.fineMode:
                                     self.DmxPanFine = self.increaseByOne(self.DmxPanFine)
                                 else:
                                     self.DmxPan = self.increaseByOne(self.DmxPan)
+                                    if 60 <= self.DmxPan <= 130:
+                                        tiltmovestatus = True
+                                    else:
+                                        tiltmovestatus = False
 
                             elif key == ord('f') or key == ord('F'):
                                 # Flip the fine mode
@@ -391,6 +402,8 @@ class Calibration():
                                     CONF_PARAMS['corner_points']['d_pan_fine'] = self.dectofine(point_D_pan)
                                     CONF_PARAMS['corner_points']['d_tilt'] = int(point_D_tilt)
                                     CONF_PARAMS['corner_points']['d_tilt_fine'] = self.dectofine(point_D_tilt)
+                                    logHandle.info("Predicted D point is: {}, {}, {}, {}".format(point_D_pan, self.dectofine(point_D_pan), point_D_tilt, self.dectofine(point_D_tilt)) )
+
                                     formatted_string = "{:.3f}".format(min(a_pan, b_pan) + (diff / 2))
                                     CONF_PARAMS['Normal_DMX_values']['PAN_NORMAL'] = float(formatted_string)
                                     CONF_PARAMS["Least_Counts"]["panLeastCount"] = lcv.panLeastCount()
