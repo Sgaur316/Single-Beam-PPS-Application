@@ -1,5 +1,5 @@
 #using Base image ubuntu 16
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 #installing Python and essential packages
 RUN apt-get update && apt-get install -y python3.6 python3-pip
